@@ -1,0 +1,21 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  identification_number: MyString
+  account_balance: 9.99
+  passbook_image_url: MyString
+  atm_card_image_url: MyString
+  face_image_url: MyString
+  fingerprint_data: MyString
+  singpass_data: MyString
+
+two:
+  name: MyString
+  identification_number: MyString
+  account_balance: 9.99
+  passbook_image_url: MyString
+  atm_card_image_url: MyString
+  face_image_url: MyString
+  fingerprint_data: MyString
+  singpass_data: MyString

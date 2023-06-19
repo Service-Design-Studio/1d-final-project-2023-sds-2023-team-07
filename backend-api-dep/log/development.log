@@ -1,0 +1,264 @@
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("name", "identification_number", "account_balance", "passbook_image_url", "atm_card_image_url", "face_image_url", "fingerprint_data", "singpass_data", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)[0m  [["name", "John Doe"], ["identification_number", "AB123456"], ["account_balance", 1000.0], ["passbook_image_url", "https://example.com/passbook.jpg"], ["atm_card_image_url", "https://example.com/atm_card.jpg"], ["face_image_url", "https://example.com/face.jpg"], ["fingerprint_data", "fingerprint_data_1"], ["singpass_data", "singpass_data_1"], ["created_at", "2023-06-19 13:20:19.843315"], ["updated_at", "2023-06-19 13:20:19.843315"]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Create (0.1ms)[0m  [1m[32mINSERT INTO "users" ("name", "identification_number", "account_balance", "passbook_image_url", "atm_card_image_url", "face_image_url", "fingerprint_data", "singpass_data", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)[0m  [["name", "Jane Smith"], ["identification_number", "CD987654"], ["account_balance", 1500.0], ["passbook_image_url", "https://example.com/passbook2.jpg"], ["atm_card_image_url", "https://example.com/atm_card2.jpg"], ["face_image_url", "https://example.com/face2.jpg"], ["fingerprint_data", "fingerprint_data_2"], ["singpass_data", "singpass_data_2"], ["created_at", "2023-06-19 13:20:19.845146"], ["updated_at", "2023-06-19 13:20:19.845146"]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mAtmMachine Create (0.4ms)[0m  [1m[32mINSERT INTO "atm_machines" ("atm_id", "store_name", "address", "balance", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["atm_id", "ATM0001"], ["store_name", "Bank HQ"], ["address", "123 Bank St."], ["balance", 50000.0], ["created_at", "2023-06-19 13:20:19.850056"], ["updated_at", "2023-06-19 13:20:19.850056"]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mAtmMachine Create (0.1ms)[0m  [1m[32mINSERT INTO "atm_machines" ("atm_id", "store_name", "address", "balance", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["atm_id", "ATM0002"], ["store_name", "Bank Branch"], ["address", "456 Bank St."], ["balance", 30000.0], ["created_at", "2023-06-19 13:20:19.851416"], ["updated_at", "2023-06-19 13:20:19.851416"]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 6], ["LIMIT", 1]]
+  [1m[36mAtmMachine Load (0.0ms)[0m  [1m[34mSELECT "atm_machines".* FROM "atm_machines" WHERE "atm_machines"."id" = ? LIMIT ?[0m  [["id", 6], ["LIMIT", 1]]
+  [1m[36mTransaction Create (0.2ms)[0m  [1m[32mINSERT INTO "transactions" ("user_id", "atm_machine_id", "transaction_type", "amount", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["user_id", 6], ["atm_machine_id", 6], ["transaction_type", 0], ["amount", 300.0], ["created_at", "2023-06-19 13:20:19.864802"], ["updated_at", "2023-06-19 13:20:19.864802"]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 6], ["LIMIT", 1]]
+  [1m[36mAtmMachine Load (0.0ms)[0m  [1m[34mSELECT "atm_machines".* FROM "atm_machines" WHERE "atm_machines"."id" = ? LIMIT ?[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[36mTransaction Create (0.1ms)[0m  [1m[32mINSERT INTO "transactions" ("user_id", "atm_machine_id", "transaction_type", "amount", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["user_id", 6], ["atm_machine_id", 7], ["transaction_type", 1], ["amount", 100.0], ["created_at", "2023-06-19 13:20:19.867013"], ["updated_at", "2023-06-19 13:20:19.867013"]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[36mAtmMachine Load (0.0ms)[0m  [1m[34mSELECT "atm_machines".* FROM "atm_machines" WHERE "atm_machines"."id" = ? LIMIT ?[0m  [["id", 6], ["LIMIT", 1]]
+  [1m[36mTransaction Create (0.1ms)[0m  [1m[32mINSERT INTO "transactions" ("user_id", "atm_machine_id", "transaction_type", "amount", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["user_id", 7], ["atm_machine_id", 6], ["transaction_type", 0], ["amount", 500.0], ["created_at", "2023-06-19 13:20:19.868845"], ["updated_at", "2023-06-19 13:20:19.868845"]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[36mAtmMachine Load (0.0ms)[0m  [1m[34mSELECT "atm_machines".* FROM "atm_machines" WHERE "atm_machines"."id" = ? LIMIT ?[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[36mTransaction Create (0.1ms)[0m  [1m[32mINSERT INTO "transactions" ("user_id", "atm_machine_id", "transaction_type", "amount", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["user_id", 7], ["atm_machine_id", 7], ["transaction_type", 1], ["amount", 200.0], ["created_at", "2023-06-19 13:20:19.870923"], ["updated_at", "2023-06-19 13:20:19.870923"]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Create (0.8ms)[0m  [1m[32mINSERT INTO "users" ("name", "identification_number", "account_balance", "passbook_image_url", "atm_card_image_url", "face_image_url", "fingerprint_data", "singpass_data", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)[0m  [["name", "John Doe"], ["identification_number", "AB123456"], ["account_balance", 1000.0], ["passbook_image_url", "https://example.com/passbook.jpg"], ["atm_card_image_url", "https://example.com/atm_card.jpg"], ["face_image_url", "https://example.com/face.jpg"], ["fingerprint_data", "fingerprint_data_1"], ["singpass_data", "singpass_data_1"], ["created_at", "2023-06-19 13:22:31.177335"], ["updated_at", "2023-06-19 13:22:31.177335"]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Create (0.1ms)[0m  [1m[32mINSERT INTO "users" ("name", "identification_number", "account_balance", "passbook_image_url", "atm_card_image_url", "face_image_url", "fingerprint_data", "singpass_data", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)[0m  [["name", "Jane Smith"], ["identification_number", "CD987654"], ["account_balance", 1500.0], ["passbook_image_url", "https://example.com/passbook2.jpg"], ["atm_card_image_url", "https://example.com/atm_card2.jpg"], ["face_image_url", "https://example.com/face2.jpg"], ["fingerprint_data", "fingerprint_data_2"], ["singpass_data", "singpass_data_2"], ["created_at", "2023-06-19 13:22:31.179458"], ["updated_at", "2023-06-19 13:22:31.179458"]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mAtmMachine Create (0.4ms)[0m  [1m[32mINSERT INTO "atm_machines" ("atm_id", "store_name", "address", "balance", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["atm_id", "ATM0001"], ["store_name", "Bank HQ"], ["address", "123 Bank St."], ["balance", 50000.0], ["created_at", "2023-06-19 13:22:31.189782"], ["updated_at", "2023-06-19 13:22:31.189782"]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mAtmMachine Create (0.1ms)[0m  [1m[32mINSERT INTO "atm_machines" ("atm_id", "store_name", "address", "balance", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["atm_id", "ATM0002"], ["store_name", "Bank Branch"], ["address", "456 Bank St."], ["balance", 30000.0], ["created_at", "2023-06-19 13:22:31.191533"], ["updated_at", "2023-06-19 13:22:31.191533"]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 8], ["LIMIT", 1]]
+  [1m[36mAtmMachine Load (0.0ms)[0m  [1m[34mSELECT "atm_machines".* FROM "atm_machines" WHERE "atm_machines"."id" = ? LIMIT ?[0m  [["id", 8], ["LIMIT", 1]]
+  [1m[36mTransaction Create (0.2ms)[0m  [1m[32mINSERT INTO "transactions" ("user_id", "atm_machine_id", "transaction_type", "amount", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["user_id", 8], ["atm_machine_id", 8], ["transaction_type", 0], ["amount", 300.0], ["created_at", "2023-06-19 13:22:31.201768"], ["updated_at", "2023-06-19 13:22:31.201768"]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 8], ["LIMIT", 1]]
+  [1m[36mAtmMachine Load (0.0ms)[0m  [1m[34mSELECT "atm_machines".* FROM "atm_machines" WHERE "atm_machines"."id" = ? LIMIT ?[0m  [["id", 9], ["LIMIT", 1]]
+  [1m[36mTransaction Create (0.2ms)[0m  [1m[32mINSERT INTO "transactions" ("user_id", "atm_machine_id", "transaction_type", "amount", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["user_id", 8], ["atm_machine_id", 9], ["transaction_type", 1], ["amount", 100.0], ["created_at", "2023-06-19 13:22:31.203886"], ["updated_at", "2023-06-19 13:22:31.203886"]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 9], ["LIMIT", 1]]
+  [1m[36mAtmMachine Load (0.0ms)[0m  [1m[34mSELECT "atm_machines".* FROM "atm_machines" WHERE "atm_machines"."id" = ? LIMIT ?[0m  [["id", 8], ["LIMIT", 1]]
+  [1m[36mTransaction Create (0.2ms)[0m  [1m[32mINSERT INTO "transactions" ("user_id", "atm_machine_id", "transaction_type", "amount", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["user_id", 9], ["atm_machine_id", 8], ["transaction_type", 0], ["amount", 500.0], ["created_at", "2023-06-19 13:22:31.205769"], ["updated_at", "2023-06-19 13:22:31.205769"]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 9], ["LIMIT", 1]]
+  [1m[36mAtmMachine Load (0.0ms)[0m  [1m[34mSELECT "atm_machines".* FROM "atm_machines" WHERE "atm_machines"."id" = ? LIMIT ?[0m  [["id", 9], ["LIMIT", 1]]
+  [1m[36mTransaction Create (0.2ms)[0m  [1m[32mINSERT INTO "transactions" ("user_id", "atm_machine_id", "transaction_type", "amount", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["user_id", 9], ["atm_machine_id", 9], ["transaction_type", 1], ["amount", 200.0], ["created_at", "2023-06-19 13:22:31.207721"], ["updated_at", "2023-06-19 13:22:31.207721"]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[36mcommit transaction[0m
+Started GET "/" for ::1 at 2023-06-19 21:45:35 +0800
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by Rails::WelcomeController#index as HTML
+  Rendering /Users/nathanaldrichwiryawan/.rbenv/versions/3.0.0/lib/ruby/gems/3.0.0/gems/railties-7.0.5/lib/rails/templates/rails/welcome/index.html.erb
+  Rendered /Users/nathanaldrichwiryawan/.rbenv/versions/3.0.0/lib/ruby/gems/3.0.0/gems/railties-7.0.5/lib/rails/templates/rails/welcome/index.html.erb (Duration: 1.3ms | Allocations: 839)
+Completed 200 OK in 16ms (Views: 4.6ms | ActiveRecord: 0.0ms | Allocations: 9768)
+
+
+Started GET "/transactions" for ::1 at 2023-06-19 21:45:42 +0800
+  
+ActionController::RoutingError (No route matches [GET] "/transactions"):
+  
+Started GET "/users/transactions" for ::1 at 2023-06-19 21:46:33 +0800
+  
+AbstractController::ActionNotFound (The action 'show' could not be found for UsersController):
+  
+actionpack (7.0.5) lib/abstract_controller/base.rb:146:in `process'
+actionpack (7.0.5) lib/action_controller/metal.rb:188:in `dispatch'
+actionpack (7.0.5) lib/action_controller/metal.rb:251:in `dispatch'
+actionpack (7.0.5) lib/action_dispatch/routing/route_set.rb:49:in `dispatch'
+actionpack (7.0.5) lib/action_dispatch/routing/route_set.rb:32:in `serve'
+actionpack (7.0.5) lib/action_dispatch/journey/router.rb:50:in `block in serve'
+actionpack (7.0.5) lib/action_dispatch/journey/router.rb:32:in `each'
+actionpack (7.0.5) lib/action_dispatch/journey/router.rb:32:in `serve'
+actionpack (7.0.5) lib/action_dispatch/routing/route_set.rb:852:in `call'
+rack (2.2.7) lib/rack/etag.rb:27:in `call'
+rack (2.2.7) lib/rack/conditional_get.rb:27:in `call'
+rack (2.2.7) lib/rack/head.rb:12:in `call'
+activerecord (7.0.5) lib/active_record/migration.rb:603:in `call'
+actionpack (7.0.5) lib/action_dispatch/middleware/callbacks.rb:27:in `block in call'
+activesupport (7.0.5) lib/active_support/callbacks.rb:99:in `run_callbacks'
+actionpack (7.0.5) lib/action_dispatch/middleware/callbacks.rb:26:in `call'
+actionpack (7.0.5) lib/action_dispatch/middleware/executor.rb:14:in `call'
+actionpack (7.0.5) lib/action_dispatch/middleware/actionable_exceptions.rb:17:in `call'
+actionpack (7.0.5) lib/action_dispatch/middleware/debug_exceptions.rb:28:in `call'
+actionpack (7.0.5) lib/action_dispatch/middleware/show_exceptions.rb:26:in `call'
+railties (7.0.5) lib/rails/rack/logger.rb:40:in `call_app'
+railties (7.0.5) lib/rails/rack/logger.rb:25:in `block in call'
+activesupport (7.0.5) lib/active_support/tagged_logging.rb:99:in `block in tagged'
+activesupport (7.0.5) lib/active_support/tagged_logging.rb:37:in `tagged'
+activesupport (7.0.5) lib/active_support/tagged_logging.rb:99:in `tagged'
+railties (7.0.5) lib/rails/rack/logger.rb:25:in `call'
+actionpack (7.0.5) lib/action_dispatch/middleware/remote_ip.rb:93:in `call'
+actionpack (7.0.5) lib/action_dispatch/middleware/request_id.rb:26:in `call'
+rack (2.2.7) lib/rack/runtime.rb:22:in `call'
+activesupport (7.0.5) lib/active_support/cache/strategy/local_cache_middleware.rb:29:in `call'
+actionpack (7.0.5) lib/action_dispatch/middleware/server_timing.rb:61:in `block in call'
+actionpack (7.0.5) lib/action_dispatch/middleware/server_timing.rb:26:in `collect_events'
+actionpack (7.0.5) lib/action_dispatch/middleware/server_timing.rb:60:in `call'
+actionpack (7.0.5) lib/action_dispatch/middleware/executor.rb:14:in `call'
+actionpack (7.0.5) lib/action_dispatch/middleware/static.rb:23:in `call'
+rack (2.2.7) lib/rack/sendfile.rb:110:in `call'
+actionpack (7.0.5) lib/action_dispatch/middleware/host_authorization.rb:131:in `call'
+railties (7.0.5) lib/rails/engine.rb:530:in `call'
+puma (5.6.5) lib/puma/configuration.rb:252:in `call'
+puma (5.6.5) lib/puma/request.rb:77:in `block in handle_request'
+puma (5.6.5) lib/puma/thread_pool.rb:340:in `with_force_shutdown'
+puma (5.6.5) lib/puma/request.rb:76:in `handle_request'
+puma (5.6.5) lib/puma/server.rb:443:in `process_client'
+puma (5.6.5) lib/puma/thread_pool.rb:147:in `block in spawn_thread'
+Started GET "/users/0/transactions" for ::1 at 2023-06-19 21:47:33 +0800
+Processing by TransactionsController#index as HTML
+  Parameters: {"user_id"=>"0"}
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 0], ["LIMIT", 1]]
+  ↳ app/controllers/transactions_controller.rb:33:in `set_user'
+Completed 404 Not Found in 24ms (ActiveRecord: 2.3ms | Allocations: 4920)
+
+
+  
+ActiveRecord::RecordNotFound (Couldn't find User with 'id'=0):
+  
+app/controllers/transactions_controller.rb:33:in `set_user'
+Started GET "/users/1/transactions" for ::1 at 2023-06-19 21:47:38 +0800
+Processing by TransactionsController#index as HTML
+  Parameters: {"user_id"=>"1"}
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/transactions_controller.rb:33:in `set_user'
+  [1m[36mTransaction Load (0.2ms)[0m  [1m[34mSELECT "transactions".* FROM "transactions" WHERE "transactions"."user_id" = ?[0m  [["user_id", 1]]
+  ↳ app/controllers/transactions_controller.rb:6:in `index'
+Completed 200 OK in 43ms (Views: 9.4ms | ActiveRecord: 1.0ms | Allocations: 44143)
+
+
+Started GET "/images/icons/gear.png" for ::1 at 2023-06-19 21:47:38 +0800
+  
+ActionController::RoutingError (No route matches [GET] "/images/icons/gear.png"):
+  
+Started GET "/users/2/transactions" for ::1 at 2023-06-19 21:47:42 +0800
+Processing by TransactionsController#index as HTML
+  Parameters: {"user_id"=>"2"}
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  ↳ app/controllers/transactions_controller.rb:33:in `set_user'
+  [1m[36mTransaction Load (0.5ms)[0m  [1m[34mSELECT "transactions".* FROM "transactions" WHERE "transactions"."user_id" = ?[0m  [["user_id", 2]]
+  ↳ app/controllers/transactions_controller.rb:6:in `index'
+Completed 200 OK in 8ms (Views: 3.5ms | ActiveRecord: 0.9ms | Allocations: 1280)
+
+
+Started GET "/images/icons/gear.png" for ::1 at 2023-06-19 21:47:42 +0800
+  
+ActionController::RoutingError (No route matches [GET] "/images/icons/gear.png"):
+  
+Started GET "/users/3/transactions" for ::1 at 2023-06-19 21:48:21 +0800
+Processing by TransactionsController#index as HTML
+  Parameters: {"user_id"=>"3"}
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 3], ["LIMIT", 1]]
+  ↳ app/controllers/transactions_controller.rb:33:in `set_user'
+  [1m[36mTransaction Load (0.2ms)[0m  [1m[34mSELECT "transactions".* FROM "transactions" WHERE "transactions"."user_id" = ?[0m  [["user_id", 3]]
+  ↳ app/controllers/transactions_controller.rb:6:in `index'
+Completed 200 OK in 5ms (Views: 1.9ms | ActiveRecord: 0.5ms | Allocations: 1153)
+
+
+Started GET "/images/icons/gear.png" for ::1 at 2023-06-19 21:48:21 +0800
+  
+ActionController::RoutingError (No route matches [GET] "/images/icons/gear.png"):
+  
+Started GET "/users/4/transactions" for ::1 at 2023-06-19 21:48:25 +0800
+Processing by TransactionsController#index as HTML
+  Parameters: {"user_id"=>"4"}
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 4], ["LIMIT", 1]]
+  ↳ app/controllers/transactions_controller.rb:33:in `set_user'
+  [1m[36mTransaction Load (0.2ms)[0m  [1m[34mSELECT "transactions".* FROM "transactions" WHERE "transactions"."user_id" = ?[0m  [["user_id", 4]]
+  ↳ app/controllers/transactions_controller.rb:6:in `index'
+Completed 200 OK in 5ms (Views: 2.8ms | ActiveRecord: 0.5ms | Allocations: 1389)
+
+
+Started GET "/images/icons/gear.png" for ::1 at 2023-06-19 21:48:25 +0800
+  
+ActionController::RoutingError (No route matches [GET] "/images/icons/gear.png"):
+  
+Started GET "/users/5/transactions" for ::1 at 2023-06-19 21:48:30 +0800
+Processing by TransactionsController#index as HTML
+  Parameters: {"user_id"=>"5"}
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 5], ["LIMIT", 1]]
+  ↳ app/controllers/transactions_controller.rb:33:in `set_user'
+  [1m[36mTransaction Load (0.2ms)[0m  [1m[34mSELECT "transactions".* FROM "transactions" WHERE "transactions"."user_id" = ?[0m  [["user_id", 5]]
+  ↳ app/controllers/transactions_controller.rb:6:in `index'
+Completed 200 OK in 5ms (Views: 2.8ms | ActiveRecord: 0.4ms | Allocations: 1388)
+
+
+Started GET "/images/icons/gear.png" for ::1 at 2023-06-19 21:48:30 +0800
+  
+ActionController::RoutingError (No route matches [GET] "/images/icons/gear.png"):
+  
+Started GET "/users/6/transactions" for ::1 at 2023-06-19 21:48:34 +0800
+Processing by TransactionsController#index as HTML
+  Parameters: {"user_id"=>"6"}
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 6], ["LIMIT", 1]]
+  ↳ app/controllers/transactions_controller.rb:33:in `set_user'
+  [1m[36mTransaction Load (0.1ms)[0m  [1m[34mSELECT "transactions".* FROM "transactions" WHERE "transactions"."user_id" = ?[0m  [["user_id", 6]]
+  ↳ app/controllers/transactions_controller.rb:6:in `index'
+Completed 200 OK in 3ms (Views: 1.6ms | ActiveRecord: 0.2ms | Allocations: 1388)
+
+
+Started GET "/images/icons/gear.png" for ::1 at 2023-06-19 21:48:35 +0800
+  
+ActionController::RoutingError (No route matches [GET] "/images/icons/gear.png"):
+  
+Started GET "/" for ::1 at 2023-06-19 22:52:57 +0800
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by Rails::WelcomeController#index as HTML
+  Rendering /Users/nathanaldrichwiryawan/.rbenv/versions/3.0.0/lib/ruby/gems/3.0.0/gems/railties-7.0.5/lib/rails/templates/rails/welcome/index.html.erb
+  Rendered /Users/nathanaldrichwiryawan/.rbenv/versions/3.0.0/lib/ruby/gems/3.0.0/gems/railties-7.0.5/lib/rails/templates/rails/welcome/index.html.erb (Duration: 0.8ms | Allocations: 732)
+Completed 200 OK in 8ms (Views: 2.2ms | ActiveRecord: 0.0ms | Allocations: 6901)
+
+
+Started GET "/user/0/transactions" for ::1 at 2023-06-19 22:53:07 +0800
+  
+ActionController::RoutingError (No route matches [GET] "/user/0/transactions"):
+  
+Started GET "/favicon.ico" for ::1 at 2023-06-19 22:53:07 +0800
+  
+ActionController::RoutingError (No route matches [GET] "/favicon.ico"):
+  
+Started GET "/user/0/transaction" for ::1 at 2023-06-19 22:53:10 +0800
+  
+ActionController::RoutingError (No route matches [GET] "/user/0/transaction"):
+  
+Started GET "/users/0/transactions" for ::1 at 2023-06-19 22:53:15 +0800
+Processing by TransactionsController#index as HTML
+  Parameters: {"user_id"=>"0"}
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 0], ["LIMIT", 1]]
+  ↳ app/controllers/transactions_controller.rb:33:in `set_user'
+Completed 404 Not Found in 8ms (ActiveRecord: 0.5ms | Allocations: 4948)
+
+
+  
+ActiveRecord::RecordNotFound (Couldn't find User with 'id'=0):
+  
+app/controllers/transactions_controller.rb:33:in `set_user'
+Started GET "/users/1/transactions" for ::1 at 2023-06-19 22:53:18 +0800
+Processing by TransactionsController#index as HTML
+  Parameters: {"user_id"=>"1"}
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/transactions_controller.rb:33:in `set_user'
+  [1m[36mTransaction Load (0.2ms)[0m  [1m[34mSELECT "transactions".* FROM "transactions" WHERE "transactions"."user_id" = ?[0m  [["user_id", 1]]
+  ↳ app/controllers/transactions_controller.rb:6:in `index'
+Completed 200 OK in 43ms (Views: 7.8ms | ActiveRecord: 0.9ms | Allocations: 44465)
+
+
