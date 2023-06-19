@@ -43,8 +43,8 @@ production:
   encoding: unicode
   pool: 5
   timeout: 5000
-  username: banking_db
-  password: DlsXBpoFELgxvRblWfgQBmAYJNrhvDOJdwPwsTbebWRDoJbneF
-  database: banking_db
-  host: /cloudsql/backend-empathy-in-bytes-rails:asia-southeast1:backend-database-instance
+  username: admin
+  password: admin
+  database: postgres
+  host: /cloudsql/backend-empathy-in-bytes-rails:asia-southeast1:backend-empathy-in-bytes-rails
 
