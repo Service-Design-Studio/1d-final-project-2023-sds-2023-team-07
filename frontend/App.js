@@ -7,8 +7,7 @@ export default function App() {
   return (
     <NativeBaseProvider>
       <SafeAreaView>
-        <Box>Hello world</Box>
-        <TransactionHistory></TransactionHistory>
+        <TransactionHistory />
       </SafeAreaView>
     </NativeBaseProvider>
   );
