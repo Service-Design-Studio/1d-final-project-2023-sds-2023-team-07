@@ -19,14 +19,27 @@ export default function TransactionHistory() {
       textAlign: 'center',
     },
   });
-  const MyButton = () => {
+  const WithdrawBtn = () => {
     return (
       <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>Click me</Text>
+        <Text style={styles.buttonText}>WITHDRAW</Text>
       </TouchableOpacity>
     );
   };
-
+  const DepositBtn = () => {
+    return (
+      <TouchableOpacity style={styles.button}>
+        <Text style={styles.buttonText}>DEPOSIT</Text>
+      </TouchableOpacity>
+    );
+  };
+  const ActivateBtn = () => {
+    return (
+      <TouchableOpacity style={styles.button}>
+        <Text style={styles.buttonText}>ACTIVATE SPEECH-TO-TEXT</Text>
+      </TouchableOpacity>
+    );
+  };
 
   const handleChange = (val) => {
     useSearch(val);
@@ -43,7 +56,9 @@ export default function TransactionHistory() {
       <Center h="40" w="20" bg="primary.500" rounded="md" shadow={3} />
       <Center h="40" w="20" bg="primary.700" rounded="md" shadow={3} />
       <View style={styles.container}>
-        <MyButton/>
+        <WithdrawBtn/>
+        <DepositBtn/>
+        <ActivateBtn/>
       </View>
 
     </HStack>
