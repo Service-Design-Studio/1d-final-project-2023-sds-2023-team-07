@@ -1,68 +1,80 @@
 import React, { useState } from "react";
-import { HStack, Center } from "native-base";
-import { View, Text } from "native-base";
 import { SearchBar } from "react-native-elements";
-import { TouchableOpacity, StyleSheet } from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  ScrollView,
+  Dimensions,
+} from "react-native";
+
+const { width, height } = Dimensions.get("window");
+
+const BUTTON_WIDTH_1 = width * 0.46;
+const BUTTON_WIDTH_2 = width * 0.97;
+console.log(BUTTON_WIDTH_2);
+console.log(BUTTON_WIDTH_1);
 
 export default function TransactionHistory() {
   const [search, useSearch] = useState("");
   const style = StyleSheet.create({
     button: {
-      backgroundColor: 'red',
+      backgroundColor: "red",
       padding: 10,
       borderRadius: 5,
       marginTop: 10,
+      width: BUTTON_WIDTH_2,
+    },
+    buttonAction: {
+      backgroundColor: "red",
+      padding: 10,
+      borderRadius: 5,
+      marginTop: 10,
+      width: BUTTON_WIDTH_1,
     },
     buttonText: {
-      color: 'white',
-      fontWeight: 'bold',
-      textAlign: 'center',
+      color: "white",
+      fontWeight: "bold",
+      textAlign: "center",
+    },
+    container: {
+      justifyContent: "center",
+      flexDirection: "column",
+    },
+    actionContainer: {
+      flexDirection: "row",
+      justifyContent: "space-around",
+    },
+    activateContainer: {
+      flexDirection: "row",
+      justifyContent: "center",
     },
   });
-  const WithdrawBtn = () => {
-    return (
-      <TouchableOpacity style={style.button}>
-        <Text style={style.buttonText}>WITHDRAW</Text>
-      </TouchableOpacity>
-    );
-  };
-  const DepositBtn = () => {
-    return (
-      <TouchableOpacity style={style.button}>
-        <Text style={style.buttonText}>DEPOSIT</Text>
-      </TouchableOpacity>
-    );
-  };
-  const ActivateBtn = () => {
-    return (
-      <TouchableOpacity style={style.button}>
-        <Text style={style.buttonText}>ACTIVATE SPEECH-TO-TEXT</Text>
-      </TouchableOpacity>
-    );
-  };
-
   const handleChange = (val) => {
     useSearch(val);
   };
 
   return (
-    <HStack space={3} justifyContent="center" flexDirection="column">
+    <View style={style.container}>
       <SearchBar
         placeholder="Type Here..."
         onChangeText={handleChange}
         value={search}
       />
-      <Center h="40" w="20" bg="primary.300" rounded="md" shadow={3} />
-      <Center h="40" w="20" bg="primary.500" rounded="md" shadow={3} />
-      <Center h="40" w="20" bg="primary.700" rounded="md" shadow={3} />
-      <View style={style.container}>
-        <WithdrawBtn/>
-        <DepositBtn/>
-        <ActivateBtn/>
+      <View style={style.actionContainer}>
+        <TouchableOpacity style={style.buttonAction}>
+          <Text style={style.buttonText}>WITHDRAW</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={style.buttonAction}>
+          <Text style={style.buttonText}>DEPOSIT</Text>
+        </TouchableOpacity>
       </View>
-
-    </HStack>
+      <View style={style.activateContainer}>
+        <TouchableOpacity style={style.button}>
+          <Text style={style.buttonText}>ACTIVATE SPEECH-TO-TEXT</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
   );
-
-  
 }
