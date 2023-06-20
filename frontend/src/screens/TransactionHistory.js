@@ -8,7 +8,7 @@ export default function TransactionHistory() {
   const [search, useSearch] = useState("");
   const style = StyleSheet.create({
     button: {
-      backgroundColor: 'blue',
+      backgroundColor: 'red',
       padding: 10,
       borderRadius: 5,
       marginTop: 10,
@@ -22,20 +22,20 @@ export default function TransactionHistory() {
   const WithdrawBtn = () => {
     return (
       <TouchableOpacity style={style.button}>
-        <Text style={style.buttonText}>Withdraw</Text>
+        <Text style={style.buttonText}>WITHDRAW</Text>
       </TouchableOpacity>
     );
   };
   const DepositBtn = () => {
     return (
       <TouchableOpacity style={style.button}>
-        <Text style={style.buttonText}>Deposit</Text>
+        <Text style={style.buttonText}>DEPOSIT</Text>
       </TouchableOpacity>
     );
   };
   const ActivateBtn = () => {
     return (
-      <TouchableOpacity style={btn_style.button}>
+      <TouchableOpacity style={style.button}>
         <Text style={style.buttonText}>ACTIVATE SPEECH-TO-TEXT</Text>
       </TouchableOpacity>
     );
