@@ -6,13 +6,12 @@ import { TouchableOpacity, StyleSheet } from 'react-native';
 
 export default function TransactionHistory() {
   const [search, useSearch] = useState("");
-  const styles = StyleSheet.create({
+  const style = StyleSheet.create({
     button: {
-      backgroundColor: 'red',
+      backgroundColor: 'blue',
       padding: 10,
       borderRadius: 5,
       marginTop: 10,
-      marginHorizontal: 10
     },
     buttonText: {
       color: 'white',
@@ -22,22 +21,22 @@ export default function TransactionHistory() {
   });
   const WithdrawBtn = () => {
     return (
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>WITHDRAW</Text>
+      <TouchableOpacity style={style.button}>
+        <Text style={style.buttonText}>Withdraw</Text>
       </TouchableOpacity>
     );
   };
   const DepositBtn = () => {
     return (
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>DEPOSIT</Text>
+      <TouchableOpacity style={style.button}>
+        <Text style={style.buttonText}>Deposit</Text>
       </TouchableOpacity>
     );
   };
   const ActivateBtn = () => {
     return (
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>ACTIVATE SPEECH-TO-TEXT</Text>
+      <TouchableOpacity style={btn_style.button}>
+        <Text style={style.buttonText}>ACTIVATE SPEECH-TO-TEXT</Text>
       </TouchableOpacity>
     );
   };
@@ -56,7 +55,7 @@ export default function TransactionHistory() {
       <Center h="40" w="20" bg="primary.300" rounded="md" shadow={3} />
       <Center h="40" w="20" bg="primary.500" rounded="md" shadow={3} />
       <Center h="40" w="20" bg="primary.700" rounded="md" shadow={3} />
-      <View style={styles.container}>
+      <View style={style.container}>
         <WithdrawBtn/>
         <DepositBtn/>
         <ActivateBtn/>
