@@ -8,10 +8,11 @@ export default function TransactionHistory() {
   const [search, useSearch] = useState("");
   const styles = StyleSheet.create({
     button: {
-      backgroundColor: 'blue',
+      backgroundColor: 'red',
       padding: 10,
       borderRadius: 5,
       marginTop: 10,
+      marginHorizontal: 10
     },
     buttonText: {
       color: 'white',
