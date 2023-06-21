@@ -18,5 +18,21 @@ FactoryBot.define do
     fingerprint_data { Faker::Lorem.characters(number: 10) }
     singpass_data { Faker::Lorem.characters(number: 10) }
   end
+
+  factory :atm_machine do
+    atm_id { Faker::Lorem.word }
+    store_name { Faker::Company.name }
+    address { Faker::Address.full_address }
+    balance { Faker::Number.decimal(l_digits: 2) }
+    created_at { DateTime.now }
+    updated_at { DateTime.now }
+  end
+
+  factory :post do
+    title { Faker::Lorem.sentence }
+    content { Faker::Lorem.paragraph }
+    created_at { DateTime.now }
+    updated_at { DateTime.now }
+  end
 end
 #need changes
