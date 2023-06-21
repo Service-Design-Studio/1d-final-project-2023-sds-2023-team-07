@@ -56,4 +56,5 @@ end
 
 gem 'rack-cors'
 
+gem 'sprockets-rails', require: 'sprockets/railtie'
 

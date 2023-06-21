@@ -34,3 +34,5 @@
 
 Dockerfile
 cloudbuild.yaml
+
+.env

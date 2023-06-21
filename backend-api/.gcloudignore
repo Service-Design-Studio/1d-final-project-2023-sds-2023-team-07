@@ -1,0 +1,4 @@
+.git
+.rbenv-* # Ignore Ruby version files created by rbenv
+.rvmrc # Ignore Ruby version files created by RVM
+.ruby-version # Ignore Ruby version files created by other tools
