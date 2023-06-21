@@ -3,12 +3,13 @@ require 'rails_helper'
 RSpec.describe TransactionsController, type: :controller do
   describe "GET #index" do
     before do
-      @user = FactoryBot.create(:user)
+      @user1 = FactoryBot.create(:user)
+      @user2 = FactoryBot.create(:user)
     end
 
     it "returns a list of transactions for the user" do
-      transaction1 = FactoryBot.create(:transaction_record, user: @user)
-      transaction2 = FactoryBot.create(:transaction_record, user: @user)
+      transaction1 = FactoryBot.create(:transaction_record, user: @user1)
+      transaction2 = FactoryBot.create(:transaction_record, user: @user2)
 
       get :index, params: { user_id: @user.id }
 
