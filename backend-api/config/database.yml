@@ -33,8 +33,8 @@ default: &default
 
   # password: password
   # host: "<%= ENV.fetch("DB_SOCKET_DIR") { '/cloudsql' } %>/<%= ENV["CLOUD_SQL_CONNECTION_NAME"] %>"
-  host: /cloudsql/backend-empathy-in-bytes-rails:asia-southeast1:backend-empathy-in-bytes-rails
-  # host: "<%= File.join(ENV.fetch("DB_SOCKET_DIR") { '/cloudsql' }, ENV.fetch("CLOUD_SQL_CONNECTION_NAME") { 'backend-empathy-in-bytes-rails:asia-southeast1:backend-empathy-in-bytes-rails' }) %>"
+  host: /cloudsql/backend-dbs-grp7:asia-southeast1:backend-dbs-grp7
+  # host: "<%= File.join(ENV.fetch("DB_SOCKET_DIR") { '/cloudsql' }, ENV.fetch("CLOUD_SQL_CONNECTION_NAME") { 'backend-dbs-grp7:asia-southeast1:backend-dbs-grp7' }) %>"
   # host: 35.186.144.8
   # port: 5432
 
@@ -51,9 +51,9 @@ production:
   timeout: 10000
 
   # password: password
-  # host: "<%= File.join(ENV.fetch("DB_SOCKET_DIR") { '/cloudsql' }, ENV.fetch("CLOUD_SQL_CONNECTION_NAME") { 'backend-empathy-in-bytes-rails:asia-southeast1:backend-empathy-in-bytes-rails' }) %>"
+  # host: "<%= File.join(ENV.fetch("DB_SOCKET_DIR") { '/cloudsql' }, ENV.fetch("CLOUD_SQL_CONNECTION_NAME") { 'backend-dbs-grp7:asia-southeast1:backend-dbs-grp7' }) %>"
   # host: 35.186.144.8
-  host: /cloudsql/backend-empathy-in-bytes-rails:asia-southeast1:backend-empathy-in-bytes-rails
+  host: /cloudsql/backend-dbs-grp7:asia-southeast1:backend-dbs-grp7
   port: 5432
 
 # tcp:
@@ -69,6 +69,6 @@ production:
 #   timeout: 10000
 
 #   # password: password
-#   # host: "<%= File.join(ENV.fetch("DB_SOCKET_DIR") { '/cloudsql' }, ENV.fetch("CLOUD_SQL_CONNECTION_NAME") { 'backend-empathy-in-bytes-rails:asia-southeast1:backend-empathy-in-bytes-rails' }) %>"
+#   # host: "<%= File.join(ENV.fetch("DB_SOCKET_DIR") { '/cloudsql' }, ENV.fetch("CLOUD_SQL_CONNECTION_NAME") { 'backend-dbs-grp7:asia-southeast1:backend-dbs-grp7' }) %>"
 #   host: 35.186.144.8
 #   port: 5432
