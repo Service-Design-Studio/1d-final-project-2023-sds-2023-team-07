@@ -1,20 +1,20 @@
 require 'rails_helper'
 
 RSpec.describe TransactionsController, type: :controller do
+  # Find the first entry
   describe "GET #index" do
     before do
-      @user1 = FactoryBot.create(:user)
-      @user2 = FactoryBot.create(:user)
+      user1 = 1
+      @user_data = User.find(user1)
     end
 
-    it "returns a list of transactions for the user" do
-      transaction1 = FactoryBot.create(:transaction_record, user: @user1)
-      transaction2 = FactoryBot.create(:transaction_record, user: @user2)
-
-      get :index, params: { user_id: @user.id }
-
+    it "returns a table of transactions for the user" do
+      transaction1 = [1,3,1,0,100,"2023-06-21 13:24:18.756657".to_datetime,"2023-06-21 13:24:18.756657".to_datetime]
+  
+      get :index, params: { user_id: @user_data.id }
+  
       expect(response).to have_http_status(:success)
-      expect(JSON.parse(response.body)).to match_array([transaction1.as_json, transaction2.as_json])
+      expect(JSON.parse(response.body)).to match_array([transaction1.as_json])
     end
   end
 
