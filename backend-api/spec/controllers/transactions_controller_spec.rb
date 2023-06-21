@@ -4,11 +4,11 @@ RSpec.describe TransactionsController, type: :controller do
   # Find the first entry
   describe "GET #index" do
     before do
-      @user_id = 1
+      @user_id = 3
     end
 
     it "returns a table of transactions for the user" do
-      transaction1 = [1,3,1,0,100,"2023-06-21 13:24:18.756657".to_datetime,"2023-06-21 13:24:18.756657".to_datetime]
+      transaction1 = {"amount"=>"100.0", "atm_machine_id"=>1, "created_at"=>"2023-06-21T13:24:18.756Z", "id"=>1, "transaction_type"=>0, "transaction_types"=>nil, "updated_at"=>"2023-06-21T13:24:18.756Z", "user_id"=>3}
   
       get :index, params: { user_id: @user_id }
   
@@ -20,6 +20,7 @@ RSpec.describe TransactionsController, type: :controller do
   describe "POST #deposit" do
     before do
       @user = FactoryBot.create(:user)
+      puts @user
     end
 
     context "with valid parameters" do
