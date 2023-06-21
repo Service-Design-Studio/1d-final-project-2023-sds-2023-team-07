@@ -20,7 +20,7 @@ FactoryBot.define do
   end
 
   factory :atm_machine do
-    atm_id { string(Faker::Number.number(digits: 10))}
+    atm_id { String(Faker::Number.number(digits: 10))}
     store_name { Faker::Company.name }
     address { Faker::Address.full_address }
     balance { Faker::Number.decimal(l_digits: 2) }
