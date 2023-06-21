@@ -1,13 +1,11 @@
 FactoryBot.define do
-    factory :transaction do
-      description { Faker::Lorem.sentence }
+    factory :transaction_record, class: Transaction do
       amount { Faker::Number.decimal(l_digits: 2) }
       association :user
-      association :atm_machine
-      transaction_type { rand(0..2) }
+      association :atm_machines
+      transaction_type { Transaction.transaction_types.keys.sample }
       created_at { DateTime.now }
       updated_at { DateTime.now }
     end
-  end
-  
+end
 #need changes
