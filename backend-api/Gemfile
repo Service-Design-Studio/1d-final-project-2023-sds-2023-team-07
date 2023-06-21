@@ -56,4 +56,5 @@ end
 
 gem 'rack-cors'
 
+gem 'gcloud'
 
