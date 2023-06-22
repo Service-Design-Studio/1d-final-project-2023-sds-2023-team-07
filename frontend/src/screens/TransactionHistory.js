@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Searchbar } from "react-native-paper";
+import { Searchbar, DataTable } from "react-native-paper";
 import {
   View,
   Text,
@@ -19,48 +19,257 @@ const SEARCH_WIDTH = width * 0.97;
 
 export default function TransactionHistory() {
   const [search, useSearch] = useState("");
-  const [masterData, useMasterData] = useState([
+/*  const [masterData, useMasterData] = useState([
     {
       date: "190916",
-      transaction: "+500",
-      amountLeft: "150000",
-    },
-    {
-      date: "200916",
-      transaction: "-500",
-      amountLeft: "155000",
+      transaction: "+100",
+      amountLeft: "100",
     },
     {
       date: "190916",
-      transaction: "+500",
-      amountLeft: "150000",
-    },
-    {
-      date: "200916",
-      transaction: "-500",
-      amountLeft: "155000",
+      transaction: "+200",
+      amountLeft: "300",
     },
     {
       date: "190916",
-      transaction: "+500",
-      amountLeft: "150000",
+      transaction: "+300",
+      amountLeft: "600",
     },
     {
-      date: "200916",
-      transaction: "-500",
-      amountLeft: "155000",
+      date: "190916",
+      transaction: "+400",
+      amountLeft: "1,000",
     },
     {
       date: "190916",
       transaction: "+500",
-      amountLeft: "150000",
+      amountLeft: "1,500",
     },
     {
-      date: "200916",
+      date: "190916",
       transaction: "-500",
-      amountLeft: "155000",
+      amountLeft: "1,000",
     },
+    {
+      date: "190916",
+      transaction: "-400",
+      amountLeft: "600",
+    },
+    {
+      date: "190916",
+      transaction: "-300",
+      amountLeft: "300",
+    },{
+      date: "190916",
+      transaction: "-200",
+      amountLeft: "100",
+    },
+    {
+      date: "190916",
+      transaction: "-100",
+      amountLeft: "0",
+    },
+    {
+      date: "190916",
+      transaction: "+100",
+      amountLeft: "100",
+    },
+    {
+      date: "190916",
+      transaction: "+200",
+      amountLeft: "300",
+    },
+    {
+      date: "190916",
+      transaction: "+300",
+      amountLeft: "600",
+    },
+    {
+      date: "190916",
+      transaction: "+400",
+      amountLeft: "1,000",
+    },
+    {
+      date: "190916",
+      transaction: "+500",
+      amountLeft: "1,500",
+    },    
+    {
+      date: "190916",
+      transaction: "-500",
+      amountLeft: "1,000",
+    },
+    {
+      date: "190916",
+      transaction: "-400",
+      amountLeft: "600",
+    },
+    {
+      date: "190916",
+      transaction: "-300",
+      amountLeft: "300",
+    },{
+      date: "190916",
+      transaction: "-200",
+      amountLeft: "100",
+    },
+    {
+      date: "190916",
+      transaction: "-100",
+      amountLeft: "0",
+    },
+    {
+      date: "190916",
+      transaction: "+100",
+      amountLeft: "100",
+    },
+    {
+      date: "190916",
+      transaction: "+200",
+      amountLeft: "300",
+    },
+    {
+      date: "190916",
+      transaction: "+300",
+      amountLeft: "600",
+    },
+    {
+      date: "190916",
+      transaction: "+400",
+      amountLeft: "1,000",
+    },
+    {
+      date: "190916",
+      transaction: "+500",
+      amountLeft: "1,500",
+    },    
   ]);
+*/
+  const tableData = [
+    {
+      date: "190916",
+      transaction: "+100",
+      amountLeft: "100",
+    },
+    {
+      date: "190916",
+      transaction: "+200",
+      amountLeft: "300",
+    },
+    {
+      date: "190916",
+      transaction: "+300",
+      amountLeft: "600",
+    },
+    {
+      date: "190916",
+      transaction: "+400",
+      amountLeft: "1,000",
+    },
+    {
+      date: "190916",
+      transaction: "+500",
+      amountLeft: "1,500",
+    },
+    {
+      date: "190916",
+      transaction: "-500",
+      amountLeft: "1,000",
+    },
+    {
+      date: "190916",
+      transaction: "-400",
+      amountLeft: "600",
+    },
+    {
+      date: "190916",
+      transaction: "-300",
+      amountLeft: "300",
+    },{
+      date: "190916",
+      transaction: "-200",
+      amountLeft: "100",
+    },
+    {
+      date: "190916",
+      transaction: "-100",
+      amountLeft: "0",
+    },
+    {
+      date: "190916",
+      transaction: "+100",
+      amountLeft: "100",
+    },
+    {
+      date: "190916",
+      transaction: "+200",
+      amountLeft: "300",
+    },
+    {
+      date: "190916",
+      transaction: "+300",
+      amountLeft: "600",
+    },
+    {
+      date: "190916",
+      transaction: "+400",
+      amountLeft: "1,000",
+    },
+    {
+      date: "190916",
+      transaction: "+500",
+      amountLeft: "1,500",
+    },    
+    {
+      date: "190916",
+      transaction: "-500",
+      amountLeft: "1,000",
+    },
+    {
+      date: "190916",
+      transaction: "-400",
+      amountLeft: "600",
+    },
+    {
+      date: "190916",
+      transaction: "-300",
+      amountLeft: "300",
+    },{
+      date: "190916",
+      transaction: "-200",
+      amountLeft: "100",
+    },
+    {
+      date: "190916",
+      transaction: "-100",
+      amountLeft: "0",
+    },
+    {
+      date: "190916",
+      transaction: "+100",
+      amountLeft: "100",
+    },
+    {
+      date: "190916",
+      transaction: "+200",
+      amountLeft: "300",
+    },
+    {
+      date: "190916",
+      transaction: "+300",
+      amountLeft: "600",
+    },
+    {
+      date: "190916",
+      transaction: "+400",
+      amountLeft: "1,000",
+    },
+    {
+      date: "190916",
+      transaction: "+500",
+      amountLeft: "1,500",
+    },    
+  ];
 
   const style = StyleSheet.create({
     button: {
@@ -69,6 +278,15 @@ export default function TransactionHistory() {
       borderRadius: 5,
       marginTop: 10,
       width: BUTTON_WIDTH_2,
+    },
+    buttonFullTransac:{
+      backgroundColor: "red",
+      padding: 20,
+      borderRadius: 5,
+      marginTop: 10,
+      width: BUTTON_WIDTH_2,
+      alignItems: 'center',
+      textAlign: 'center',
     },
     buttonAction: {
       backgroundColor: "red",
@@ -83,10 +301,25 @@ export default function TransactionHistory() {
       textAlign: "center",
     },
     container: {
+      width: width,
       justifyContent: "space-around",
       alignItems: "center",
       flexDirection: "column",
       height: CONTAINER_HEIGHT,
+    },
+    transacHistContainer: {
+      width: width,
+      height: CONTAINER_HEIGHT * 0.7,
+      justifyContent: "space-evenly",
+      textAlign: "right",
+    },
+    headerTransacHistContainer: {
+      width: width,
+      contentAlign: 'right',
+      justifyContent: "space-evenly",
+    },
+    cellContent: {
+      textAlign: 'center',
     },
     actionContainer: {
       flexDirection: "row",
@@ -133,7 +366,7 @@ export default function TransactionHistory() {
     const apiURL = "testing";
   };
 
-  console.log(masterData);
+  // console.log(masterData);
 
   return (
     <View style={style.container}>
@@ -144,7 +377,7 @@ export default function TransactionHistory() {
           value={search}
         />
       </View>
-      <View>
+      {/* <View>
         {masterData.map((data, ndx) => {
           const isLast = masterData.length - 1 === ndx;
 
@@ -156,6 +389,44 @@ export default function TransactionHistory() {
             </View>
           );
         })}
+      </View> */}
+      <View style={style.transacHistContainer}>
+        <ScrollView horizontal>
+          <DataTable>
+            <View style={style.headerTransacHistContainer}> 
+              <DataTable.Header>
+                <DataTable.Title>Date</DataTable.Title>
+                <DataTable.Title>Transaction</DataTable.Title>
+                <DataTable.Title>Amount Left</DataTable.Title>
+              </DataTable.Header>
+            </View>
+            <ScrollView>
+
+              <View style={style.fulltransactionContainer}>
+                <TouchableOpacity style={style.buttonFullTransac}>
+                  <Text style={style.buttonText}>SHOW FULL TRANSACTION PAGE</Text>
+                </TouchableOpacity>
+              </View>
+
+              <View> 
+                {tableData.map((row) => (
+                  <DataTable.Row key={row.id}>
+                    <View>
+                      <DataTable.Cell >{row.date}</DataTable.Cell>
+                    </View>
+                    <View>
+                      <DataTable.Cell>{row.transaction}</DataTable.Cell>
+                    </View>
+                    <View>
+                      <DataTable.Cell>{row.amountLeft}</DataTable.Cell>
+                    </View>
+                  </DataTable.Row>
+                ))}
+              </View>
+
+            </ScrollView>
+          </DataTable>
+        </ScrollView>
       </View>
       <View>
         <View style={style.actionContainer}>
