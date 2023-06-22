@@ -1,25 +1,74 @@
-# SQLite. Versions 3.8.0 and up are supported.
-#   gem install sqlite3
-#
-#   Ensure the SQLite 3 gem is defined in your Gemfile
-#   gem "sqlite3"
-#
-default: &default
+# default: &default
+#   adapter: sqlite3
+#   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+#   timeout: 5000
+
+development:
   adapter: sqlite3
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   timeout: 5000
-
-development:
-  <<: *default
   database: db/development.sqlite3
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  timeout: 5000
 
-# Warning: The database defined as "test" will be erased and
-# re-generated from your development database when you run "rake".
-# Do not set this db to the same as development or production.
 test:
-  <<: *default
-  database: db/test.sqlite3
+  adapter: sqlite3
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  timeout: 5000
+  database: db/development.sqlite3
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  timeout: 5000
+
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  # database: <%= ENV["PRODUCTION_DB_NAME"] %>
+  # username: <%= ENV["PRODUCTION_DB_USERNAME"] %>
+  # password: <%= ENV["PRODUCTION_DB_PASSWORD"] %>
+  database: postgres
+  username: postgres
+  password: password
+  timeout: 50000
+
+  # password: password
+  # host: "<%= ENV.fetch("DB_SOCKET_DIR") { '/cloudsql' } %>/<%= ENV["CLOUD_SQL_CONNECTION_NAME"] %>"
+  host: /cloudsql/backend-dbs-grp7:asia-southeast1:backend-dbs-grp7
+  # host: "<%= File.join(ENV.fetch("DB_SOCKET_DIR") { '/cloudsql' }, ENV.fetch("CLOUD_SQL_CONNECTION_NAME") { 'backend-dbs-grp7:asia-southeast1:backend-dbs-grp7' }) %>"
+  # host: 35.186.144.8
+  # port: 5432
 
 production:
-  <<: *default
-  database: db/production.sqlite3
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  # database: <%= ENV["PRODUCTION_DB_NAME"] %>
+  # username: <%= ENV["PRODUCTION_DB_USERNAME"] %>
+  # password: <%= ENV["PRODUCTION_DB_PASSWORD"] %>
+  database: postgres
+  username: postgres
+  password: password
+  timeout: 10000
+
+  # password: password
+  # host: "<%= File.join(ENV.fetch("DB_SOCKET_DIR") { '/cloudsql' }, ENV.fetch("CLOUD_SQL_CONNECTION_NAME") { 'backend-dbs-grp7:asia-southeast1:backend-dbs-grp7' }) %>"
+  # host: 35.186.144.8
+  host: /cloudsql/backend-dbs-grp7:asia-southeast1:backend-dbs-grp7
+  port: 5432
+
+# tcp:
+#   adapter: postgresql
+#   encoding: unicode
+#   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+#   # database: <%= ENV["PRODUCTION_DB_NAME"] %>
+#   # username: <%= ENV["PRODUCTION_DB_USERNAME"] %>
+#   # password: <%= ENV["PRODUCTION_DB_PASSWORD"] %>
+#   database: postgres
+#   username: postgres
+#   password: password
+#   timeout: 10000
+
+#   # password: password
+#   # host: "<%= File.join(ENV.fetch("DB_SOCKET_DIR") { '/cloudsql' }, ENV.fetch("CLOUD_SQL_CONNECTION_NAME") { 'backend-dbs-grp7:asia-southeast1:backend-dbs-grp7' }) %>"
+#   host: 35.186.144.8
+#   port: 5432

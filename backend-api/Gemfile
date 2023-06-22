@@ -56,6 +56,10 @@ end
 
 gem 'rack-cors'
 
+gem 'sprockets-rails', require: 'sprockets/railtie'
+
+gem 'google-cloud-storage', '>= 1.0.0', require: false
+
 gem 'gcloud'
 
 gem 'rspec-rails'
