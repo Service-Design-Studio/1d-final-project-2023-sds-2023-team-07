@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Searchbar, DataTable } from "react-native-paper";
 import { DeviceMotion } from "expo-sensors";
-import TransactionHistorySide from "./TransactionHistorySide";
 import {
   View,
   Text,
@@ -14,7 +13,10 @@ import {
 
 import * as ScreenOrientation from "expo-screen-orientation";
 
-const { width, height } = Dimensions.get("window");
+// const { width, height } = Dimensions.get("window");
+
+const width = 770;
+const height = 440;
 
 const CONTAINER_HEIGHT = height * 1;
 const TRANSACTION_HISTORY_HEIGHT = height * 0.7;
@@ -22,10 +24,9 @@ const BUTTON_WIDTH_1 = width * 0.46;
 const BUTTON_WIDTH_2 = width * 0.97;
 const SEARCH_WIDTH = width * 0.97;
 
+console.log(width);
+
 export default function TransactionHistory() {
-  const [screen, useScreen] = useState("loading");
-  const [search, useSearch] = useState("");
-  const [orientation, setOrientation] = useState(null);
   const [masterData, useMasterData] = useState([
     {
       date: "190916",
@@ -234,65 +235,7 @@ export default function TransactionHistory() {
     },
   });
 
-  const changeOrientation = async (orientationToChange) => {
-    console.log("changing");
-    if (orientationToChange == 0 && orientation != "up") {
-      await ScreenOrientation.lockAsync(
-        ScreenOrientation.OrientationLock.PORTRAIT_UP
-      );
-      setOrientation("up");
-    } else if (orientationToChange == -90) {
-      await ScreenOrientation.lockAsync(
-        ScreenOrientation.OrientationLock.LANDSCAPE_RIGHT
-      );
-      setOrientation("left");
-    }
-  };
-
-  let lastExecutionTime = 0;
-
-  useEffect(() => {
-    fetch(
-      "https://backend-dbs-grp7-ml42q3c3ya-as.a.run.app/users/1/transactions"
-    )
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        const data = response.json();
-        return data;
-      })
-      .then((data) => {
-        console.log(data);
-        useScreen("main");
-      })
-      .catch((error) => {
-        useScreen("error");
-        console.error("Error:", error);
-      });
-    // Listen to orientation change every 3 seconds
-    DeviceMotion.addListener(({ orientation, rotation }) => {
-      const currentTime = Date.now();
-      if (currentTime - lastExecutionTime >= 3000) {
-        changeOrientation(orientation);
-        lastExecutionTime = currentTime;
-      }
-    });
-    const { width, height } = Dimensions.get("window");
-  });
-
-  // console.log(masterData);
-
-  // return orientation == "loading" ? (
-  //   <View></View>
-  // ) : orientation == "up" ? (
-  return screen == "loading" ? (
-    <Text>Loading</Text>
-  ) : screen == "error" ? (
-    <Text>Error</Text>
-  ) : orientation == "left" ? (
-    <TransactionHistorySide></TransactionHistorySide>
-  ) : (
+  return (
     <View style={style.container}>
       <View>
         <DataTable style={style.transacHistContainer}>
@@ -329,42 +272,4 @@ export default function TransactionHistory() {
       </View>
     </View>
   );
-
-  // ) : (
-  //   <View style={style.container}>
-  //     <View>
-  //       <DataTable style={style.transacHistContainer}>
-  //         <DataTable.Header>
-  //           <DataTable.Title>Date</DataTable.Title>
-  //           <DataTable.Title>Transaction</DataTable.Title>
-  //           <DataTable.Title>Amount Left</DataTable.Title>
-  //         </DataTable.Header>
-  //         <ScrollView>
-  //           {masterData.map((row) => (
-  //             <DataTable.Row key={row.id}>
-  //               <DataTable.Cell>{row.date}</DataTable.Cell>
-  //               <DataTable.Cell>{row.transaction}</DataTable.Cell>
-  //               <DataTable.Cell>{row.amountLeft}</DataTable.Cell>
-  //             </DataTable.Row>
-  //           ))}
-  //         </ScrollView>
-  //       </DataTable>
-  //     </View>
-  //     <View>
-  //       <View style={style.actionContainer}>
-  //         <TouchableOpacity style={style.buttonAction}>
-  //           <Text style={style.buttonText}>WITHDRAW</Text>
-  //         </TouchableOpacity>
-  //         <TouchableOpacity style={style.buttonAction}>
-  //           <Text style={style.buttonText}>DEPOSIT</Text>
-  //         </TouchableOpacity>
-  //       </View>
-  //       <View style={style.activateContainer}>
-  //         <TouchableOpacity style={style.button}>
-  //           <Text style={style.buttonText}>ACTIVATE SPEECH-TO-TEXT</Text>
-  //         </TouchableOpacity>
-  //       </View>
-  //     </View>
-  //   </View>
-  // );
 }
