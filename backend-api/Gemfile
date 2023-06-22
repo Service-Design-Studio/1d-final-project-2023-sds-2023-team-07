@@ -56,4 +56,12 @@ end
 
 gem 'rack-cors'
 
+gem 'gcloud'
 
+gem 'rspec-rails'
+
+gem 'factory_bot_rails', :require => false
+
+gem 'faker'
+
+gem "guard-rspec"
