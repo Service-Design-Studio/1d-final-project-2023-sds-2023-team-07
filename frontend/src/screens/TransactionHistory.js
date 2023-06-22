@@ -234,6 +234,8 @@ export default function TransactionHistory() {
     },
   });
 
+  const [fetchData, useFetchData] = useState([]);
+
   const changeOrientation = async (orientationToChange) => {
     console.log("changing");
     if (orientationToChange == 0 && orientation != "up") {
@@ -259,11 +261,11 @@ export default function TransactionHistory() {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
-        const data = response.json();
-        return data;
+        return response.json();
       })
       .then((data) => {
-        console.log(data);
+        console.log("Fetched data:", data);
+        useFetchData(data);
         useScreen("main");
       })
       .catch((error) => {
@@ -302,11 +304,15 @@ export default function TransactionHistory() {
             <DataTable.Title>Amount Left</DataTable.Title>
           </DataTable.Header>
           <ScrollView>
-            {masterData.map((row) => (
+            {fetchData.map((row) => (
               <DataTable.Row key={row.id}>
-                <DataTable.Cell>{row.date}</DataTable.Cell>
-                <DataTable.Cell>{row.transaction}</DataTable.Cell>
-                <DataTable.Cell>{row.amountLeft}</DataTable.Cell>
+                <DataTable.Cell>
+                  {new Date(row.created_at).toLocaleDateString()}
+                </DataTable.Cell>
+                <DataTable.Cell>{`${
+                  row.transaction_type === "deposit" ? "+" : "-"
+                }${row.amount}`}</DataTable.Cell>
+                <DataTable.Cell>{row.amount}</DataTable.Cell>
               </DataTable.Row>
             ))}
           </ScrollView>
