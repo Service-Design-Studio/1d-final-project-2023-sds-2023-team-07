@@ -213,10 +213,12 @@ export default function TransactionHistory() {
       width: width,
       height: 40,
       flexDirection: "row",
-      justifyContent: "space-around",
-      alignItems: "center",
       borderTopColor: "black",
       borderTopWidth: 1,
+    },
+    cell: {
+      justifyContent: "center",
+      alignItems: "center",
     },
     rowLast: {
       height: 40,
@@ -237,7 +239,6 @@ export default function TransactionHistory() {
   const [fetchData, useFetchData] = useState([]);
 
   const changeOrientation = async (orientationToChange) => {
-    console.log("changing");
     if (orientationToChange == 0 && orientation != "up") {
       await ScreenOrientation.lockAsync(
         ScreenOrientation.OrientationLock.PORTRAIT_UP
@@ -254,9 +255,7 @@ export default function TransactionHistory() {
   let lastExecutionTime = 0;
 
   useEffect(() => {
-    fetch(
-      "https://backend-dbs-grp7-ml42q3c3ya-as.a.run.app/users/1/transactions"
-    )
+    fetch("https://backend-dbs-grp7-E-as.a.run.app/users/1/transactions")
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
@@ -281,7 +280,7 @@ export default function TransactionHistory() {
       }
     });
     const { width, height } = Dimensions.get("window");
-  });
+  }, []);
 
   // console.log(masterData);
 
@@ -291,7 +290,7 @@ export default function TransactionHistory() {
   return screen == "loading" ? (
     <Text>Loading</Text>
   ) : screen == "error" ? (
-    <Text>Error</Text>
+    <Text>Error: Reload App</Text>
   ) : orientation == "left" ? (
     <TransactionHistorySide></TransactionHistorySide>
   ) : (
@@ -299,20 +298,22 @@ export default function TransactionHistory() {
       <View>
         <DataTable style={style.transacHistContainer}>
           <DataTable.Header>
-            <DataTable.Title>Date</DataTable.Title>
-            <DataTable.Title>Transaction</DataTable.Title>
-            <DataTable.Title>Amount Left</DataTable.Title>
+            <DataTable.Title style={style.cell}>Date</DataTable.Title>
+            <DataTable.Title style={style.cell}>Transaction</DataTable.Title>
+            <DataTable.Title style={style.cell}>Amount Left</DataTable.Title>
           </DataTable.Header>
           <ScrollView>
             {fetchData.map((row) => (
               <DataTable.Row key={row.id}>
-                <DataTable.Cell>
+                <DataTable.Cell style={style.cell}>
                   {new Date(row.created_at).toLocaleDateString()}
                 </DataTable.Cell>
-                <DataTable.Cell>{`${
+                <DataTable.Cell style={style.cell}>{`${
                   row.transaction_type === "deposit" ? "+" : "-"
                 }${row.amount}`}</DataTable.Cell>
-                <DataTable.Cell>{row.amount}</DataTable.Cell>
+                <DataTable.Cell style={style.cell}>
+                  {parseFloat(row.amount) + 1400}
+                </DataTable.Cell>
               </DataTable.Row>
             ))}
           </ScrollView>

@@ -219,6 +219,10 @@ export default function TransactionHistory() {
       borderTopColor: "black",
       borderTopWidth: 1,
     },
+    cell: {
+      justifyContent: "center",
+      alignItems: "center",
+    },
     rowLast: {
       height: 40,
       flexDirection: "row",
@@ -240,16 +244,20 @@ export default function TransactionHistory() {
       <View>
         <DataTable style={style.transacHistContainer}>
           <DataTable.Header>
-            <DataTable.Title>Date</DataTable.Title>
-            <DataTable.Title>Transaction</DataTable.Title>
-            <DataTable.Title>Amount Left</DataTable.Title>
+            <DataTable.Title style={style.cell}>Date</DataTable.Title>
+            <DataTable.Title style={style.cell}>Transaction</DataTable.Title>
+            <DataTable.Title style={style.cell}>Amount Left</DataTable.Title>
           </DataTable.Header>
           <ScrollView>
             {masterData.map((row) => (
               <DataTable.Row key={row.id}>
-                <DataTable.Cell>{row.date}</DataTable.Cell>
-                <DataTable.Cell>{row.transaction}</DataTable.Cell>
-                <DataTable.Cell>{row.amountLeft}</DataTable.Cell>
+                <DataTable.Cell style={style.cell}>{row.date}</DataTable.Cell>
+                <DataTable.Cell style={style.cell}>
+                  {row.transaction}
+                </DataTable.Cell>
+                <DataTable.Cell style={style.cell}>
+                  {row.amountLeft}
+                </DataTable.Cell>
               </DataTable.Row>
             ))}
           </ScrollView>
