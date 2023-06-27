@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Searchbar, DataTable } from "react-native-paper";
 import { DeviceMotion } from "expo-sensors";
 import TransactionHistorySide from "./TransactionHistorySide";
+import ErrorPage from "./ErrorPage";
 import {
   View,
   Text,
@@ -22,8 +23,8 @@ const BUTTON_WIDTH_1 = width * 0.46;
 const BUTTON_WIDTH_2 = width * 0.97;
 const SEARCH_WIDTH = width * 0.97;
 
-export default function TransactionHistory() {
-  const [screen, useScreen] = useState("loading");
+export default function TransactionHistory(props) {
+  const { screen } = props;
   const [search, useSearch] = useState("");
   const [orientation, setOrientation] = useState(null);
   const [masterData, useMasterData] = useState([
@@ -255,31 +256,31 @@ export default function TransactionHistory() {
   let lastExecutionTime = 0;
 
   useEffect(() => {
-    fetch("https://backend-dbs-grp7-E-as.a.run.app/users/1/transactions")
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        return response.json();
-      })
-      .then((data) => {
-        console.log("Fetched data:", data);
-        useFetchData(data);
-        useScreen("main");
-      })
-      .catch((error) => {
-        useScreen("error");
-        console.error("Error:", error);
-      });
-    // Listen to orientation change every 3 seconds
-    DeviceMotion.addListener(({ orientation, rotation }) => {
-      const currentTime = Date.now();
-      if (currentTime - lastExecutionTime >= 3000) {
-        changeOrientation(orientation);
-        lastExecutionTime = currentTime;
-      }
-    });
-    const { width, height } = Dimensions.get("window");
+    // fetch("https://backend-dbs-grp7-E-as.a.run.app/users/1/transactions")
+    //   .then((response) => {
+    //     if (!response.ok) {
+    //       throw new Error(`HTTP error! Status: ${response.status}`);
+    //     }
+    //     return response.json();
+    //   })
+    //   .then((data) => {
+    //     console.log("Fetched data:", data);
+    //     useFetchData(data);
+    //     useScreen("main");
+    //   })
+    //   .catch((error) => {
+    //     useScreen("error");
+    //     console.error("Error:", error);
+    //   });
+    // // Listen to orientation change every 3 seconds
+    // DeviceMotion.addListener(({ orientation, rotation }) => {
+    //   const currentTime = Date.now();
+    //   if (currentTime - lastExecutionTime >= 3000) {
+    //     changeOrientation(orientation);
+    //     lastExecutionTime = currentTime;
+    //   }
+    // });
+    // const { width, height } = Dimensions.get("window");
   }, []);
 
   // console.log(masterData);
@@ -290,7 +291,7 @@ export default function TransactionHistory() {
   return screen == "loading" ? (
     <Text>Loading</Text>
   ) : screen == "error" ? (
-    <Text>Error: Reload App</Text>
+    <ErrorPage></ErrorPage>
   ) : orientation == "left" ? (
     <TransactionHistorySide></TransactionHistorySide>
   ) : (
@@ -336,42 +337,4 @@ export default function TransactionHistory() {
       </View>
     </View>
   );
-
-  // ) : (
-  //   <View style={style.container}>
-  //     <View>
-  //       <DataTable style={style.transacHistContainer}>
-  //         <DataTable.Header>
-  //           <DataTable.Title>Date</DataTable.Title>
-  //           <DataTable.Title>Transaction</DataTable.Title>
-  //           <DataTable.Title>Amount Left</DataTable.Title>
-  //         </DataTable.Header>
-  //         <ScrollView>
-  //           {masterData.map((row) => (
-  //             <DataTable.Row key={row.id}>
-  //               <DataTable.Cell>{row.date}</DataTable.Cell>
-  //               <DataTable.Cell>{row.transaction}</DataTable.Cell>
-  //               <DataTable.Cell>{row.amountLeft}</DataTable.Cell>
-  //             </DataTable.Row>
-  //           ))}
-  //         </ScrollView>
-  //       </DataTable>
-  //     </View>
-  //     <View>
-  //       <View style={style.actionContainer}>
-  //         <TouchableOpacity style={style.buttonAction}>
-  //           <Text style={style.buttonText}>WITHDRAW</Text>
-  //         </TouchableOpacity>
-  //         <TouchableOpacity style={style.buttonAction}>
-  //           <Text style={style.buttonText}>DEPOSIT</Text>
-  //         </TouchableOpacity>
-  //       </View>
-  //       <View style={style.activateContainer}>
-  //         <TouchableOpacity style={style.button}>
-  //           <Text style={style.buttonText}>ACTIVATE SPEECH-TO-TEXT</Text>
-  //         </TouchableOpacity>
-  //       </View>
-  //     </View>
-  //   </View>
-  // );
 }
