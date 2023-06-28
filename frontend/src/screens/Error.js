@@ -63,7 +63,7 @@ export default function TransactionHistory() {
     <View style={style.container}>
       <Text style={style.errorText}>
       Oops 😅{'\n\n'}
-      We are not showing your transaction history yet{'\n\n'}
+      We have some trouble trying to show your transaction history{'\n\n'}
       Try restarting the banking app again{'\n\n'}
       </Text>
     </View>
