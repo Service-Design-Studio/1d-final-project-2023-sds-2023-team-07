@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Searchbar, DataTable } from "react-native-paper";
 import { DeviceMotion } from "expo-sensors";
 import TransactionHistorySide from "./TransactionHistorySide";
+import Error from "./Error";
 import {
   View,
   Text,
@@ -289,7 +290,7 @@ export default function TransactionHistory() {
   return screen == "loading" ? (
     <Text>Loading</Text>
   ) : screen == "error" ? (
-    <Text>Error</Text>
+    <Error></Error>
   ) : orientation == "left" ? (
     <TransactionHistorySide></TransactionHistorySide>
   ) : (
