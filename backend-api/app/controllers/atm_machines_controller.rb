@@ -10,8 +10,9 @@ class AtmMachinesController < ApplicationController
   
     private
   
-    def atm_machine_params
-      params.require(:atm_machine).permit(:atm_id, :store_name, :address, :balance)
-    end
+  # Change :atm_id, :address, and :balance_left to :atm_machine_name
+  def atm_machine_params
+    params.require(:atm_machine).permit(:atm_machine_name, :store_name, :balance)
+  end
 end
   

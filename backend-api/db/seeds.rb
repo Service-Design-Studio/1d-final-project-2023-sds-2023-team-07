@@ -1,65 +1,61 @@
+# Create 2 users
 user1 = User.create(
-    name: "John Doe",
-    identification_number: "AB123456",
-    account_balance: 1000.0,
-    passbook_image_url: "https://example.com/passbook.jpg",
-    atm_card_image_url: "https://example.com/atm_card.jpg",
-    face_image_url: "https://example.com/face.jpg",
-    fingerprint_data: "fingerprint_data_1",
-    singpass_data: "singpass_data_1"
+    name: "Alice",
+    identification_number: "ABC123",
+    account_balance: 2000.0,
+    passbook_image_url: "https://example.com/images/passbook1.jpg",
+    atm_card_image_url: "https://example.com/images/atm_card1.jpg",
+    face_image_url: "https://example.com/images/face1.jpg",
+    fingerprint_data: "fingerprint1",
+    singpass_data: "singpass1"
 )
 
 user2 = User.create(
-    name: "Jane Smith",
-    identification_number: "CD987654",
-    account_balance: 1500.0,
-    passbook_image_url: "https://example.com/passbook2.jpg",
-    atm_card_image_url: "https://example.com/atm_card2.jpg",
-    face_image_url: "https://example.com/face2.jpg",
-    fingerprint_data: "fingerprint_data_2",
-    singpass_data: "singpass_data_2"
+    name: "Bob",
+    identification_number: "XYZ456",
+    account_balance: 3000.0,
+    passbook_image_url: "https://example.com/images/passbook2.jpg",
+    atm_card_image_url: "https://example.com/images/atm_card2.jpg",
+    face_image_url: "https://example.com/images/face2.jpg",
+    fingerprint_data: "fingerprint2",
+    singpass_data: "singpass2"
 )
 
-# AtmMachines
+# Create 2 ATM machines
 atm1 = AtmMachine.create(
-    atm_id: "ATM0001",
-    store_name: "Bank HQ",
-    address: "123 Bank St.",
-    balance: 50000.0
+    atm_machine_name: "ATM1",
+    store_name: "Store A",
+    balance: 10000.0
 )
 
 atm2 = AtmMachine.create(
-    atm_id: "ATM0002",
-    store_name: "Bank Branch",
-    address: "456 Bank St.",
-    balance: 30000.0
+    atm_machine_name: "ATM2",
+    store_name: "Store B",
+    balance: 15000.0
 )
 
-# Transactions
-Transaction.create(
-    user_id: user1.id,
-    atm_machine_id: atm1.id,
-    transaction_type: 0,
-    amount: 300.0
-)
+# Create 50 transactions
+50.times do |i|
+    user = [user1, user2].sample
+    atm = [atm1, atm2].sample
+    transaction_type = ['withdrawal', 'deposit'].sample
+    amount = rand(1..100)
 
-Transaction.create(
-    user_id: user1.id,
-    atm_machine_id: atm2.id,
-    transaction_type: 1,
-    amount: 100.0
-)
+    # Adjust user account_balance and ATM balance
+    if transaction_type == 'deposit'
+        user.update(account_balance: user.account_balance + amount)
+        atm.update(balance: atm.balance + amount)
+    elsif transaction_type == 'withdrawal' && user.account_balance >= amount
+        user.update(account_balance: user.account_balance - amount)
+        atm.update(balance: atm.balance - amount)
+    end
 
-Transaction.create(
-user_id: user2.id,
-atm_machine_id: atm1.id,
-transaction_type: 0,
-amount: 500.0
-)
-
-Transaction.create(
-    user_id: user2.id,
-    atm_machine_id: atm2.id,
-    transaction_type: 1,
-    amount: 200.0
-)
+    # Create transaction
+    Transaction.create(
+        user: user,
+        atm_machine: atm,
+        transaction_type: transaction_type,
+        amount: amount,
+        user_balance_left: user.account_balance
+    )
+end

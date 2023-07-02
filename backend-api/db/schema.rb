@@ -10,19 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_19_063629) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_22_113545) do
   create_table "atm_machines", force: :cascade do |t|
-    t.string "atm_id"
+    t.string "atm_machine_name"
     t.string "store_name"
-    t.string "address"
     t.decimal "balance"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "posts", force: :cascade do |t|
-    t.string "title"
-    t.text "content"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -30,8 +22,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_19_063629) do
   create_table "transactions", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "atm_machine_id", null: false
-    t.integer "transaction_type"
+    t.string "transaction_type"
     t.decimal "amount"
+    t.decimal "user_balance_left"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["atm_machine_id"], name: "index_transactions_on_atm_machine_id"

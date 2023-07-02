@@ -14,4 +14,3 @@ class UsersController < ApplicationController
       params.require(:user).permit(:name, :identification_number, :account_balance, :passbook_image_url, :atm_card_image_url, :face_image_url, :fingerprint_data, :singpass_data)
     end
 end
-  
