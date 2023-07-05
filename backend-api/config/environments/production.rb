@@ -42,6 +42,8 @@ Rails.application.configure do
   # [START cloudrun_rails_storage_prod]
   # Store uploaded files on the local file system (see config/storage.yml for options).
   config.active_storage.service = :google
+
+
   # [END cloudrun_rails_storage_prod]
 
   # Mount Action Cable outside main process or domain.
@@ -54,7 +56,7 @@ Rails.application.configure do
 
   # Include generic and useful information about system operation, but avoid logging too much
   # information to avoid inadvertent exposure of personally identifiable information (PII).
-  config.log_level = :info
+  config.log_level = :debug
 
   # Prepend all log lines with the following tags.
   config.log_tags = [:request_id]

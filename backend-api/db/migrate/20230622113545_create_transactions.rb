@@ -6,6 +6,7 @@ class CreateTransactions < ActiveRecord::Migration[7.0]
       t.string :transaction_type
       t.decimal :amount
       t.decimal :user_balance_left
+      t.decimal :atm_balance_left
 
       t.timestamps
     end

@@ -11,6 +11,6 @@ class UsersController < ApplicationController
     private
   
     def user_params
-      params.require(:user).permit(:name, :identification_number, :account_balance, :passbook_image_url, :atm_card_image_url, :face_image_url, :fingerprint_data, :singpass_data)
+      params.require(:user).permit(:name, :identification_number, :account_balance, :pin, :face_image_url)
     end
 end

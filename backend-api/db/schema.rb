@@ -25,6 +25,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_22_113545) do
     t.string "transaction_type"
     t.decimal "amount"
     t.decimal "user_balance_left"
+    t.decimal "atm_balance_left"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["atm_machine_id"], name: "index_transactions_on_atm_machine_id"
@@ -35,11 +36,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_22_113545) do
     t.string "name"
     t.string "identification_number"
     t.decimal "account_balance"
-    t.string "passbook_image_url"
-    t.string "atm_card_image_url"
+    t.string "pin"
     t.string "face_image_url"
-    t.string "fingerprint_data"
-    t.string "singpass_data"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

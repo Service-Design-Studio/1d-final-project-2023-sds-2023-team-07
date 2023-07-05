@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
-  post 'authenticate', to: 'authentication#authenticate'
-  post 'authenticate/otp', to: 'authentication#otp'
+  post 'authenticate/face', to: 'authentication#face'
+  post 'authenticate/pin', to: 'authentication#pin'
   post 'withdraw', to: 'transactions#withdraw'
   post 'withdraw/confirm', to: 'transactions#confirm_withdrawal'
   post 'deposit', to: 'transactions#deposit'

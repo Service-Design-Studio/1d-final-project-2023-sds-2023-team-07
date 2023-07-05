@@ -7,13 +7,16 @@ ruby "3.0.0"
 gem "rails", "~> 7.0.0"
 
 # Use sqlite3 as the database for Active Record
-group :development, :test do
-  gem 'sqlite3'
-end
+# group :development, :test do
+#   gem 'sqlite3'
+# end
+gem 'sqlite3'
 
 group :production do
   gem 'pg' # for gcloud deployment
 end
+
+gem 'solargraph', group: :development
 
 
 # Use the Puma web server [https://github.com/puma/puma]

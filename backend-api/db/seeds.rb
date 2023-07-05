@@ -3,22 +3,16 @@ user1 = User.create(
     name: "Alice",
     identification_number: "ABC123",
     account_balance: 2000.0,
-    passbook_image_url: "https://example.com/images/passbook1.jpg",
-    atm_card_image_url: "https://example.com/images/atm_card1.jpg",
+    pin: "123456",
     face_image_url: "https://example.com/images/face1.jpg",
-    fingerprint_data: "fingerprint1",
-    singpass_data: "singpass1"
 )
 
 user2 = User.create(
     name: "Bob",
     identification_number: "XYZ456",
     account_balance: 3000.0,
-    passbook_image_url: "https://example.com/images/passbook2.jpg",
-    atm_card_image_url: "https://example.com/images/atm_card2.jpg",
+    pin: "345676",
     face_image_url: "https://example.com/images/face2.jpg",
-    fingerprint_data: "fingerprint2",
-    singpass_data: "singpass2"
 )
 
 # Create 2 ATM machines
@@ -56,6 +50,7 @@ atm2 = AtmMachine.create(
         atm_machine: atm,
         transaction_type: transaction_type,
         amount: amount,
-        user_balance_left: user.account_balance
+        user_balance_left: user.account_balance,
+        atm_balance_left: atm.balance
     )
 end
