@@ -11,7 +11,7 @@ class AuthenticationController < ApplicationController
             if name
                 render json: {message: "Person found: #{name}, Confidence level: #{confidence}"}, status: :ok
             else
-                render json: {message: 'No matching person found.'}, status: :unprocessable_entity
+                render json: {message: 'No matching person found.'}, status: :ok
             end
         else
             render json: {message: "Nothing received"}, status: :unprocessable_entity
