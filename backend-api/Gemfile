@@ -62,3 +62,9 @@ gem 'rack-cors'
 gem 'sprockets-rails', require: 'sprockets/railtie'
 
 gem 'google-cloud-storage', '>= 1.0.0', require: false
+
+gem 'aws-sdk-rekognition'
+
+group :development, :test do
+  gem 'dotenv-rails'
+end
