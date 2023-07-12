@@ -6,15 +6,15 @@ class AuthenticationController < ApplicationController
     def face
         image_data = params[:image]
         if image_data.present?
-        name, confidence = find_person_using_image('face-id-test', image_data, 90)
+            name, confidence = find_person_using_image('face-id-test', image_data, 90)
 
-        if name
-            render json: {message: "Person found: #{name}, Confidence level: #{confidence}"}, status: :ok
+            if name
+                render json: {message: "Person found: #{name}, Confidence level: #{confidence}"}, status: :ok
+            else
+                render json: {message: 'No matching person found.'}, status: :unprocessable_entity
+            end
         else
-            render json: {message: 'No matching person found.'}, status: :unprocessable_entity
-        end
-        else
-        render json: {message: "Nothing received"}, status: :unprocessable_entity
+            render json: {message: "Nothing received"}, status: :unprocessable_entity
         end
     end
 
