@@ -1,0 +1,13 @@
+
+---
+ar_internal_metadata:
+  columns:
+  - key
+  - value
+  - created_at
+  - updated_at
+  records: 
+  - - environment
+    - test
+    - '2023-06-17 15:05:38.277864'
+    - '2023-07-12 14:19:45.054317'

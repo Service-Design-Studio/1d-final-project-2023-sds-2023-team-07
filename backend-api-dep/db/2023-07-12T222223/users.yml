@@ -1,0 +1,115 @@
+
+---
+users:
+  columns:
+  - id
+  - name
+  - identification_number
+  - account_balance
+  - passbook_image_url
+  - atm_card_image_url
+  - face_image_url
+  - fingerprint_data
+  - singpass_data
+  - created_at
+  - updated_at
+  records: 
+  - - 1
+    - John Doe
+    - AB123456
+    - 1000
+    - https://example.com/passbook.jpg
+    - https://example.com/atm_card.jpg
+    - https://example.com/face.jpg
+    - fingerprint_data_here
+    - singpass_data_here
+    - '2023-06-19 07:11:21.377238'
+    - '2023-06-19 07:11:21.377238'
+  - - 2
+    - John Doe
+    - AB123456
+    - 1000
+    - https://example.com/passbook.jpg
+    - https://example.com/atm_card.jpg
+    - https://example.com/face.jpg
+    - fingerprint_data_1
+    - singpass_data_1
+    - '2023-06-19 09:53:10.287452'
+    - '2023-06-19 09:53:10.287452'
+  - - 3
+    - Jane Smith
+    - CD987654
+    - 1500
+    - https://example.com/passbook2.jpg
+    - https://example.com/atm_card2.jpg
+    - https://example.com/face2.jpg
+    - fingerprint_data_2
+    - singpass_data_2
+    - '2023-06-19 09:53:10.289410'
+    - '2023-06-19 09:53:10.289410'
+  - - 4
+    - John Doe
+    - AB123456
+    - 1000
+    - https://example.com/passbook.jpg
+    - https://example.com/atm_card.jpg
+    - https://example.com/face.jpg
+    - fingerprint_data_1
+    - singpass_data_1
+    - '2023-06-19 09:54:06.971994'
+    - '2023-06-19 09:54:06.971994'
+  - - 5
+    - Jane Smith
+    - CD987654
+    - 1500
+    - https://example.com/passbook2.jpg
+    - https://example.com/atm_card2.jpg
+    - https://example.com/face2.jpg
+    - fingerprint_data_2
+    - singpass_data_2
+    - '2023-06-19 09:54:06.973768'
+    - '2023-06-19 09:54:06.973768'
+  - - 6
+    - John Doe
+    - AB123456
+    - 1000
+    - https://example.com/passbook.jpg
+    - https://example.com/atm_card.jpg
+    - https://example.com/face.jpg
+    - fingerprint_data_1
+    - singpass_data_1
+    - '2023-06-19 13:20:19.843315'
+    - '2023-06-19 13:20:19.843315'
+  - - 7
+    - Jane Smith
+    - CD987654
+    - 1500
+    - https://example.com/passbook2.jpg
+    - https://example.com/atm_card2.jpg
+    - https://example.com/face2.jpg
+    - fingerprint_data_2
+    - singpass_data_2
+    - '2023-06-19 13:20:19.845146'
+    - '2023-06-19 13:20:19.845146'
+  - - 8
+    - John Doe
+    - AB123456
+    - 1000
+    - https://example.com/passbook.jpg
+    - https://example.com/atm_card.jpg
+    - https://example.com/face.jpg
+    - fingerprint_data_1
+    - singpass_data_1
+    - '2023-06-19 13:22:31.177335'
+    - '2023-06-19 13:22:31.177335'
+  - - 9
+    - Jane Smith
+    - CD987654
+    - 1500
+    - https://example.com/passbook2.jpg
+    - https://example.com/atm_card2.jpg
+    - https://example.com/face2.jpg
+    - fingerprint_data_2
+    - singpass_data_2
+    - '2023-06-19 13:22:31.179458'
+    - '2023-06-19 13:22:31.179458'

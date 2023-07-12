@@ -1,0 +1,5 @@
+Processing by TransactionsController#index as HTML
+  Parameters: {"user_id"=>"3"}
+Completed 500 Internal Server Error in 88ms (ActiveRecord: 0.4ms | Allocations: 4871)
+
+

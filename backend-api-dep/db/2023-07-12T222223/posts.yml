@@ -1,0 +1,15 @@
+
+---
+posts:
+  columns:
+  - id
+  - title
+  - content
+  - created_at
+  - updated_at
+  records: 
+  - - 1
+    - Post title
+    - Post content
+    - '2023-06-17 15:19:53.129534'
+    - '2023-06-17 15:19:53.129534'

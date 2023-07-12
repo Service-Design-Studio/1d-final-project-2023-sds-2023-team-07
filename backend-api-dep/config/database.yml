@@ -36,7 +36,7 @@ development:
 
 test:
   <<: *default
-  database: myapp_test
+  database: db/test.sqlite3
 
 production:
   adapter: postgresql
