@@ -22,6 +22,7 @@ export default function Home() {
       "https://backend-dbs-grp7-ml42q3c3ya-as.a.run.app/users/1/transactions"
     )
       .then((response) => {
+        console.log("Response: ", response);
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
