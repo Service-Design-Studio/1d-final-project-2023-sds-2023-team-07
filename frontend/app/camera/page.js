@@ -60,7 +60,7 @@ export default function Home() {
   // post data to backend on hasPhoto boolean true
   useEffect(() => {
     let ctx = photoRef.current;
-    var dataURL = ctx.toDataURL();
+    var dataURL = ctx.toDataURL("image/jpg");
 
     console.log(dataURL);
     const config = {
