@@ -1,6 +1,7 @@
 "use client"; // This is a client component 👈🏽
 import Image from "next/image";
 import React, { useEffect, useState, useRef } from "react";
+import { useRouter } from "next/navigation";
 import {
   ChakraProvider,
   Button,
@@ -10,10 +11,13 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 import Error from "../Error";
+import Pin from "./Pin";
 
 export default function Home() {
+  const router = useRouter();
   const videoRef = useRef(null);
   const photoRef = useRef(null);
+  const [counter, setCounter] = useState(0);
   const [hasPhoto, setHasPhoto] = useState(false);
   const [pageState, setPageState] = useState("main");
   const [display, setDisplay] = useState(false);
@@ -39,6 +43,11 @@ export default function Home() {
   const takePhoto = () => {
     const width = 414;
     const height = width / (16 / 9);
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
 
     let video = videoRef.current;
     let photo = photoRef.current;
@@ -49,30 +58,10 @@ export default function Home() {
     let ctx = photo.getContext("2d");
     ctx.drawImage(video, 0, 0, width, height);
     setHasPhoto(true);
-  };
 
-  // get video on component init
-  useEffect(() => {
-    getVideo();
-  }, [videoRef]);
-
-  setTimeout(() => {
-    setDisplay(true);
-    console.log(display);
-  }, 3000);
-
-  // post data to backend on hasPhoto boolean true
-  useEffect(() => {
-    let ctx = photoRef.current;
-    var dataURL = ctx.toDataURL("image/jpeg");
-
-    console.log(dataURL);
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
-
+    console.log(ctx);
+    let newPhoto = photoRef.current;
+    var dataURL = newPhoto.toDataURL("image/jpeg");
     axios
       .post(
         "https://backend-dbs-grp7-ml42q3c3ya-as.a.run.app/authenticate/face",
@@ -83,11 +72,34 @@ export default function Home() {
         config
       )
       .then((response) => {
-        console.log(response);
+        console.log(response.data.authenticated);
+        console.log("fail counter: " + counter);
+        if (response.data.authenticated) {
+          router.push("/success");
+        } else if (!response.data.authenticated && counter == 3) {
+          setPageState("pin");
+        } else {
+          setCounter(counter + 1);
+        }
       })
       .catch((error) => {
         console.log(error);
       });
+  };
+
+  // get video on component init
+  useEffect(() => {
+    getVideo();
+  }, [videoRef]);
+
+  setTimeout(() => {
+    setDisplay(true);
+  }, 3000);
+
+  // post data to backend on hasPhoto boolean true
+  useEffect(() => {
+    if (pageState == "main") {
+    }
   }, [hasPhoto]);
 
   const renderPage = () => {
@@ -120,7 +132,9 @@ export default function Home() {
             >
               <video className="h-80 w-80 m-auto" ref={videoRef}></video>
               <Button
-                onClick={takePhoto}
+                onClick={() => {
+                  takePhoto();
+                }}
                 className="grow ml-3 mr-3"
                 colorScheme="red"
                 size="md"
@@ -142,6 +156,9 @@ export default function Home() {
             subText={"Try again in around 30 mins!"}
           />
         );
+        break;
+      case "pin":
+        return <Pin />;
         break;
       default:
         return null;
