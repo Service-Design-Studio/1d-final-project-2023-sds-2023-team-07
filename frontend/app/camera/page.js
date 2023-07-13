@@ -3,21 +3,18 @@ import Image from "next/image";
 import React, { useEffect, useState, useRef } from "react";
 import {
   ChakraProvider,
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
-  chakra,
   Button,
+  PinInput,
+  PinInputField,
 } from "@chakra-ui/react";
 import axios from "axios";
+import Error from "../Error";
 
 export default function Home() {
   const videoRef = useRef(null);
   const photoRef = useRef(null);
   const [hasPhoto, setHasPhoto] = useState(false);
+  const [pageState, setPageState] = useState("loading");
 
   const getVideo = () => {
     navigator.mediaDevices
@@ -73,9 +70,8 @@ export default function Home() {
       .post(
         "/api/upload",
         {
-          data: {
-            image: dataURL,
-          },
+          data: dataURL,
+          name: "Kelvin",
         },
         config
       )
@@ -86,24 +82,58 @@ export default function Home() {
         console.log(error);
       });
   }, [hasPhoto]);
-  return (
-    <ChakraProvider>
-      <div className="h-100 w-100 flex justify-center context-center flex-col">
-        <div className="flex justify-center context-center flex-col">
-          <video className="h-80 w-80 m-auto" ref={videoRef}></video>
-          <Button
-            onClick={takePhoto}
-            className="grow ml-3 mr-3"
-            colorScheme="red"
-            size="md"
-          >
-            AUTH NOW
-          </Button>
-        </div>
-        <div classname="invisible hidden">
-          <canvas ref={photoRef}></canvas>
-        </div>
-      </div>
-    </ChakraProvider>
-  );
+
+  const renderPage = () => {
+    switch (pageState) {
+      case "loading":
+        return (
+          <div className="flex h-screen flex-col items-center justify-center">
+            <div className="flex flex-col items-center">
+              <Spinner
+                thickness="4px"
+                speed="0.65s"
+                emptyColor="gray.200"
+                color="red"
+                size="xl"
+              />
+              <p className="my-2 mt-4 text-gray-800">Loading...</p>
+            </div>
+          </div>
+        );
+        break;
+      case "main":
+        return (
+          <div className="h-100 w-100 flex justify-center context-center flex-col">
+            <div className="flex justify-center context-center flex-col">
+              <video className="h-80 w-80 m-auto" ref={videoRef}></video>
+              <Button
+                onClick={takePhoto}
+                className="grow ml-3 mr-3"
+                colorScheme="red"
+                size="md"
+              >
+                AUTH NOW
+              </Button>
+            </div>
+            <div classname="invisible hidden">
+              <canvas ref={photoRef}></canvas>
+            </div>
+          </div>
+        );
+
+        break;
+      case "error":
+        return (
+          <Error
+            errorMsg={"Sorry our services seem to be down at the moment :("}
+            subText={"Try again in around 30 mins!"}
+          />
+        );
+        break;
+      default:
+        return null;
+        break;
+    }
+  };
+  return <ChakraProvider></ChakraProvider>;
 }
