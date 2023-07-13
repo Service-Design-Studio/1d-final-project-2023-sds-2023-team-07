@@ -75,7 +75,7 @@ export default function page() {
         return (
           <main className="flex max-h-screen flex-col items-center justify-between">
             <div className="h-5/6 overflow-scroll w-full">
-              <Table>
+              <Table id="transactions">
                 <Thead>
                   <Tr>
                     <Th>Date</Th>
