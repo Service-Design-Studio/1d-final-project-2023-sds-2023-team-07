@@ -9,7 +9,7 @@ class TransactionsController < ApplicationController
 
   def deposit
     Transaction.transaction do
-      @transaction = Transaction.new(transaction_with_balance_params('deposit'))
+      @transaction = Transaction.new(transaction_with_balance_params('NCD'))
       if @transaction.save
         @user.update!(account_balance: @transaction.user_balance_left)
         @transaction.update!(balance: @transaction.atm_balance_left)
@@ -25,7 +25,7 @@ class TransactionsController < ApplicationController
       render json: { errors: "Insufficient balance" }, status: :unprocessable_entity
     else
       Transaction.transaction do
-        @transaction = Transaction.new(transaction_with_balance_params('withdrawal'))
+        @transaction = Transaction.new(transaction_with_balance_params('AWL'))
         if @transaction.save
           @user.update!(account_balance: @transaction.user_balance_left)
           @transaction.update!(balance: @transaction.atm_balance_left)
@@ -57,10 +57,10 @@ class TransactionsController < ApplicationController
   def transaction_with_balance_params(type)
     transaction_data = transaction_params
     transaction_data[:transaction_type] = type
-    if type == 'deposit'
+    if type == 'NCD'
       transaction_data[:user_balance_left] = @user.account_balance + transaction_data[:amount]
       transaction_data[:atm_balance_left] = @atm_machine.balance + transaction_data[:amount]
-    elsif type == 'withdrawal' && transaction_data[:amount] <= @user.account_balance
+    elsif type == 'AWL' && transaction_data[:amount] <= @user.account_balance
       transaction_data[:user_balance_left] = @user.account_balance - transaction_data[:amount]
       transaction_data[:atm_balance_left] = @atm_machine.balance - transaction_data[:amount]
     end
