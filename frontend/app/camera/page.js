@@ -10,6 +10,7 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 import Error from "../Error";
+import Pin from "./Pin";
 
 export default function Home() {
   const videoRef = useRef(null);
@@ -58,21 +59,18 @@ export default function Home() {
 
   setTimeout(() => {
     setDisplay(true);
-    console.log(display);
   }, 3000);
 
   // post data to backend on hasPhoto boolean true
   useEffect(() => {
     let ctx = photoRef.current;
     var dataURL = ctx.toDataURL("image/jpeg");
-
     console.log(dataURL);
     const config = {
       headers: {
         "Content-Type": "application/json",
       },
     };
-
     axios
       .post(
         "https://backend-dbs-grp7-ml42q3c3ya-as.a.run.app/authenticate/face",
@@ -142,6 +140,9 @@ export default function Home() {
             subText={"Try again in around 30 mins!"}
           />
         );
+        break;
+      case "pin":
+        return <Pin />;
         break;
       default:
         return null;
