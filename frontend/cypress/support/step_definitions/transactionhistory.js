@@ -1,13 +1,18 @@
 import { Given, Then, When } from "@badeball/cypress-cucumber-preprocessor";
 
+Given("I have past transactions defined in transactions.json", () => {})
+
 Given("I am logged into the application", () => {
-    expect(true).to.equal(true);
+    cy.intercept('GET', 'https://backend-dbs-grp7-ml42q3c3ya-as.a.run.app/users/1/transactions', {
+        statusCode: 200,
+        fixture: 'transactions.json'
+    })
 })
 
 When("the homepage is loaded", () => {
-    cy.visit('http://localhost:3000')
+    cy.visit('/')
 })
 
-Then("I should see the homepage with the correct transaction records", () => {
-    cy.contains('WITHDRAW')
+Then("I should see the homepage with my most recent transaction at the bottom", () => {
+    cy.contains()
 })
