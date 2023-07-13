@@ -1,3 +1,9 @@
+development_users = User.connection.select_all("SELECT * FROM users") # Replace User with your model name
+development_users.each do |development_user|
+  User.create(development_user) # Replace User with your model name
+end
+
+
 # Create 2 users
 user1 = User.create(
     name: "Alice",

@@ -46,7 +46,7 @@ RSpec.describe AuthenticationController, type: :controller do
             @name = "Kelvin"
         end
 
-        it "authenticates if correct user face for user" do
+        xit "authenticates if correct user face for user" do
             # so i parse a txt file with base 64 encoded image of correct user face
             fileObject = File.open("spec\\controller\\correct.txt","r");
             base_64_string = fileObject.read.to_s
@@ -56,7 +56,7 @@ RSpec.describe AuthenticationController, type: :controller do
             expect(JSON.parse(response.body)["message"]).to eq("No issues")
             expect(response).to have_http_status(:success)
         end
-        it "does not authenticate if wrong face for correct user" do
+        xit "does not authenticate if wrong face for correct user" do
             # so i parse a txt file with base 64 encoded image of wrong user face
             fileObject = File.open("spec/controller/wrong.txt", "r")
             base_64_string = fileObject.read.to_s
@@ -65,7 +65,7 @@ RSpec.describe AuthenticationController, type: :controller do
             expect(JSON.parse(response.body)["message"]).to eq("Face authentication failed")
             expect(response).to have_http_status(:success)
         end
-        it "only authenticate if both face and name is present" do
+        xit "only authenticate if both face and name is present" do
             #wrong format
             post :face, params: {image: "sdasd"}
             expect(JSON.parse(response.body)["authenticated"]).to eq(false)

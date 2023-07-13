@@ -13,6 +13,7 @@
 ActiveRecord::Schema[7.0].define(version: 2023_06_22_113545) do
   create_table "atm_machines", force: :cascade do |t|
     t.string "atm_machine_name"
+    t.string "atm_id"
     t.string "store_name"
     t.decimal "balance"
     t.datetime "created_at", null: false
