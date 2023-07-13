@@ -4,9 +4,9 @@ class AuthenticationController < ApplicationController
     require 'base64'
 
     def face
-        image_data = params[:image]
+        image_data = [params[:image]]
         param_name = params[:name]
-        if image_data.present?
+        if image_data.present? && param_name.present?
             name, confidence = find_person_using_image('face-id-test', image_data, 90)
 
             if param_name == name
@@ -18,11 +18,11 @@ class AuthenticationController < ApplicationController
             render json: {authenticated: false, message: "Server error"}, status: :unprocessable_entity
         end
     end
-    
+
     def pin
         pin_data = params[:pin]
         param_name = params[:name]
-        if pin_data.present?
+        if pin_data.present? && param_name.present?
             user = User.find_by(pin: pin_data)
     
             if user && user.name == param_name
