@@ -4,13 +4,13 @@ class AuthenticationController < ApplicationController
     require 'base64'
 
     def face
-        image_data = [params[:image]]
+        image_data = params[:image]
         param_name = params[:name]
         if image_data.present? && param_name.present?
             name, confidence = find_person_using_image('face-id-test', image_data, 90)
 
             if param_name == name
-                render json: {authenticated: true, messsage: "No issues"}, status: :ok
+                render json: {authenticated: true, message: "No issues"}, status: :ok
             else
                 render json: {authenticated: false, message: "Face authentication failed"}, status: :ok
             end
