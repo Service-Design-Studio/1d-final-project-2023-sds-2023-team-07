@@ -8,6 +8,7 @@ const createEsbuildPlugin = require("@badeball/cypress-cucumber-preprocessor/esb
 
 module.exports = defineConfig({
   e2e: {
+    baseUrl: "localhost:3000",
     specPattern: "cypress/e2e/features/*.feature",
     async setupNodeEvents(on, config) {
       // implement node event listeners here
