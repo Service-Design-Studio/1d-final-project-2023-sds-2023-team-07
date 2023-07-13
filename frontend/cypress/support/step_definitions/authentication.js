@@ -1,47 +1,121 @@
-import { Given, Then, When } from "@badeball/cypress-cucumber-preprocessor";
+import { Given, Step, Then, When } from "@badeball/cypress-cucumber-preprocessor";
 
-//Scenario: Accessing camera app for facial recognition
+
+// Background: Accessing camera app for facial recognition
+
 Given("the user is at the transaction history page with the deposit and withdraw buttons", () => {
-    cy.visit('/')
+    cy.visit('/');
+    cy.wait(500);
 })
-Given("he has camera permissions set to allowed", () => {})
+
 When("he clicks on the deposit or withdrawal button", () => {
-    cy.get('button.chakra-button.grow.css-41aesz').click({ multiple: true })
+    cy.contains('WITHDRAW').click();
 })
+
+Then("he is directed to authenticate", () => {
+    cy.url().should('include', '/camera');
+})
+
+Then('he sees a loading screen while the software accesses the camera', () => {
+    cy.contains('Loading');
+})
+
 Then("he is directed to the facial authentication page", () => {
-    cy.visit('/camera')
-})
-Then("there is a button to navigate back to the transaction history page", () => {})
-
-//Scenario: Accessing camera app for facial recognition but unintended
-Given("the user is on the facial authentication page", () => {
-    cy.visit('/camera')
-})
-When("he clicks on the button to navigate back to the transaction history page", () => {})
-Then("he is directed to the transaction history page", () => {
-    // cy.url().should('eq', '/')
+    cy.get('video');
 })
 
-//Scenario: Using facial recognition
-When("he looks at the camera and 3 seconds has passed", () => {
-    cy.wait(//insert variable here eg. @getTrue
-        )
-})
-Then("the user will be redirected to the transaction amount page", () => {
-    // can use either 'eq' or include
-    cy.url().should('eq', '/')
-    // cy.url().should('include', '/')
+
+// Scenario: Using facial recognition
+Given("the user is the correct owner of the account", () => {
+    cy.intercept('POST', 'https://backend-dbs-grp7-ml42q3c3ya-as.a.run.app/authenticate/face', {
+        body: {
+            "authenticated": true
+        }
+    });
 })
 
-//Scenario: Using facial recognition but wrong user
-Then("the user will receive an 'Authentication Failed, incorrect user' message", () => {})
+When("he looks at the camera and presses the authentication button", () => {
+    cy.contains('AUTH NOW').click();
+})
 
-//Scenario: User cannot authenticate via face and wants to fallback to pin login instead
-When("he fails the authentication thrice", () => {})
-Then("he will be redirected to the pin authentication page", () => {})
-Then("has number boxes to fill in his pin", () => {})
+Then("the user will be redirected to the success page", () => {
+    cy.contains('Success');
+})
+
+
+// Scenario: Using facial recognition but wrong user
+
+Given("the user is not the account owner", () => {
+    cy.intercept('POST', 'https://backend-dbs-grp7-ml42q3c3ya-as.a.run.app/authenticate/face', {
+        body: {
+            "authenticated": false
+        }
+    });
+})
+
+Then('the user will receive an "Authentication Failed, incorrect user" message', () => {
+    cy.contains('Authentication failed, incorrect user').should('be.visible');
+})
+
+
+//Scenario: User cannot authenticate via face
+When("face authentication fails thrice", () => {
+    Step(this, 'the user is not the account owner');
+    Step(this, 'he looks at the camera and presses the authentication button');
+    Step(this, 'he looks at the camera and presses the authentication button');
+    Step(this, 'he looks at the camera and presses the authentication button');
+})
+
+Then('he will be redirected to the pin authentication page', () => {
+    cy.get('input').should('have.length', 4);
+    cy.get('button')
+})
+
+// Scenario: User authenticates succesfully with his pin
+Given('the user is at the pin authentication page', () => {
+    Step(this, 'face authentication fails thrice');
+    Step(this, 'he will be redirected to the pin authentication page');
+})
+
+When("he enters the correct pin number", () => {
+    const pin = '1234';
+    for (let i = 0; i < pin.length; i++) {
+        const char = pin.charAt(i);
+        cy.get('input').eq(i).type(char);
+        cy.wait(100);
+    }
+    cy.intercept('POST', 'https://backend-dbs-grp7-ml42q3c3ya-as.a.run.app/authenticate/pin', {
+        body: {
+            "authenticated": true,
+        }
+    });
+    cy.contains('AUTH NOW').click();
+})
+
+Then("he will be directed to a success page", () => {
+    cy.contains('Success');
+})
 
 //Scenario: User cannot authenticate via face and wants forgets his login pin
-When("he fails the pin authentication page", () => {})
-Then("he will be notified of his failure", () => {})
-Then("to try again in 1 minute", () => {})
+When("he enters the wrong pin number", () => {
+    const pin = '1234';
+    for (let i = 0; i < pin.length; i++) {
+        const char = pin.charAt(i);
+        cy.get('input').eq(i).type(char);
+        cy.wait(100);
+    }
+    cy.intercept('POST', 'https://backend-dbs-grp7-ml42q3c3ya-as.a.run.app/authenticate/pin', {
+        body: {
+            "authenticated": false,
+        }
+    });
+    cy.contains('AUTH NOW').click();
+})
+
+Then("he will see a message that indicates his pin is wrong", () => {
+    cy.contains('Incorrect Pin');
+})
+
+Then("he will not be directed to a success page", () => {
+    cy.contains('Success').should('not.exist');
+})
