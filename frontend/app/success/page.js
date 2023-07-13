@@ -23,7 +23,7 @@ export default function page() {
             ></path>
           </svg>
           <div class="text-center">
-            <h1 className="my-2 text-gray-800 font-bold text-2xl">Fuck you</h1>
+            <h1 className="my-2 text-gray-800 font-bold text-2xl">Success!</h1>
 
             <Button
               onClick={() => {

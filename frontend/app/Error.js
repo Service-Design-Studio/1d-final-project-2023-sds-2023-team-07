@@ -27,6 +27,7 @@ export default function Error({ errorMsg, subText }) {
                 </h1>
                 <p className="my-2 text-gray-800">{subText}</p>
                 <Button
+                  id="refreshButton"
                   onClick={() => {
                     window.location.reload();
                   }}

@@ -1,6 +1,7 @@
 "use client"; // This is a client component 👈🏽
 import Image from "next/image";
 import React, { useEffect, useState, useRef } from "react";
+import { useRouter } from "next/navigation";
 import {
   ChakraProvider,
   Button,
@@ -13,10 +14,12 @@ import Error from "../Error";
 import Pin from "./Pin";
 
 export default function Home() {
+  const router = useRouter();
   const videoRef = useRef(null);
   const photoRef = useRef(null);
+  const [counter, setCounter] = useState(0);
   const [hasPhoto, setHasPhoto] = useState(false);
-  const [pageState, setPageState] = useState("pin");
+  const [pageState, setPageState] = useState("main");
   const [display, setDisplay] = useState(false);
 
   const getVideo = () => {
@@ -40,6 +43,11 @@ export default function Home() {
   const takePhoto = () => {
     const width = 414;
     const height = width / (16 / 9);
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
 
     let video = videoRef.current;
     let photo = photoRef.current;
@@ -50,6 +58,33 @@ export default function Home() {
     let ctx = photo.getContext("2d");
     ctx.drawImage(video, 0, 0, width, height);
     setHasPhoto(true);
+
+    console.log(ctx);
+    let newPhoto = photoRef.current;
+    var dataURL = newPhoto.toDataURL("image/jpeg");
+    axios
+      .post(
+        "https://backend-dbs-grp7-ml42q3c3ya-as.a.run.app/authenticate/face",
+        {
+          image: dataURL,
+          name: "Kelvin",
+        },
+        config
+      )
+      .then((response) => {
+        console.log(response.data.authenticated);
+        console.log("fail counter: " + counter);
+        if (response.data.authenticated) {
+          router.push("/success");
+        } else if (!response.data.authenticated && counter == 3) {
+          setPageState("pin");
+        } else {
+          setCounter(counter + 1);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   // get video on component init
@@ -64,29 +99,6 @@ export default function Home() {
   // post data to backend on hasPhoto boolean true
   useEffect(() => {
     if (pageState == "main") {
-      let ctx = photoRef.current;
-      var dataURL = ctx.toDataURL("image/jpeg");
-      console.log(dataURL);
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      };
-      axios
-        .post(
-          "https://backend-dbs-grp7-ml42q3c3ya-as.a.run.app/authenticate/face",
-          {
-            image: dataURL,
-            name: "Kelvin",
-          },
-          config
-        )
-        .then((response) => {
-          console.log(response);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
     }
   }, [hasPhoto]);
 
@@ -120,7 +132,9 @@ export default function Home() {
             >
               <video className="h-80 w-80 m-auto" ref={videoRef}></video>
               <Button
-                onClick={takePhoto}
+                onClick={() => {
+                  takePhoto();
+                }}
                 className="grow ml-3 mr-3"
                 colorScheme="red"
                 size="md"

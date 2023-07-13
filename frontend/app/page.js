@@ -85,24 +85,27 @@ export default function page() {
                   </Tr>
                 </Thead>
                 <Tbody>
-                  {fetchData.map((row, key) => (
-                    <Tr key={row.id}>
-                      <Td id={`date-${key}`}>
-                        {new Date(row.created_at).toLocaleDateString()}
-                      </Td>
-                      <Td id={`amount-${key}`}>{`${
-                        row.transaction_type === "deposit" ? "+" : "-"
-                      }${row.amount}`}</Td>
-                      <Td id={`balance-${key}`}>
-                        {row.user_balance_left + "0"}
-                      </Td>
-                      {isLandscape ? (
-                        <Td id={`type-${key}`}>{row.transaction_type}</Td>
-                      ) : (
-                        <div></div>
-                      )}
-                    </Tr>
-                  ))}
+                  {fetchData
+                    .slice(0)
+                    .reverse()
+                    .map((row, key) => (
+                      <Tr key={row.id}>
+                        <Td id={`date-${key}`}>
+                          {new Date(row.created_at).toLocaleDateString()}
+                        </Td>
+                        <Td id={`amount-${key}`}>{`${
+                          row.transaction_type === "deposit" ? "+" : "-"
+                        }${row.amount}`}</Td>
+                        <Td id={`balance-${key}`}>
+                          {row.user_balance_left + "0"}
+                        </Td>
+                        {isLandscape ? (
+                          <Td id={`type-${key}`}>{row.transaction_type}</Td>
+                        ) : (
+                          <div></div>
+                        )}
+                      </Tr>
+                    ))}
                 </Tbody>
               </Table>
             </div>

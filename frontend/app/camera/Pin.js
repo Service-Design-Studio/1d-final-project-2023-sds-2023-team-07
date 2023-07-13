@@ -9,6 +9,7 @@ export default function Pin() {
   const pinThree = useRef(null);
   const pinFour = useRef(null);
   const [error, setError] = useState(false);
+  const [incorrectPin, setIncorrectPin] = useState(false);
   const router = useRouter();
 
   const submit = () => {
@@ -39,6 +40,9 @@ export default function Pin() {
           console.log(response.data.authenticated);
           if (response.data.authenticated) {
             router.push("/success");
+          } else if (!response.data.authenticated) {
+            setError(false);
+            setIncorrectPin(true);
           }
         })
         .catch((error) => {
@@ -46,6 +50,7 @@ export default function Pin() {
         });
       // redirect to sucess page
     } else {
+      setIncorrectPin(false);
       setError(true);
     }
   };
@@ -78,6 +83,11 @@ export default function Pin() {
         <div></div>
       ) : (
         <p className="mt-2 mb-6 text-red-800">Please fill up all pins</p>
+      )}
+      {incorrectPin ? (
+        <p className="mt-2 mb-6 text-red-800">IncorrectPin</p>
+      ) : (
+        <div></div>
       )}
     </div>
   );
