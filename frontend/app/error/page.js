@@ -14,7 +14,7 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 
-export default function page() {
+export default function Page() {
   return (
     <ChakraProvider>
       <div className="h-100 w-100 flex justify-center context-center flex-col">
