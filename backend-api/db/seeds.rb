@@ -1,6 +1,6 @@
 # Create 2 users
 user1 = User.create(
-    name: "Alice",
+    name: "Kelvin",
     identification_number: "ABC123",
     account_balance: 2000.0,
     pin: "123456",
@@ -8,7 +8,7 @@ user1 = User.create(
 )
 
 user2 = User.create(
-    name: "Bob",
+    name: "Nathan",
     identification_number: "XYZ456",
     account_balance: 3000.0,
     pin: "345676",
