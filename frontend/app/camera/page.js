@@ -6,6 +6,7 @@ import {
   Button,
   PinInput,
   PinInputField,
+  Spinner,
 } from "@chakra-ui/react";
 import axios from "axios";
 import Error from "../Error";
@@ -14,7 +15,8 @@ export default function Home() {
   const videoRef = useRef(null);
   const photoRef = useRef(null);
   const [hasPhoto, setHasPhoto] = useState(false);
-  const [pageState, setPageState] = useState("loading");
+  const [pageState, setPageState] = useState("main");
+  const [display, setDisplay] = useState(false);
 
   const getVideo = () => {
     navigator.mediaDevices
@@ -54,6 +56,11 @@ export default function Home() {
     getVideo();
   }, [videoRef]);
 
+  setTimeout(() => {
+    setDisplay(true);
+    console.log(display);
+  }, 3000);
+
   // post data to backend on hasPhoto boolean true
   useEffect(() => {
     let ctx = photoRef.current;
@@ -68,9 +75,9 @@ export default function Home() {
 
     axios
       .post(
-        "/api/upload",
+        "https://backend-dbs-grp7-ml42q3c3ya-as.a.run.app/authenticate/face",
         {
-          data: dataURL,
+          image: dataURL,
           name: "Kelvin",
         },
         config
@@ -85,10 +92,16 @@ export default function Home() {
 
   const renderPage = () => {
     switch (pageState) {
-      case "loading":
+      case "main":
         return (
           <div className="flex h-screen flex-col items-center justify-center">
-            <div className="flex flex-col items-center">
+            <div
+              className={
+                display
+                  ? "flex flex-col items-center hidden invisible"
+                  : "flex flex-col items-center"
+              }
+            >
               <Spinner
                 thickness="4px"
                 speed="0.65s"
@@ -98,13 +111,13 @@ export default function Home() {
               />
               <p className="my-2 mt-4 text-gray-800">Loading...</p>
             </div>
-          </div>
-        );
-        break;
-      case "main":
-        return (
-          <div className="h-100 w-100 flex justify-center context-center flex-col">
-            <div className="flex justify-center context-center flex-col">
+            <div
+              className={
+                display
+                  ? "flex justify-center context-center flex-col"
+                  : "flex justify-center context-center flex-col hidden invisible"
+              }
+            >
               <video className="h-80 w-80 m-auto" ref={videoRef}></video>
               <Button
                 onClick={takePhoto}
@@ -116,7 +129,7 @@ export default function Home() {
               </Button>
             </div>
             <div classname="invisible hidden">
-              <canvas ref={photoRef}></canvas>
+              <canvas classname="invisible hidden" ref={photoRef}></canvas>
             </div>
           </div>
         );
@@ -135,5 +148,5 @@ export default function Home() {
         break;
     }
   };
-  return <ChakraProvider></ChakraProvider>;
+  return <ChakraProvider>{renderPage()}</ChakraProvider>;
 }
