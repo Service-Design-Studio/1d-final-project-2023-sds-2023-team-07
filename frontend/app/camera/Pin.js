@@ -85,7 +85,7 @@ export default function Pin() {
         <p className="mt-2 mb-6 text-red-800">Please fill up all pins</p>
       )}
       {incorrectPin ? (
-        <p className="mt-2 mb-6 text-red-800">IncorrectPin</p>
+        <p className="mt-2 mb-6 text-red-800">Incorrect Pin</p>
       ) : (
         <div></div>
       )}
