@@ -17,10 +17,11 @@ export default function Home() {
   const router = useRouter();
   const videoRef = useRef(null);
   const photoRef = useRef(null);
-  const [counter, setCounter] = useState(0);
+  const [counter, setCounter] = useState(1);
   const [hasPhoto, setHasPhoto] = useState(false);
   const [pageState, setPageState] = useState("main");
   const [display, setDisplay] = useState(false);
+  const [authFail, setAuthFail] = useState(false);
 
   const getVideo = () => {
     navigator.mediaDevices
@@ -79,6 +80,7 @@ export default function Home() {
         } else if (!response.data.authenticated && counter == 3) {
           setPageState("pin");
         } else {
+          setAuthFail(true);
           setCounter(counter + 1);
         }
       })
@@ -141,6 +143,13 @@ export default function Home() {
               >
                 AUTH NOW
               </Button>
+              {authFail ? (
+                <p className="mt-6 text-center text-red-800">
+                  Authentication failed!
+                </p>
+              ) : (
+                <div></div>
+              )}
             </div>
             <div className="invisible hidden">
               <canvas className="invisible hidden" ref={photoRef}></canvas>
