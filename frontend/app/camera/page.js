@@ -145,7 +145,7 @@ export default function Home() {
               </Button>
               {authFail ? (
                 <p className="mt-6 text-center text-red-800">
-                  Authentication failed!
+                  Authentication failed, incorrect user!
                 </p>
               ) : (
                 <div></div>
