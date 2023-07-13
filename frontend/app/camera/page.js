@@ -16,7 +16,7 @@ export default function Home() {
   const videoRef = useRef(null);
   const photoRef = useRef(null);
   const [hasPhoto, setHasPhoto] = useState(false);
-  const [pageState, setPageState] = useState("main");
+  const [pageState, setPageState] = useState("pin");
   const [display, setDisplay] = useState(false);
 
   const getVideo = () => {
@@ -63,29 +63,31 @@ export default function Home() {
 
   // post data to backend on hasPhoto boolean true
   useEffect(() => {
-    let ctx = photoRef.current;
-    var dataURL = ctx.toDataURL("image/jpeg");
-    console.log(dataURL);
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
-    axios
-      .post(
-        "https://backend-dbs-grp7-ml42q3c3ya-as.a.run.app/authenticate/face",
-        {
-          image: dataURL,
-          name: "Kelvin",
+    if (pageState == "main") {
+      let ctx = photoRef.current;
+      var dataURL = ctx.toDataURL("image/jpeg");
+      console.log(dataURL);
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
         },
-        config
-      )
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+      };
+      axios
+        .post(
+          "https://backend-dbs-grp7-ml42q3c3ya-as.a.run.app/authenticate/face",
+          {
+            image: dataURL,
+            name: "Kelvin",
+          },
+          config
+        )
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   }, [hasPhoto]);
 
   const renderPage = () => {

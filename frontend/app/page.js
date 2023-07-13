@@ -21,7 +21,7 @@ export default function page() {
   const router = useRouter();
   const [fetchData, setFetchData] = useState([]);
   const [isLandscape, setIsLandscape] = useState(null);
-  const [pageState, setPageState] = useState("loading");
+  const [pageState, setPageState] = useState("main");
 
   const handleClick = () => {
     router.push("/camera");
@@ -85,15 +85,19 @@ export default function page() {
                   </Tr>
                 </Thead>
                 <Tbody>
-                  {fetchData.map((row) => (
+                  {fetchData.map((row, key) => (
                     <Tr key={row.id}>
-                      <Td>{new Date(row.created_at).toLocaleDateString()}</Td>
-                      <Td>{`${row.transaction_type === "deposit" ? "+" : "-"}${
-                        row.amount
-                      }`}</Td>
-                      <Td>{row.user_balance_left + "0"}</Td>
+                      <Td id={`date-${key}`}>
+                        {new Date(row.created_at).toLocaleDateString()}
+                      </Td>
+                      <Td id={`amount-${key}`}>{`${
+                        row.transaction_type === "deposit" ? "+" : "-"
+                      }${row.amount}`}</Td>
+                      <Td id={`balance-${key}`}>
+                        {row.user_balance_left + "0"}
+                      </Td>
                       {isLandscape ? (
-                        <Td>{row.transaction_type}</Td>
+                        <Td id={`type-${key}`}>{row.transaction_type}</Td>
                       ) : (
                         <div></div>
                       )}
@@ -134,7 +138,7 @@ export default function page() {
       case "error":
         return (
           <Error
-            errorMsg={"Sorry our services seem to be down at the moment :("}
+            errorMsg={"Sorry our services seem to be down at the moment"}
             subText={"Try again in around 30 mins!"}
           />
         );
