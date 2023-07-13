@@ -17,7 +17,7 @@ import { useRouter } from "next/navigation";
 import Error from "./Error";
 import { DataTable } from "./DataTable";
 
-export default function page() {
+export default function Page() {
   const router = useRouter();
   const [fetchData, setFetchData] = useState([]);
   const [isLandscape, setIsLandscape] = useState(null);
