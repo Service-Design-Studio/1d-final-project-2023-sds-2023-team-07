@@ -142,8 +142,8 @@ export default function Home() {
                 AUTH NOW
               </Button>
             </div>
-            <div classname="invisible hidden">
-              <canvas classname="invisible hidden" ref={photoRef}></canvas>
+            <div className="invisible hidden">
+              <canvas className="invisible hidden" ref={photoRef}></canvas>
             </div>
           </div>
         );
