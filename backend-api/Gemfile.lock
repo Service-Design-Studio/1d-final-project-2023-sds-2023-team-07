@@ -96,12 +96,15 @@ GEM
     diff-lcs (1.5.0)
     digest-crc (0.6.4)
       rake (>= 12.0.0, < 14.0.0)
-    dotenv (2.8.1)
-    dotenv-rails (2.8.1)
-      dotenv (= 2.8.1)
-      railties (>= 3.2)
     e2mmap (0.1.0)
     erubi (1.12.0)
+    factory_bot (6.2.1)
+      activesupport (>= 5.0.0)
+    factory_bot_rails (6.2.0)
+      factory_bot (~> 6.2.0)
+      railties (>= 5.0.0)
+    faker (3.2.0)
+      i18n (>= 1.8.11, < 2)
     faraday (2.7.7)
       faraday-net_http (>= 2.0, < 3.1)
       ruby2_keywords (>= 0.0.4)
@@ -169,7 +172,6 @@ GEM
     memoist (0.16.2)
     method_source (1.0.0)
     mini_mime (1.1.2)
-    mini_portile2 (2.8.2)
     minitest (5.18.1)
     msgpack (1.7.1)
     multi_json (1.15.0)
@@ -183,12 +185,11 @@ GEM
     net-smtp (0.3.3)
       net-protocol
     nio4r (2.5.9)
-    nokogiri (1.15.2)
-      mini_portile2 (~> 2.8.2)
-      racc (~> 1.4)
     nokogiri (1.15.2-aarch64-linux)
       racc (~> 1.4)
     nokogiri (1.15.2-arm64-darwin)
+      racc (~> 1.4)
+    nokogiri (1.15.2-x64-mingw-ucrt)
       racc (~> 1.4)
     nokogiri (1.15.2-x86_64-linux)
       racc (~> 1.4)
@@ -198,6 +199,7 @@ GEM
       ast (~> 2.4.1)
       racc
     pg (1.5.3)
+    pg (1.5.3-x64-mingw-ucrt)
     public_suffix (5.0.1)
     puma (5.6.5)
       nio4r (~> 2.0)
@@ -248,6 +250,23 @@ GEM
     reverse_markdown (2.1.1)
       nokogiri
     rexml (3.2.5)
+    rspec-core (3.12.2)
+      rspec-support (~> 3.12.0)
+    rspec-expectations (3.12.3)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.12.0)
+    rspec-mocks (3.12.6)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.12.0)
+    rspec-rails (6.0.3)
+      actionpack (>= 6.1)
+      activesupport (>= 6.1)
+      railties (>= 6.1)
+      rspec-core (~> 3.12)
+      rspec-expectations (~> 3.12)
+      rspec-mocks (~> 3.12)
+      rspec-support (~> 3.12)
+    rspec-support (3.12.1)
     rubocop (1.54.1)
       json (~> 2.3)
       language_server-protocol (>= 3.17.0)
@@ -291,10 +310,9 @@ GEM
       actionpack (>= 5.2)
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
-    sqlite3 (1.6.3)
-      mini_portile2 (~> 2.8.0)
     sqlite3 (1.6.3-aarch64-linux)
     sqlite3 (1.6.3-arm64-darwin)
+    sqlite3 (1.6.3-x64-mingw-ucrt)
     sqlite3 (1.6.3-x86_64-linux)
     thor (1.2.2)
     tilt (2.2.0)
@@ -302,38 +320,46 @@ GEM
     trailblazer-option (0.1.2)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
+    tzinfo-data (1.2023.3)
+      tzinfo (>= 1.0.0)
     uber (0.1.0)
     unicode-display_width (2.4.2)
     webrick (1.8.1)
     websocket-driver (0.7.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
+    yaml_db (0.7.0)
+      rails (>= 3.0)
+      rake (>= 0.8.7)
     yard (0.9.34)
     zeitwerk (2.6.8)
 
 PLATFORMS
   aarch64-linux
   arm64-darwin-22
-  ruby
+  x64-mingw-ucrt
   x86_64-linux
 
 DEPENDENCIES
   aws-sdk-rekognition
   bootsnap
   debug
-  dotenv-rails
+  factory_bot_rails
+  faker
   google-cloud-storage (>= 1.0.0)
   pg
   puma (~> 5.0)
   rack-cors
   rails (~> 7.0.0)
+  rspec-rails
   solargraph
   sprockets-rails
   sqlite3
   tzinfo-data
+  yaml_db
 
 RUBY VERSION
-   ruby 3.0.0p0
+   ruby 3.2.2p53
 
 BUNDLED WITH
    2.4.14
