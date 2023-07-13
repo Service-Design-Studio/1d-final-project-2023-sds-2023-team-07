@@ -7,6 +7,8 @@ const addCucumberPreprocessorPlugin = require("@badeball/cypress-cucumber-prepro
 const createEsbuildPlugin = require("@badeball/cypress-cucumber-preprocessor/esbuild").createEsbuildPlugin;
 
 module.exports = defineConfig({
+  viewportHeight: 850,
+  viewportWidth: 414,
   e2e: {
     baseUrl: "http://localhost:3000",
     specPattern: "cypress/e2e/features/*.feature",
