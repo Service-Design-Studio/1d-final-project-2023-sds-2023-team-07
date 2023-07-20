@@ -23,7 +23,7 @@ class AuthenticationController < ApplicationController
         pin_data = params[:pin]
         param_name = params[:name]
         if pin_data.present? && param_name.present?
-            user = User.find_by(name: name)
+            user = User.find_by(name: param_name)
     
             if user && user.pin == pin_data
                 render json: {authenticated: true, message: "No issues"}, status: :ok
