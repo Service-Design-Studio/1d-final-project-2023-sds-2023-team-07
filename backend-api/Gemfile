@@ -12,7 +12,7 @@ gem "rails", "~> 7.0.0"
 # end
 gem 'sqlite3'
 
-group :production do
+group :development, :production do
   gem 'pg' # for gcloud deployment
 end
 
