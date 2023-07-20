@@ -68,3 +68,4 @@ gem 'sprockets-rails', require: 'sprockets/railtie'
 gem 'google-cloud-storage', '>= 1.0.0', require: false
 
 gem 'aws-sdk-rekognition'
+gem "appengine", "~> 0.7.0"
