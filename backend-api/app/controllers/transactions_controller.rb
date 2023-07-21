@@ -10,9 +10,10 @@ class TransactionsController < ApplicationController
   def deposit
     Transaction.transaction do
       @transaction = Transaction.new(transaction_with_balance_params('NCD'))
+      puts "transaction created"
       if @transaction.save
         @user.update!(account_balance: @transaction.user_balance_left)
-        @transaction.update!(balance: @transaction.atm_balance_left)
+        @atm_machine.update!(balance: @transaction.atm_balance_left)
         render json: @transaction, status: :created
       else
         render json: {errors: @transaction.errors.full_messages}, status: :unprocessable_entity
@@ -28,7 +29,7 @@ class TransactionsController < ApplicationController
         @transaction = Transaction.new(transaction_with_balance_params('AWL'))
         if @transaction.save
           @user.update!(account_balance: @transaction.user_balance_left)
-          @transaction.update!(balance: @transaction.atm_balance_left)
+          @atm_machine.update!(balance: @transaction.atm_balance_left)
           render json: @transaction, status: :created
         else
           render json: { errors: @transaction.errors.full_messages }, status: :unprocessable_entity

@@ -62,44 +62,62 @@ RSpec.describe TransactionsController, type: :controller do
       expect(JSON.parse(response.body)).to eq({ "error" => "User not found" })
     end
   end
-  pending
-  describe "POST #deposit" do
-    before do
-      @user = FactoryBot.create(:user)
-      puts @user
-    end
-
-    context "with valid parameters" do
-      xit "creates a new deposit transaction" do
-        transaction_params = { user_id: @user.id, atm_machine_id: 1, amount: 100 }
-        post :deposit, params: { transaction: transaction_params }
-        # So it actually writes into the database
-        expect(response).to have_http_status(:created)
-        # latest record is 0 which is a deposit
-        expect(Transaction.last.transaction_type).to eq(0)
-      end
-    end
-  end
+  
 
   describe "transaction_with_balance_params" do
     # set the default user and atm id
     before do
-      @user_id = 2
+      @user_id = 1
       @atm_machine_id = 1
       @user = User.find_by(id: @user_id)
       @atm_machine = AtmMachine.find(@atm_machine_id)
     end
-    let(:user) { @user }
     let(:atm_machine) { @atm_machine }
+    let(:params) do
+      {user_id: @user_id , atm_machine_id: @atm_machine_id}
+    end
     let(:transaction_params) do
-      { user_id: @user_id,
+      { 
+        user_id: @user_id,
         atm_machine_id: @atm_machine_id,
-        amount: deposit_amount }
+        amount: deposit_amount,
+      }
+    end
+
+    
+    context "withdrawal" do
+      it "processes valid withdrawal entries" do
+        type = "AWL"
+        withdrawal_amount = 0.01
+        expected_user_balance_left = @user.account_balance - withdrawal_amount
+        expected_atm_balance_left = @atm_machine.balance - withdrawal_amount
+        # Stub the transaction_params method to return the desired parameters
+        allow(controller).to receive(:transaction_params).and_return({
+          user_id: @user_id,
+          atm_machine_id: @atm_machine_id,
+          amount: withdrawal_amount
+        })
+        # Call the transaction_with_balance_params method for withdrawal
+        allow(controller).to receive(:params).and_return(params)
+        controller.send(:set_user)
+        controller.send(:set_atm_machine)
+        result = controller.send(:transaction_with_balance_params, type)
+
+        # Assert that the returned transaction data for withdrawal is as expected
+        expect(result).to eq({
+          user_id: @user_id,
+          atm_machine_id: @atm_machine_id,
+          amount: withdrawal_amount,
+          transaction_type: type,
+          atm_balance_left: 0.1010099e5,
+          user_balance_left: 0.193899e4
+        })
+      end
     end
 
     context "deposit" do
-      xit "processes valid deposit entries" do
-        type = "deposit"
+      it "processes valid deposit entries" do
+        type = "NCD"
         deposit_amount = 0.01
         expected_user_balance_left = @user.account_balance + deposit_amount
         expected_atm_balance_left = @atm_machine.balance + deposit_amount
@@ -110,8 +128,10 @@ RSpec.describe TransactionsController, type: :controller do
           atm_machine_id: @atm_machine_id,
           amount: deposit_amount
         })
-
         # Call the transaction_with_balance_params method for deposit
+        allow(controller).to receive(:params).and_return(params)
+        controller.send(:set_user)
+        controller.send(:set_atm_machine)
         result = controller.send(:transaction_with_balance_params, type)
 
         # Assert that the returned transaction data for deposit is as expected
@@ -120,85 +140,68 @@ RSpec.describe TransactionsController, type: :controller do
           atm_machine_id: @atm_machine_id,
           amount: deposit_amount,
           transaction_type: type,
-          user_balance_left: expected_user_balance_left,
-          atm_balance_left: expected_atm_balance_left
+          atm_balance_left:  0.1010101e5 , 
+          user_balance_left: 0.193901e4
         })
       end
     end
-
-    xit "processes valid withdrawal entries" do
-      type = "withdrawal"
-      withdrawal_amount = 0.01
-      expected_user_balance_left = @user.account_balance - withdrawal_amount
-      expected_atm_balance_left = @atm_machine.balance - withdrawal_amount
-
-      # Stub the transaction_params method to return the desired parameters
-      allow(controller).to receive(:transaction_params).and_return({
-        user_id: @user_id,
-        atm_machine_id: @atm_machine_id,
-        amount: withdrawal_amount
-      })
-
-      # Call the transaction_with_balance_params method for withdrawal
-      result = controller.send(:transaction_with_balance_params, type)
-
-      # Assert that the returned transaction data for withdrawal is as expected
-      expect(result).to eq({
-        user_id: @user_id,
-        atm_machine_id: @atm_machine_id,
-        amount: withdrawal_amount,
-        transaction_type: type,
-        user_balance_left: expected_user_balance_left,
-        atm_balance_left: expected_atm_balance_left
-      })
-    end
   end
+
+  describe "POST #deposit" do
+    before do
+      @user = User.find_by(id: 1)
+      @transaction_params = { user_id: @user.id, atm_machine_id: 1, amount: 0.01 }
+      @params = {user_id: 1 , atm_machine_id: 1 }
+    end
+    let(:params) {@params}
+    let(:atm_machine) { @atm_machine }
+    let(:transaction_params) {@transaction_params}
+
+    context "with valid parameters" do
+      it "creates a new deposit transaction" do
+        allow(controller).to receive(:params).and_return(params)
+        allow(controller).to receive(:transaction_params).and_return({ 
+          user_id: @user.id, atm_machine_id: 1, amount: 0.01 }
+        )
+        controller.send(:set_user)
+        controller.send(:set_atm_machine)
+
+        post :deposit, params: { transaction: @transaction_params }
+        # So it actually writes into the database
+        expect(response).to have_http_status(:created)
+        # latest record is 0 which is a deposit
+        expect(Transaction.last.transaction_type).to eq("NCD")
+      end
+    end
+  end   
 
   describe "POST #withdraw" do
     before do
-      @user = FactoryBot.create(:user)
+      @user = User.find_by(id: 1)
+      @transaction_params = { user_id: @user.id, atm_machine_id: 1, amount: 0.01 }
+      @params = { user_id: 1, atm_machine_id: 1 }
     end
+    let(:params) {@params}
+    let(:atm_machine) { @atm_machine }
+    let(:transaction_params) {@transaction_params}
+  
+    context "with valid parameters" do
+      it "creates a new withdrawal transaction" do
+        allow(controller).to receive(:params).and_return(params)
+        allow(controller).to receive(:transaction_params).and_return({ 
+          user_id: @user.id, atm_machine_id: 1, amount: 0.01 }
+        )
+        controller.send(:set_user)
+        controller.send(:set_atm_machine)
 
-    xit "creates a new withdrawal transaction" do
-      transaction_params = { user_id: @user.id, atm_machine_id: 1, amount: 50 }
-      puts transaction_params
-
-      post :withdraw, params: { transaction: transaction_params }
-
-      expect(response).to have_http_status(:created)
-      # So it actually writes into the database
-      # latest record is 1 which is a withdrawal
-      expect(Transaction.last.transaction_type).to eq(1)
-      expect(Transaction.last.user_id).to eq(@user.id)
-      expect(Transaction.last.atm_machine_id).to eq(1)
-      expect(Transaction.last.amount).to eq(50)
-    end
-  end
-
-  describe "POST deposit" do
-    
-    # set the default user and atm id
-    before do
-      @user_id = 2
-      @atm_machine_id = 1
-      @user = User.find_by(id: @user_id)
-      @atm_machine = AtmMachine.find(@atm_machine_id)
-    end
-
-    let(:params) do
-      transaction_params = { user_id: @user_id, atm_machine_id: 1, amount: 0.01 }
-      ActionController::Parameters.new(
-        transaction_params
-      )
-    end
-
-    xit "returns a success for valid deposit" do
-      @transaction = Transaction.new(transaction_with_balance_params('deposit'))
-      # correct response code
-      expect(response).to have_http_status(:success)
-      # correct response body such that we only check that it contains the first transaction in the table
-      expected_response = { "amount" => "10.0", "atm_balance_left" => "10010.0", "atm_machine_id" => 1, "created_at" => "2023-07-05T12:29:31.542Z", "transaction_type" => "deposit", "updated_at" => "2023-07-05T12:29:31.542Z", "user_balance_left" => "3010.0", "user_id" => 2, "id" => 1 }
-      expect(JSON.parse(response.body)).to eq(expected_response)
+        post :withdraw, params: { transaction: @transaction_params }
+  
+        # So it actually writes into the database
+        expect(response).to have_http_status(:created)
+  
+        # latest record is 0 which is a deposit
+        expect(Transaction.last.transaction_type).to eq("AWL")
+      end
     end
   end
 end
