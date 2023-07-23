@@ -1,0 +1,3 @@
+# Set LF line endings for specific files
+*.txt text eol=lf
+*.py text eol=lf
