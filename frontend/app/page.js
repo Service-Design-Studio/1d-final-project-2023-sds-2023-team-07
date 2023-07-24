@@ -27,6 +27,10 @@ export default function Page() {
     router.push("/camera");
   };
 
+  const handleSpeechClick = () => {
+    router.push("/speech");
+  };
+
   useEffect(() => {
     setIsLandscape(window.innerHeight < window.innerWidth);
     window.addEventListener("resize", () => {
@@ -129,7 +133,12 @@ export default function Page() {
                 </Button>
               </div>
               <div className="grow">
-                <Button className="w-full" colorScheme="red" size="md">
+                <Button
+                  className="w-full"
+                  colorScheme="red"
+                  size="md"
+                  onClick={handleSpeechClick}
+                >
                   ACTIVATE SPEECH-TO-TEXT
                 </Button>
               </div>
