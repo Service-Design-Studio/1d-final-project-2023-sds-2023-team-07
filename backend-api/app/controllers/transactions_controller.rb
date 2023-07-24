@@ -37,6 +37,33 @@ class TransactionsController < ApplicationController
     end
   end
   
+  # READ (Show - fetch a specific transaction)
+  def show
+    @transaction = Transaction.find(params[:id])
+    render json: @transaction
+  end
+
+  # UPDATE
+  def update
+    @transaction = Transaction.find(params[:id])
+    if @transaction.update(transaction_params)
+      render json: @transaction
+    else
+      render json: { errors: @transaction.errors.full_messages }, status: :unprocessable_entity
+    end
+  end
+
+  # DELETE
+  def destroy
+    @transaction = Transaction.find(params[:id])
+    if @transaction.destroy
+      render json: { message: 'Transaction deleted successfully' }, status: :ok
+    else
+      render json: { errors: 'Failed to delete transaction' }, status: :unprocessable_entity
+    end
+  end
+  
+
   private
   
   def set_user
