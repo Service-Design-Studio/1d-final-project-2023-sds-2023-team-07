@@ -69,3 +69,7 @@ gem 'google-cloud-storage', '>= 1.0.0', require: false
 
 gem 'aws-sdk-rekognition'
 gem "appengine", "~> 0.7.0"
+
+gem 'rswag-api'
+gem 'rswag-ui'
+gem 'rswag-specs'

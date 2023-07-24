@@ -1,0 +1,510 @@
+---
+openapi: 3.0.1
+info:
+  title: API V1
+  version: v1
+paths:
+  "/atm_machines":
+    post:
+      summary: Creates a ATM machine
+      tags:
+      - ATM Machines
+      parameters: []
+      responses:
+        '201':
+          description: ATM machine created
+        '422':
+          description: invalid request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                atm_machine_name:
+                  type: string
+                store_name:
+                  type: string
+                balance:
+                  type: number
+              required:
+              - atm_machine_name
+              - store_name
+              - balance
+    get:
+      summary: Retrieves all ATM machines
+      tags:
+      - ATM Machines
+      responses:
+        '200':
+          description: ATM machines found
+  "/atm_machines/{id}":
+    get:
+      summary: Retrieves a ATM machine
+      tags:
+      - ATM Machines
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ATM machine found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  atm_machine_name:
+                    type: string
+                  store_name:
+                    type: string
+                  balance:
+                    type: number
+                required:
+                - id
+                - atm_machine_name
+                - store_name
+                - balance
+        '404':
+          description: ATM machine not found
+        '406':
+          description: unsupported accept header
+  "/authenticate/face":
+    post:
+      summary: Authenticate user using facial recognition
+      tags:
+      - Authentication
+      parameters: []
+      responses:
+        '200':
+          description: User authenticated
+        '401':
+          description: Unauthorized
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                face_data:
+                  type: string
+              required:
+              - face_data
+  "/authenticate/pin":
+    post:
+      summary: Authenticate user using pin
+      tags:
+      - Authentication
+      parameters: []
+      responses:
+        '200':
+          description: User authenticated
+        '401':
+          description: Unauthorized
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                pin:
+                  type: string
+              required:
+              - pin
+  "/withdraw":
+    post:
+      summary: Creates a withdrawal transaction
+      tags:
+      - Transactions
+      parameters: []
+      responses:
+        '201':
+          description: Transaction created
+        '422':
+          description: Invalid request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: integer
+                atm_machine_id:
+                  type: integer
+                amount:
+                  type: number
+              required:
+              - user_id
+              - atm_machine_id
+              - amount
+  "/deposit":
+    post:
+      summary: Creates a deposit transaction
+      tags:
+      - Transactions
+      parameters: []
+      responses:
+        '201':
+          description: Transaction created
+        '422':
+          description: Invalid request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: integer
+                atm_machine_id:
+                  type: integer
+                amount:
+                  type: number
+              required:
+              - user_id
+              - atm_machine_id
+              - amount
+  "/users/{user_id}/transactions":
+    get:
+      summary: Retrieves a list of transactions for a specific user
+      tags:
+      - Transactions
+      parameters:
+      - name: user_id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: List of transactions retrieved
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    user_id:
+                      type: integer
+                    atm_machine_id:
+                      type: integer
+                    amount:
+                      type: number
+                    transaction_type:
+                      type: string
+                    user_balance_left:
+                      type: number
+                    atm_balance_left:
+                      type: number
+        '404':
+          description: User not found
+  "/users/{user_id}/transactions/{id}":
+    get:
+      summary: Retrieves a specific transaction of a user
+      tags:
+      - Transactions
+      parameters:
+      - name: user_id
+        in: path
+        required: true
+        schema:
+          type: integer
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Transaction details retrieved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  user_id:
+                    type: integer
+                  atm_machine_id:
+                    type: integer
+                  amount:
+                    type: number
+                  transaction_type:
+                    type: string
+                  user_balance_left:
+                    type: number
+                  atm_balance_left:
+                    type: number
+        '404':
+          description: Transaction not found
+    patch:
+      summary: Updates a specific transaction of a user
+      tags:
+      - Transactions
+      parameters:
+      - name: user_id
+        in: path
+        required: true
+        schema:
+          type: integer
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Transaction updated
+        '404':
+          description: Transaction not found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: integer
+                atm_machine_id:
+                  type: integer
+                amount:
+                  type: number
+              required:
+              - user_id
+              - atm_machine_id
+              - amount
+    delete:
+      summary: Deletes a specific transaction of a user
+      tags:
+      - Transactions
+      parameters:
+      - name: user_id
+        in: path
+        required: true
+        schema:
+          type: integer
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Transaction deleted
+        '404':
+          description: Transaction not found
+  "/transactions/{id}":
+    get:
+      summary: Retrieves a specific transaction
+      tags:
+      - Transactions
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Transaction details retrieved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  user_id:
+                    type: integer
+                  atm_machine_id:
+                    type: integer
+                  amount:
+                    type: number
+                  transaction_type:
+                    type: string
+                  user_balance_left:
+                    type: number
+                  atm_balance_left:
+                    type: number
+        '404':
+          description: Transaction not found
+    patch:
+      summary: Updates a specific transaction
+      tags:
+      - Transactions
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Transaction updated
+        '404':
+          description: Transaction not found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: integer
+                atm_machine_id:
+                  type: integer
+                amount:
+                  type: number
+              required:
+              - user_id
+              - atm_machine_id
+              - amount
+    delete:
+      summary: Deletes a specific transaction
+      tags:
+      - Transactions
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Transaction deleted
+        '404':
+          description: Transaction not found
+  "/users":
+    post:
+      summary: Creates a new user
+      tags:
+      - Users
+      parameters: []
+      responses:
+        '201':
+          description: User created
+        '422':
+          description: Invalid request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                identification_number:
+                  type: integer
+                account_balance:
+                  type: number
+                pin:
+                  type: integer
+                face_image_url:
+                  type: string
+              required:
+              - name
+              - identification_number
+              - account_balance
+              - pin
+              - face_image_url
+    get:
+      summary: Retrieves all users
+      tags:
+      - Users
+      responses:
+        '200':
+          description: Users retrieved
+  "/users/{id}":
+    get:
+      summary: Retrieves a specific user
+      tags:
+      - Users
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: User retrieved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  name:
+                    type: string
+                  identification_number:
+                    type: integer
+                  account_balance:
+                    type: number
+                  pin:
+                    type: integer
+                  face_image_url:
+                    type: string
+        '404':
+          description: User not found
+    patch:
+      summary: Updates a specific user
+      tags:
+      - Users
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: User updated
+        '404':
+          description: User not found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                identification_number:
+                  type: integer
+                account_balance:
+                  type: number
+                pin:
+                  type: integer
+                face_image_url:
+                  type: string
+    delete:
+      summary: Deletes a specific user
+      tags:
+      - Users
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: User deleted
+        '404':
+          description: User not found
+servers:
+- url: https://{defaultHost}
+  variables:
+    defaultHost:
+      default: www.example.com

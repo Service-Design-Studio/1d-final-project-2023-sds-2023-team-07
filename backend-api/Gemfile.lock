@@ -207,6 +207,8 @@ GEM
     jaro_winkler (1.5.6)
     jmespath (1.6.2)
     json (2.6.3)
+    json-schema (3.0.0)
+      addressable (>= 2.8)
     jwt (2.7.1)
     kramdown (2.4.0)
       rexml
@@ -324,6 +326,16 @@ GEM
       rspec-mocks (~> 3.12)
       rspec-support (~> 3.12)
     rspec-support (3.12.1)
+    rswag-api (2.10.1)
+      railties (>= 3.1, < 7.1)
+    rswag-specs (2.10.1)
+      activesupport (>= 3.1, < 7.1)
+      json-schema (>= 2.2, < 4.0)
+      railties (>= 3.1, < 7.1)
+      rspec-core (>= 2.14)
+    rswag-ui (2.10.1)
+      actionpack (>= 3.1, < 7.1)
+      railties (>= 3.1, < 7.1)
     rubocop (1.54.1)
       json (~> 2.3)
       language_server-protocol (>= 3.17.0)
@@ -419,6 +431,9 @@ DEPENDENCIES
   rack-cors
   rails (~> 7.0.0)
   rspec-rails
+  rswag-api
+  rswag-specs
+  rswag-ui
   solargraph
   sprockets-rails
   sqlite3
