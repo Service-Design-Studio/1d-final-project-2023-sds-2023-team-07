@@ -4,13 +4,13 @@ import type { AppProps } from "next/app";
 
 const theme = extendTheme({
   colors: {
-    color1: "#094C3E",
+    dbsRed: "#E53E3E",
   },
 });
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <ChakraProvider>
+    <ChakraProvider theme={theme}>
       <Component {...pageProps} />
     </ChakraProvider>
   );
