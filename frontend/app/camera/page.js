@@ -12,8 +12,15 @@ import {
 import axios from "axios";
 import Error from "../Error";
 import Pin from "./Pin";
+import {
+  GlobalStateProvider,
+  useGlobalState,
+  useGlobalStateUpdate,
+} from "../GlobalStateContext";
 
 export default function Home() {
+  const globalState = useGlobalState();
+  const useGlobalState = useGlobalStateUpdate();
   const router = useRouter();
   const videoRef = useRef(null);
   const photoRef = useRef(null);

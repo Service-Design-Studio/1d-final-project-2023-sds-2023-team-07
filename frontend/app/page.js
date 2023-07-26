@@ -16,6 +16,11 @@ import {
 import { useRouter } from "next/navigation";
 import Error from "./Error";
 import { DataTable } from "./DataTable";
+import {
+  GlobalStateProvider,
+  useGlobalState,
+  useGlobalStateUpdate,
+} from "./GlobalStateContext";
 
 export default function Page() {
   const router = useRouter();
@@ -161,5 +166,9 @@ export default function Page() {
     }
   };
 
-  return <ChakraProvider>{renderPage()}</ChakraProvider>;
+  return (
+    <GlobalStateProvider>
+      <ChakraProvider>{renderPage()}</ChakraProvider>
+    </GlobalStateProvider>
+  );
 }
