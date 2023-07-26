@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from "react";
+import { Box, Text } from "@chakra-ui/react";
 import jsQR from "jsqr";
+import { useRouter } from "next/router";
 
 const QrCodeScanner = () => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -7,7 +9,15 @@ const QrCodeScanner = () => {
 
   const [qrCodeResult, setQrCodeResult] = useState<any>(null);
 
+  const router = useRouter();
+
   useEffect(() => {
+    const timer = setTimeout(() => {
+      if (!qrCodeResult) {
+        router.push("/status/fail");
+      }
+    }, 20000);
+
     navigator.mediaDevices
       .getUserMedia({ video: { facingMode: "environment" } })
       .then((stream) => {
@@ -19,7 +29,10 @@ const QrCodeScanner = () => {
       });
 
     const tick = () => {
-      if (videoRef.current!.readyState === videoRef.current!.HAVE_ENOUGH_DATA) {
+      if (
+        videoRef.current &&
+        videoRef.current.readyState === videoRef.current.HAVE_ENOUGH_DATA
+      ) {
         const canvas = canvasRef.current!;
         const video = videoRef.current!;
         canvas.height = video.videoHeight;
@@ -35,7 +48,11 @@ const QrCodeScanner = () => {
           try {
             const result = JSON.parse(code.data);
             setQrCodeResult(result);
-            console.log(result);
+            clearTimeout(timer);
+            router.push({
+              pathname: "/status/success",
+              query: { data: JSON.stringify(result) },
+            });
           } catch (error) {
             console.error("Error parsing QR code:", error);
           }
@@ -44,19 +61,29 @@ const QrCodeScanner = () => {
 
       requestAnimationFrame(tick);
     };
+
+    return () => clearTimeout(timer); // Clear the timer if the component is unmounted
   }, []);
 
   return (
-    <div>
+    <Box>
       <video
         ref={videoRef}
-        style={{ width: "100%", height: "300px", backgroundColor: "white" }}
+        style={{
+          width: "100%",
+          height: "300px",
+          backgroundColor: "white",
+          display: qrCodeResult ? "none" : "block",
+        }}
       />
-      <canvas ref={canvasRef} style={{ display: "none" }} />
-      <p>
-        <pre>{JSON.stringify(qrCodeResult, null, 2)}</pre>
-      </p>
-    </div>
+      <canvas
+        ref={canvasRef}
+        style={{
+          display: "none",
+        }}
+      />
+      <Text>{JSON.stringify(qrCodeResult, null, 2)}</Text>
+    </Box>
   );
 };
 
