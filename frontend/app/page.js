@@ -121,7 +121,9 @@ export default function Page() {
             <div className="h-1/6 pt-2 pb-2 content-stretch w-full pl-2 pr-2">
               <div className="flex justify-between mb-3">
                 <Button
-                  onClick={handleClick}
+                  onClick={() => {
+                    router.push("/account?pageState=select");
+                  }}
                   className="grow"
                   colorScheme="red"
                   size="md"
@@ -129,7 +131,9 @@ export default function Page() {
                   WITHDRAW
                 </Button>
                 <Button
-                  onClick={handleClick}
+                  onClick={() => {
+                    router.push("/account?pageState=deposit");
+                  }}
                   className="grow ml-3"
                   colorScheme="red"
                   size="md"

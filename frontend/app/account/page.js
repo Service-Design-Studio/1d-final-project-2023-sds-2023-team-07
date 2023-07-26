@@ -31,15 +31,16 @@ export default function Page() {
     const element = event.target;
     const amount = parseInt(element.textContent.slice(1));
     setAmountSelected(amount);
-    router.push(`/account?pageState=withdraw`);
     setPageState("withdraw");
   };
 
   useEffect(() => {
     const params = extractQueryString(window.location.href);
+
     setPageState(params.pageState);
-    console.log(params.pageState);
-  }, [pageState]);
+
+    console.log("firing");
+  }, []);
 
   const renderPage = () => {
     switch (pageState) {
@@ -83,7 +84,14 @@ export default function Page() {
                 </Button>
               ))}
             </div>
-            <Button className="mt-6" colorScheme="red" size="md">
+            <Button
+              onClick={() => {
+                router.push("/");
+              }}
+              className="mt-6"
+              colorScheme="red"
+              size="md"
+            >
               RETURN TO HOMEPAGE
             </Button>
           </div>
