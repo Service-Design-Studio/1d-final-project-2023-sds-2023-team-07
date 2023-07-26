@@ -1,20 +1,32 @@
 class TransactionsController < ApplicationController
-  before_action :set_user, only: [:index, :create]
+  before_action :set_user, only: [:create]
   before_action :set_atm_machine, only: [:create]
 
+  # GET '/transactions' - List all transactions
+  # GET '/transactions?user=1' - List all transactions for a specific user
   def index
-    @transactions = @user.transactions
+    if params[:user]
+      @user = User.find_by(id: params[:user])
+      if @user
+        @transactions = @user.transactions
+      else
+        render json: { error: "User not found" }, status: :not_found and return
+      end
+    else
+      @transactions = Transaction.all
+    end
     render json: @transactions
-  end
+  end  
 
+  # POST '/transactions' - Create a new transaction
   def create
-    if params[:transaction_type] == 'AWL' && transaction_params[:amount] > @user.account_balance
+    if params[:transaction_type] == 'AWL' && transaction_params[:amount] > @user.balance
       render json: { errors: "Insufficient balance" }, status: :unprocessable_entity
     else
       Transaction.transaction do
         @transaction = Transaction.new(transaction_params)
         if @transaction.save
-          @user.update!(account_balance: @transaction.user_balance_left)
+          @user.update!(balance: @transaction.user_balance_left)
           @atm_machine.update!(balance: @transaction.atm_balance_left)  # Update the AtmMachine balance
           render json: @transaction, status: :created
         else
@@ -23,12 +35,15 @@ class TransactionsController < ApplicationController
       end
     end
   end
-  
+
+  # GET '/transactions/:id' - Show details of a specific transaction
   def show
     @transaction = Transaction.find(params[:id])
     render json: @transaction
   end
 
+  # PATCH '/transactions/:id' - Update a specific transaction
+  # PUT '/transactions/:id' - Update a specific transaction  
   def update
     @transaction = Transaction.find(params[:id])
     if @transaction.update(transaction_params)
@@ -38,6 +53,7 @@ class TransactionsController < ApplicationController
     end
   end
 
+  # DELETE '/transactions/:id' - Delete a specific transaction
   def destroy
     @transaction = Transaction.find(params[:id])
     if @transaction.destroy
@@ -54,7 +70,8 @@ class TransactionsController < ApplicationController
     unless @user
       render json: { error: "User not found" }, status: :not_found
     end
-  end
+  end  
+  
 
   def set_atm_machine
     @atm_machine = AtmMachine.find_by(id: params[:atm_machine_id])
@@ -66,10 +83,10 @@ class TransactionsController < ApplicationController
   def transaction_params
     transaction_data = params.permit(:user_id, :atm_machine_id, :amount, :transaction_type)
     if transaction_data[:transaction_type] == 'NCD'
-      transaction_data[:user_balance_left] = @user.account_balance + transaction_data[:amount]
+      transaction_data[:user_balance_left] = @user.balance + transaction_data[:amount]
       transaction_data[:atm_balance_left] = @atm_machine.balance + transaction_data[:amount]
-    elsif transaction_data[:transaction_type] == 'AWL' && transaction_data[:amount] <= @user.account_balance
-      transaction_data[:user_balance_left] = @user.account_balance - transaction_data[:amount]
+    elsif transaction_data[:transaction_type] == 'AWL' && transaction_data[:amount] <= @user.balance
+      transaction_data[:user_balance_left] = @user.balance - transaction_data[:amount]
       transaction_data[:atm_balance_left] = @atm_machine.balance - transaction_data[:amount]
     end
     transaction_data
