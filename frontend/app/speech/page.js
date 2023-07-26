@@ -73,7 +73,7 @@ export default function Home() {
 
     // Get value from kelvins script and conditionally route to specific page
     const paramValue = "example";
-    const pageState = "deposit";
+    const pageState = "select";
     router.push(`/account?pageState=${pageState}`);
 
     // return postData(formData);
