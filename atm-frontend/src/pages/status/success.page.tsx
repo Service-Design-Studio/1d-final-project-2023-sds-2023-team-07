@@ -8,6 +8,10 @@ const Success = () => {
 
   const navigateToBalance = () => {
     router.push("/status/balance");
+    router.push({
+      pathname: "/status/balance",
+      query: { data: JSON.stringify(data) },
+    });
   };
 
   return (
@@ -23,7 +27,12 @@ const Success = () => {
       >
         {JSON.stringify(jsonData, null, 2)}
       </Code>
-      <Button onClick={navigateToBalance} colorScheme="teal" marginTop="2">
+      <Button
+        onClick={navigateToBalance}
+        backgroundColor="dbsRed"
+        textColor="white"
+        marginTop="2"
+      >
         Check Balance
       </Button>
     </Box>
