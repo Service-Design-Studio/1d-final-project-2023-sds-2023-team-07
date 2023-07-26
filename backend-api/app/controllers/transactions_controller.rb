@@ -1,49 +1,34 @@
 class TransactionsController < ApplicationController
-  before_action :set_user, only: [:index, :deposit, :withdraw]
-  before_action :set_atm_machine, only: [:deposit, :withdraw]
-  
+  before_action :set_user, only: [:index, :create]
+  before_action :set_atm_machine, only: [:create]
+
   def index
     @transactions = @user.transactions
     render json: @transactions
   end
 
-  def deposit
-    Transaction.transaction do
-      @transaction = Transaction.new(transaction_with_balance_params('NCD'))
-      if @transaction.save
-        @user.update!(account_balance: @transaction.user_balance_left)
-        @transaction.update!(balance: @transaction.atm_balance_left)
-        render json: @transaction, status: :created
-      else
-        render json: {errors: @transaction.errors.full_messages}, status: :unprocessable_entity
-      end
-    end
-  end
-      
-  def withdraw
-    if transaction_params[:amount] > @user.account_balance
+  def create
+    if params[:transaction_type] == 'AWL' && transaction_params[:amount] > @user.account_balance
       render json: { errors: "Insufficient balance" }, status: :unprocessable_entity
     else
       Transaction.transaction do
-        @transaction = Transaction.new(transaction_with_balance_params('AWL'))
+        @transaction = Transaction.new(transaction_params)
         if @transaction.save
           @user.update!(account_balance: @transaction.user_balance_left)
-          @transaction.update!(balance: @transaction.atm_balance_left)
+          @atm_machine.update!(balance: @transaction.atm_balance_left)  # Update the AtmMachine balance
           render json: @transaction, status: :created
         else
-          render json: { errors: @transaction.errors.full_messages }, status: :unprocessable_entity
+          render json: {errors: @transaction.errors.full_messages}, status: :unprocessable_entity
         end
       end
     end
   end
   
-  # READ (Show - fetch a specific transaction)
   def show
     @transaction = Transaction.find(params[:id])
     render json: @transaction
   end
 
-  # UPDATE
   def update
     @transaction = Transaction.find(params[:id])
     if @transaction.update(transaction_params)
@@ -53,7 +38,6 @@ class TransactionsController < ApplicationController
     end
   end
 
-  # DELETE
   def destroy
     @transaction = Transaction.find(params[:id])
     if @transaction.destroy
@@ -62,10 +46,9 @@ class TransactionsController < ApplicationController
       render json: { errors: 'Failed to delete transaction' }, status: :unprocessable_entity
     end
   end
-  
 
   private
-  
+
   def set_user
     @user = User.find_by(id: params[:user_id])
     unless @user
@@ -74,20 +57,18 @@ class TransactionsController < ApplicationController
   end
 
   def set_atm_machine
-    @atm_machine = AtmMachine.find(params[:atm_machine_id])
+    @atm_machine = AtmMachine.find_by(id: params[:atm_machine_id])
+    unless @atm_machine
+      render json: { error: "ATM Machine not found" }, status: :not_found
+    end
   end
 
   def transaction_params
-    params.require(:transaction).permit(:user_id, :atm_machine_id, :amount)
-  end
-
-  def transaction_with_balance_params(type)
-    transaction_data = transaction_params
-    transaction_data[:transaction_type] = type
-    if type == 'NCD'
+    transaction_data = params.permit(:user_id, :atm_machine_id, :amount, :transaction_type)
+    if transaction_data[:transaction_type] == 'NCD'
       transaction_data[:user_balance_left] = @user.account_balance + transaction_data[:amount]
       transaction_data[:atm_balance_left] = @atm_machine.balance + transaction_data[:amount]
-    elsif type == 'AWL' && transaction_data[:amount] <= @user.account_balance
+    elsif transaction_data[:transaction_type] == 'AWL' && transaction_data[:amount] <= @user.account_balance
       transaction_data[:user_balance_left] = @user.account_balance - transaction_data[:amount]
       transaction_data[:atm_balance_left] = @atm_machine.balance - transaction_data[:amount]
     end

@@ -5,9 +5,6 @@ Rails.application.routes.draw do
   post 'authenticate/face', to: 'authentication#face' # Handles face authentication
   post 'authenticate/pin', to: 'authentication#pin'   # Handles pin authentication
 
-  # Transaction related routes
-  post 'withdraw', to: 'transactions#withdraw' # Handles withdrawal transactions
-  post 'deposit', to: 'transactions#deposit' # Handles deposit transactions
 
   resources :users do
     resources :transactions, only: [:index, :show, :update, :destroy]
@@ -26,7 +23,7 @@ Rails.application.routes.draw do
   # PATCH '/atm_machines/:id' - Update a specific atm machine
   # DELETE '/atm_machines/:id' - Delete a specific atm machine
 
-  resources :transactions, only: [:show, :update, :destroy]
+  resources :transactions, only: [:create, :show, :update, :destroy]
   # This will generate show, update, and destroy operations for transactions:
   # GET '/transactions/:id' - Show details of a specific transaction
   # PATCH '/transactions/:id' - Update a specific transaction
