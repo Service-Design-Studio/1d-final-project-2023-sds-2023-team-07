@@ -3,7 +3,7 @@
 one:
   name: MyString
   identification_number: MyString
-  account_balance: 9.99
+  balance: 9.99
   passbook_image_url: MyString
   atm_card_image_url: MyString
   face_image_url: MyString
@@ -13,7 +13,7 @@ one:
 two:
   name: MyString
   identification_number: MyString
-  account_balance: 9.99
+  balance: 9.99
   passbook_image_url: MyString
   atm_card_image_url: MyString
   face_image_url: MyString

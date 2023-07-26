@@ -10,15 +10,15 @@ describe 'Users API' do
         properties: {
           name: { type: :string },
           identification_number: { type: :integer },
-          account_balance: { type: :number },
+          balance: { type: :number },
           pin: { type: :integer },
           face_image_url: { type: :string },
         },
-        required: ['name', 'identification_number', 'account_balance', 'pin', 'face_image_url']
+        required: ['name', 'identification_number', 'balance', 'pin', 'face_image_url']
       }
 
       response '201', 'User created' do
-        let(:user) { { name: 'John Doe', identification_number: 123456, account_balance: 10000, pin: 1234, face_image_url: 'image_url' } }
+        let(:user) { { name: 'John Doe', identification_number: 123456, balance: 10000, pin: 1234, face_image_url: 'image_url' } }
         run_test!
       end
 
@@ -50,12 +50,12 @@ describe 'Users API' do
             id: { type: :integer },
             name: { type: :string },
             identification_number: { type: :integer },
-            account_balance: { type: :number },
+            balance: { type: :number },
             pin: { type: :integer },
             face_image_url: { type: :string }
           }
 
-        let(:id) { User.create(name: 'John Doe', identification_number: 123456, account_balance: 10000, pin: 1234, face_image_url: 'image_url').id }
+        let(:id) { User.create(name: 'John Doe', identification_number: 123456, balance: 10000, pin: 1234, face_image_url: 'image_url').id }
         run_test!
       end
 
@@ -74,14 +74,14 @@ describe 'Users API' do
         properties: {
           name: { type: :string },
           identification_number: { type: :integer },
-          account_balance: { type: :number },
+          balance: { type: :number },
           pin: { type: :integer },
           face_image_url: { type: :string },
         },
       }
 
       response '200', 'User updated' do
-        let(:id) { User.create(name: 'John Doe', identification_number: 123456, account_balance: 10000, pin: 1234, face_image_url: 'image_url').id }
+        let(:id) { User.create(name: 'John Doe', identification_number: 123456, balance: 10000, pin: 1234, face_image_url: 'image_url').id }
         let(:user) { { name: 'John Smith' } }
         run_test!
       end
@@ -97,7 +97,7 @@ describe 'Users API' do
       parameter name: :id, :in => :path, :type => :integer
 
       response '200', 'User deleted' do
-        let(:id) { User.create(name: 'John Doe', identification_number: 123456, account_balance: 10000, pin: 1234, face_image_url: 'image_url').id }
+        let(:id) { User.create(name: 'John Doe', identification_number: 123456, balance: 10000, pin: 1234, face_image_url: 'image_url').id }
         run_test!
       end
 

@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  # CREATE  
+  # POST '/users' - Create a new user
   def create
     @user = User.new(user_params)
     if @user.save
@@ -9,19 +9,20 @@ class UsersController < ApplicationController
     end
   end
 
-  # READ (Index - fetch all users)
+  # GET '/users' - List all users
   def index
     @users = User.all
     render json: @users
   end
 
-  # READ (Show - fetch a specific user)
+  # GET '/users/:id' - Show details of a specific user
   def show
     @user = User.find(params[:id])
     render json: @user
   end
 
-  # UPDATE
+  # PATCH '/users/:id' - Update a specific user
+  # PUT '/users/:id' - Update a specific user
   def update
     @user = User.find(params[:id])
     if @user.update(user_params)
@@ -31,7 +32,7 @@ class UsersController < ApplicationController
     end
   end
 
-  # DELETE
+  # DELETE '/users/:id' - Delete a specific user
   def destroy
     @user = User.find(params[:id])
     if @user.destroy
@@ -44,6 +45,6 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:name, :identification_number, :account_balance, :pin, :face_image_url)
+    params.require(:user).permit(:name, :identification_number, :balance, :pin, :face_image_url, :is_active)
   end
 end

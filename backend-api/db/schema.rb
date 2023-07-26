@@ -38,7 +38,17 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_22_113545) do
     t.decimal "balance"
     t.string "pin"
     t.string "face_image_url"
-    t.integer "isActive"
+    t.integer "{
+      "user": {
+        "name": "John Doe",
+        "identification_number": "1234567890",
+        "balance": 5000.00,
+        "pin": "1234",
+        "face_image_url": "http://example.com/face.jpg",
+        "is_active": 1
+      }
+    }
+    "
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

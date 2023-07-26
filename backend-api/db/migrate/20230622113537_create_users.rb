@@ -6,8 +6,7 @@ class CreateUsers < ActiveRecord::Migration[7.0]
       t.decimal :balance
       t.string :pin
       t.string :face_image_url
-      t.integer :isActive
-
+      t.integer :is_active
       t.timestamps
     end
   end
