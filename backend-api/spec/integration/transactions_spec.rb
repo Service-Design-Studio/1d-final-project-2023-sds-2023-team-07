@@ -79,7 +79,7 @@ describe 'Transactions API' do
             }
           }
 
-        let(:user_id) { User.create(name: 'John', account_balance: 5000).id }
+        let(:user_id) { User.create(name: 'John', balance: 5000).id }
         run_test!
       end
 
@@ -110,7 +110,7 @@ describe 'Transactions API' do
             atm_balance_left: { type: :number }
           }
 
-        let(:user_id) { User.create(name: 'John', account_balance: 5000).id }
+        let(:user_id) { User.create(name: 'John', balance: 5000).id }
         let(:id) { Transaction.create(user_id: user_id, atm_machine_id: 1, amount: 500, transaction_type: 'NCD', user_balance_left: 5500, atm_balance_left: 4500).id }
         run_test!
       end
@@ -138,7 +138,7 @@ describe 'Transactions API' do
       }
 
       response '200', 'Transaction updated' do
-        let(:user_id) { User.create(name: 'John', account_balance: 5000).id }
+        let(:user_id) { User.create(name: 'John', balance: 5000).id }
         let(:id) { Transaction.create(user_id: user_id, atm_machine_id: 1, amount: 500, transaction_type: 'NCD', user_balance_left: 5500, atm_balance_left: 4500).id }
         let(:transaction) { { user_id: 1, atm_machine_id: 1, amount: 600 } }
         run_test!
@@ -157,7 +157,7 @@ describe 'Transactions API' do
       parameter name: :id, :in => :path, :type => :integer
 
       response '200', 'Transaction deleted' do
-        let(:user_id) { User.create(name: 'John', account_balance: 5000).id }
+        let(:user_id) { User.create(name: 'John', balance: 5000).id }
         let(:id) { Transaction.create(user_id: user_id, atm_machine_id: 1, amount: 500, transaction_type: 'NCD', user_balance_left: 5500, atm_balance_left: 4500).id }
         run_test!
       end

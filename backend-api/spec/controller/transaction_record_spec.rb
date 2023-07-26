@@ -101,7 +101,7 @@ RSpec.describe TransactionsController, type: :controller do
       xit "processes valid deposit entries" do
         type = "deposit"
         deposit_amount = 0.01
-        expected_user_balance_left = @user.account_balance + deposit_amount
+        expected_user_balance_left = @user.balance + deposit_amount
         expected_atm_balance_left = @atm_machine.balance + deposit_amount
 
         # Stub the transaction_params method to return the desired parameters
@@ -129,7 +129,7 @@ RSpec.describe TransactionsController, type: :controller do
     xit "processes valid withdrawal entries" do
       type = "withdrawal"
       withdrawal_amount = 0.01
-      expected_user_balance_left = @user.account_balance - withdrawal_amount
+      expected_user_balance_left = @user.balance - withdrawal_amount
       expected_atm_balance_left = @atm_machine.balance - withdrawal_amount
 
       # Stub the transaction_params method to return the desired parameters
