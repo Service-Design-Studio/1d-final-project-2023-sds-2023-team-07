@@ -58,7 +58,20 @@ export default function Page() {
           body: JSON.stringify({ ["is_active"]: 0 }),
         });
         router.push("/success");
-        console.log("is active has been patched to false.");
+        console.log("GO TO SUCCESS");
+      } else if (currentValue === 2) {
+        // If it's true, send a PATCH request to change it back to false
+        await fetch("https://kelvin-build-ml42q3c3ya-as.a.run.app/users/1", {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            ["is_active"]: 0,
+          }),
+        });
+        router.push("/fail");
+        console.log("GO TO FAIL");
       } else {
         // If it's still false, continue the check after one second
         setTimeout(() => checkPatchRecursion(), 1000);
@@ -124,7 +137,7 @@ export default function Page() {
               onClick={() => {
                 setQrData({
                   user: 1,
-                  transactionType: "Deposit",
+                  transaction_type: "NCD",
                   amount: null,
                 });
                 setPageState("qr");
@@ -186,7 +199,7 @@ export default function Page() {
               onClick={() => {
                 setQrData({
                   user: 1,
-                  transactionType: "Withdraw",
+                  transaction_type: "AWL",
                   amount: amountSelected,
                 });
                 setPageState("qr");
@@ -213,6 +226,16 @@ export default function Page() {
               value={JSON.stringify(qrData)}
               viewBox={`0 0 256 256`}
             />
+            <Button
+              onClick={() => {
+                router.push("/");
+              }}
+              className="mt-6"
+              colorScheme="red"
+              size="md"
+            >
+              BACK TO HOMEPAGE
+            </Button>
           </div>
         );
         break;
