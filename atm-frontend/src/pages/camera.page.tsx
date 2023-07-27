@@ -14,7 +14,7 @@ const QrCodeScanner = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       if (!qrCodeResult) {
-        router.push("/status/QrFail");
+        router.push("/status/TimeoutFail");
       }
     }, 20000);
 
@@ -82,7 +82,7 @@ const QrCodeScanner = () => {
           display: "none",
         }}
       />
-      <Text>{JSON.stringify(qrCodeResult, null, 2)}</Text>
+      {/* <Text>{JSON.stringify(qrCodeResult, null, 2)}</Text> */}
     </Box>
   );
 };
