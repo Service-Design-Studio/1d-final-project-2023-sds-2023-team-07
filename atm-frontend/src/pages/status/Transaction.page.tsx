@@ -29,17 +29,9 @@ const Transaction = () => {
       })
         .then((response) => response.json())
         .then((data) => {
-          if ("errors" in data && data.errors === "Insufficient balance") {
-            return fetch(
-              `/api/patchUserIsActive?user_id=${transaction.user_id}`,
-              {
-                method: "PATCH",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ is_active: 2 }),
-              }
-            ); // then router push to NotEnoughMoneyFail
+          if (data.error) {
+            // Throw error if there's an error in the response data
+            throw new Error(data.error);
           } else {
             return fetch(
               `/api/patchUserIsActive?user_id=${transaction.user_id}`,
@@ -50,24 +42,40 @@ const Transaction = () => {
                 },
                 body: JSON.stringify({ is_active: 1 }),
               }
-            ); // then router push to SuccessBalance
+            );
           }
         })
-        .then((response) => response.json())
-        .then((updatedUser) => {
-          if (updatedUser.is_active === 2) {
-            router.push({
-              pathname: "/status/NotEnoughMoneyFail",
-              query: { data: JSON.stringify(transaction) },
-            });
-          } else {
+        .then((response) => {
+          if (response.ok) {
             router.push({
               pathname: "/status/SuccessBalance",
               query: { data: JSON.stringify(transaction) },
             });
+          } else {
+            throw new Error("Failed to update user status");
           }
         })
-        .catch((error) => console.error(error));
+        .catch((error) => {
+          console.error(error);
+          // On error, PATCH is_active to 2 and then route to NotEnoughMoneyFail
+          fetch(`/api/patchUserIsActive?user_id=${transaction.user_id}`, {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ is_active: 2 }),
+          })
+            .then(() => {
+              console.log("routing bokek");
+              router.push({
+                pathname: "/status/NotEnoughMoneyFail",
+                query: { data: JSON.stringify(transaction) },
+              });
+            })
+            .catch((patchError) => {
+              console.error("Failed to PATCH is_active: ", patchError);
+            });
+        });
     }
   };
 

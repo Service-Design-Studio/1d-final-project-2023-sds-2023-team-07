@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import { Box, Text } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import jsQR from "jsqr";
 import { useRouter } from "next/router";
+import Ajv from "ajv";
 
 const QrCodeScanner = () => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -10,6 +11,21 @@ const QrCodeScanner = () => {
   const [qrCodeResult, setQrCodeResult] = useState<any>(null);
 
   const router = useRouter();
+
+  // JSON schema for TransactionData
+  const transactionDataSchema = {
+    type: "object",
+    properties: {
+      user_id: { type: "number" },
+      atm_machine_id: { type: "number" },
+      amount: { type: ["number", "null"] },
+      transaction_type: { type: "string" },
+    },
+    required: ["user_id", "amount", "transaction_type"],
+    additionalProperties: false,
+  };
+
+  const ajv = new Ajv();
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -47,6 +63,14 @@ const QrCodeScanner = () => {
           console.log("Found QR code", code.data);
           try {
             const result = JSON.parse(code.data);
+
+            // Validate QR code data
+            if (!ajv.validate(transactionDataSchema, result)) {
+              console.error("Invalid QR code:", ajv.errors);
+              router.push("/status/QrFail");
+              return;
+            }
+
             setQrCodeResult(result);
             clearTimeout(timer);
             router.push({
@@ -55,6 +79,7 @@ const QrCodeScanner = () => {
             });
           } catch (error) {
             console.error("Error parsing QR code:", error);
+            router.push("/status/QrFail");
           }
         }
       }
@@ -82,7 +107,6 @@ const QrCodeScanner = () => {
           display: "none",
         }}
       />
-      {/* <Text id="textboxid" >{JSON.stringify(qrCodeResult, null, 2)}</Text> */}
     </Box>
   );
 };
