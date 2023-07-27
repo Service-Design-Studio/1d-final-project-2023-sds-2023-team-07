@@ -136,7 +136,7 @@ export default function Page() {
             <Button
               onClick={() => {
                 setQrData({
-                  user: 1,
+                  user_id: 1,
                   transaction_type: "NCD",
                   amount: null,
                 });
@@ -198,7 +198,7 @@ export default function Page() {
             <Button
               onClick={() => {
                 setQrData({
-                  user: 1,
+                  user_id: 1,
                   transaction_type: "AWL",
                   amount: amountSelected,
                 });
