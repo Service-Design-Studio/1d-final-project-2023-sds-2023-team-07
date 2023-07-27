@@ -1,6 +1,13 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { Text, Button, Center, useToast } from "@chakra-ui/react";
+import {
+  Text,
+  Button,
+  Center,
+  NumberInput,
+  NumberInputField,
+  useToast,
+} from "@chakra-ui/react";
 import { TransactionData } from "@/types";
 
 const Transaction = () => {
@@ -8,6 +15,7 @@ const Transaction = () => {
   const { data } = router.query;
 
   const [transaction, setTransaction] = useState<TransactionData | null>(null);
+  const [inputValue, setInputValue] = useState<number>(0);
   const toast = useToast();
 
   const handleButtonClick = () => {
@@ -82,7 +90,23 @@ const Transaction = () => {
   return (
     <Center height="100vh" flexDirection="column">
       {transaction && transaction.transaction_type === "NCD" && (
-        <Text fontSize="xl">Deposit your cash now</Text>
+        <>
+          <Text fontSize="xl">Deposit your cash now</Text>
+          <NumberInput
+            defaultValue={0}
+            min={0}
+            onChange={(valueString) => setInputValue(Number(valueString))}
+            onBlur={() =>
+              setTransaction((prevTransaction) =>
+                prevTransaction
+                  ? { ...prevTransaction, amount: inputValue }
+                  : null
+              )
+            }
+          >
+            <NumberInputField />
+          </NumberInput>
+        </>
       )}
       {transaction && transaction.transaction_type === "AWL" && (
         <Text fontSize="xl">Withdraw ${transaction.amount} now</Text>
