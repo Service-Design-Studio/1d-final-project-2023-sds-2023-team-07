@@ -24,9 +24,6 @@ export default function Page() {
           </svg>
           <div class="text-center">
             <h1 className="my-2 text-gray-800 font-bold text-2xl">Success!</h1>
-            <h1 className="my-2 text-gray-800 font-bold text-2xl">
-              Deposit/Withdrawal page coming soon!
-            </h1>
 
             <Button
               onClick={() => {

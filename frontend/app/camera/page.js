@@ -12,15 +12,8 @@ import {
 import axios from "axios";
 import Error from "../Error";
 import Pin from "./Pin";
-import {
-  GlobalStateProvider,
-  useGlobalState,
-  useGlobalStateUpdate,
-} from "../GlobalStateContext";
 
 export default function Home() {
-  const globalState = useGlobalState();
-  const useGlobalState = useGlobalStateUpdate();
   const router = useRouter();
   const videoRef = useRef(null);
   const photoRef = useRef(null);
@@ -46,6 +39,18 @@ export default function Home() {
       .catch((e) => {
         console.log(e);
       });
+  };
+
+  const extractQueryString = (urlString) => {
+    const url = new URL(urlString);
+    const params = new URLSearchParams(url.search);
+    const keyValuePairs = {};
+
+    for (const [key, value] of params.entries()) {
+      keyValuePairs[key] = value;
+    }
+
+    return keyValuePairs;
   };
 
   const takePhoto = () => {
@@ -83,7 +88,8 @@ export default function Home() {
         console.log(response.data.authenticated);
         console.log("fail counter: " + counter);
         if (response.data.authenticated) {
-          router.push("/success");
+          const params = extractQueryString(window.location.href);
+          router.push(`/account?pageState=${params.pageState}`);
         } else if (!response.data.authenticated && counter == 3) {
           setPageState("pin");
         } else {

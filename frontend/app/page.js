@@ -16,11 +16,6 @@ import {
 import { useRouter } from "next/navigation";
 import Error from "./Error";
 import { DataTable } from "./DataTable";
-import {
-  GlobalStateProvider,
-  useGlobalState,
-  useGlobalStateUpdate,
-} from "./GlobalStateContext";
 
 export default function Page() {
   const router = useRouter();
@@ -41,9 +36,7 @@ export default function Page() {
     window.addEventListener("resize", () => {
       setIsLandscape(window.innerHeight < window.innerWidth);
     });
-    fetch(
-      "https://backend-dbs-grp7-ml42q3c3ya-as.a.run.app/users/1/transactions"
-    )
+    fetch("https://kelvin-build-ml42q3c3ya-as.a.run.app/transactions?user=1")
       .then((response) => {
         console.log("Response: ", response);
         if (!response.ok) {
@@ -122,7 +115,7 @@ export default function Page() {
               <div className="flex justify-between mb-3">
                 <Button
                   onClick={() => {
-                    router.push("/account?pageState=select");
+                    router.push("/camera?pageState=select");
                   }}
                   className="grow"
                   colorScheme="red"
@@ -132,7 +125,7 @@ export default function Page() {
                 </Button>
                 <Button
                   onClick={() => {
-                    router.push("/account?pageState=deposit");
+                    router.push("/camera?pageState=deposit");
                   }}
                   className="grow ml-3"
                   colorScheme="red"
@@ -170,9 +163,5 @@ export default function Page() {
     }
   };
 
-  return (
-    <GlobalStateProvider>
-      <ChakraProvider>{renderPage()}</ChakraProvider>
-    </GlobalStateProvider>
-  );
+  return <ChakraProvider>{renderPage()}</ChakraProvider>;
 }
