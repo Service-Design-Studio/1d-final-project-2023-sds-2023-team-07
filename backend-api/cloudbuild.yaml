@@ -3,9 +3,7 @@ steps:
   - id: "build image"
     name: "gcr.io/cloud-builders/docker"
     entrypoint: 'bash'
-    # args: ["-c", "docker build --build-arg MASTER_KEY=$$RAILS_KEY -t gcr.io/${PROJECT_ID}/${_SERVICE_NAME} . "]
-    args: ["-c", "docker build --build-arg MASTER_KEY=797a641b837c06c8a84f1a225569db74 -t gcr.io/${PROJECT_ID}/${_SERVICE_NAME} . "]
-    # secretEnv: ["RAILS_KEY"]
+    args: ["-c", "docker build --progress=plain --build-arg MASTER_KEY=797a641b837c06c8a84f1a225569db74 --no-cache -t gcr.io/${PROJECT_ID}/${_SERVICE_NAME} . "]
 
   - id: "push image"
     name: "gcr.io/cloud-builders/docker"
@@ -63,7 +61,7 @@ steps:
       
 substitutions:
   _REGION: asia-southeast1
-  _SERVICE_NAME: service-imba # backend-dbs-grp7 # change service name to test deployment agn
+  _SERVICE_NAME: backend-dbs-grp7 # service-imba # change service name to test deployment agn
   _INSTANCE_NAME: backend-dbs-grp7
   # _SECRET_NAME_MASTER: RAILS_KEY
   # _SECRET_NAME_DB_USER: DB_USER_POSTGRES

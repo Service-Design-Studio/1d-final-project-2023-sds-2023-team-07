@@ -3,21 +3,21 @@
 # #   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 # #   timeout: 5000
 
-test:
-  adapter: sqlite3
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  timeout: 5000
-  database: db/test.sqlite3
-
-# development: 
-#   adapter: postgresql
-#   encoding: unicode
+# test:
+#   adapter: sqlite3
 #   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-#   database: development
-#   username: development
-#   password: "nakhomo123"
-#   timeout: 50000
-#   host: localhost
+#   timeout: 5000
+#   database: db/test.sqlite3
+
+# # development: 
+# #   adapter: postgresql
+# #   encoding: unicode
+# #   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+# #   database: development
+# #   username: development
+# #   password: "nakhomo123"
+# #   timeout: 50000
+# #   host: localhost
 
 development:
   adapter: sqlite3
@@ -25,17 +25,22 @@ development:
   timeout: 5000
   database: db/development.sqlite3
 
-
-
 production:
-  adapter: postgresql
-  encoding: unicode
+  adapter: sqlite3
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  database: development
-  username: development
-  password: nakhomo123
-  timeout: 50000
-  host: /cloudsql/backend-dbs-grp7:asia-southeast1:backend-dbs-grp7
+  timeout: 5000
+  database: db/development.sqlite3
+
+
+# production:
+#   adapter: postgresql
+#   encoding: unicode
+#   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+#   database: development
+#   username: development
+#   password: nakhomo123
+#   timeout: 50000
+#   host: /cloudsql/backend-dbs-grp7:asia-southeast1:backend-dbs-grp7
 
 
 # default: &default
@@ -54,3 +59,37 @@ production:
 # production:
 #   <<: *default
 #   database: db/development.sqlite3
+
+
+# production:
+#   adapter: postgresql
+#   encoding: unicode
+#   pool: 5
+#   timeout: 5000
+#   username: development
+#   password: nakhomo123
+#   database: development
+#   host: localhost
+#   port: 8080
+
+# development:
+#   adapter: postgresql
+#   encoding: unicode
+#   pool: 5
+#   timeout: 5000
+#   username: development
+#   password: nakhomo123
+#   database: development
+#   host: localhost
+#   port: 8080
+
+test:
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+  timeout: 5000
+  username: development
+  password: nakhomo123
+  database: development
+  host: localhost
+  port: 8080
