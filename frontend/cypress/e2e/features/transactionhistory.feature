@@ -1,6 +1,6 @@
 Feature: Transaction History
 
-    As a user that has been registered to the web app,
+    As an elderly user that has been registered to the web app,
     I want to be able to view my transaction history when I visit the home page
 
     Background: Registered user

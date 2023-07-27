@@ -136,7 +136,7 @@ Then("I should be directed to the Home Page", () => {
     cy.url().should('eq', cy.config().baseUrl); 
 })
 
-And("I should see an updated table", () => {
+Then("I should see an updated table", () => {
     cy.get('#transactions tbody tr:first').should('be.visible');
 })
 
@@ -184,7 +184,7 @@ Then("I should be directed to the Confirm to Withdraw page", () => {
     cy.url().should('include', '/confirmwithdraw'); // Change the URI to the correct path for the Confirm to Withdraw Page
 })
 
-And("I should see that number as well", () => {
+Then("I should see that number as well", () => {
     cy.contains(''); // change
 })
 
@@ -214,7 +214,7 @@ Then("I should be directed to the QR Connection Page", () => {
     cy.url().should('include', '/qrconnection'); // Change the URI to the correct path for the QR Connection Page
 })
 
-And("I should see a QR code", () => {
+Then("I should see a QR code", () => {
     // change Assert the presence of the QR code on the QR Connection Page
 })
 
@@ -240,7 +240,7 @@ Given("I am on the QR Connection Page", () => {
     cy.visit('/qrconnection'); // Change the URI to the correct path for the QR Connection Page
 })
 
-And("the QR code is invalid", () => {
+Then("the QR code is invalid", () => {
     // For testing purposes, you can simulate an invalid QR code by triggering an error event.
     // For example, you can use cy.get('[data-testid="qr-code"]').trigger('error', 'Invalid QR code');
 })
@@ -267,11 +267,11 @@ Then("I should be directed to the Success Page", () => {
     cy.url().should('include', '/success'); // Change the URI to the correct path for the Success Page
 })
 
-And("I should see “Transaction Success”", () => {
+Then("I should see “Transaction Success”", () => {
     cy.contains('Transaction Success').should('be.visible');
 })
 
-And("I should see my new account balance", () => {
+Then("I should see my new account balance", () => {
     // Assert the presence of the new account balance element on the Success Page
     cy.contains('New Account Balance').should('be.visible');
 })
@@ -289,7 +289,7 @@ Then("I should be directed to the Home Page", () => {
     cy.url().should('eq', cy.config().baseUrl); // Change the URL check to match the Home Page URL
 })
 
-And("I should see an updated table", () => {
+Then("I should see an updated table", () => {
     // Assert the presence of the updated table on the Home Page
     cy.get('[data-testid="table"]').should('be.visible');
 })

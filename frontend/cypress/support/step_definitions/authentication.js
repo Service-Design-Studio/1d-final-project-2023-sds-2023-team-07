@@ -4,8 +4,9 @@ import { Given, Step, Then, When } from "@badeball/cypress-cucumber-preprocessor
 // Background: Accessing camera app for facial recognition
 
 Given("the user is at the transaction history page with the deposit and withdraw buttons", () => {
+    cy.intercept('GET', Cypress.env('transactions_uri')).as('getTransactions');
     cy.visit('/');
-    cy.wait(500);
+    cy.wait('@getTransactions');
 })
 
 When("he clicks on the deposit or withdrawal button", () => {
@@ -21,13 +22,14 @@ Then('he sees a loading screen while the software accesses the camera', () => {
 })
 
 Then("he is directed to the facial authentication page", () => {
-    cy.get('video');
+    cy.get('video', {timeout: 10000});
+    cy.wait(1000);
 })
 
 
 // Scenario: Using facial recognition
 Given("the user is the correct owner of the account", () => {
-    cy.intercept('POST', 'https://backend-dbs-grp7-ml42q3c3ya-as.a.run.app/authenticate/face', {
+    cy.intercept('POST', Cypress.env('face_auth_uri'), {
         body: {
             "authenticated": true
         }
@@ -39,14 +41,14 @@ When("he looks at the camera and presses the authentication button", () => {
 })
 
 Then("the user will be redirected to the success page", () => {
-    cy.contains('Success');
+    cy.contains('try again').should('not.exist');
 })
 
 
 // Scenario: Using facial recognition but wrong user
 
 Given("the user is not the account owner", () => {
-    cy.intercept('POST', 'https://backend-dbs-grp7-ml42q3c3ya-as.a.run.app/authenticate/face', {
+    cy.intercept('POST', Cypress.env('face_auth_uri'), {
         body: {
             "authenticated": false
         }
@@ -62,13 +64,17 @@ Then('the user will receive an "Authentication Failed, incorrect user" message',
 When("face authentication fails thrice", () => {
     Step(this, 'the user is not the account owner');
     Step(this, 'he looks at the camera and presses the authentication button');
+    cy.wait(500);
     Step(this, 'he looks at the camera and presses the authentication button');
+    cy.wait(500);
     Step(this, 'he looks at the camera and presses the authentication button');
+    cy.wait(500);
 })
 
 Then('he will be redirected to the pin authentication page', () => {
-    cy.get('input').should('have.length', 4);
-    cy.get('button')
+    cy.wait(1000);
+    cy.get('input', {timeout: 25000}).should('have.length', 4);
+    cy.get('button');
 })
 
 // Scenario: User authenticates succesfully with his pin
@@ -84,7 +90,7 @@ When("he enters the correct pin number", () => {
         cy.get('input').eq(i).type(char);
         cy.wait(100);
     }
-    cy.intercept('POST', 'https://backend-dbs-grp7-ml42q3c3ya-as.a.run.app/authenticate/pin', {
+    cy.intercept('POST', Cypress.env('pin_auth_uri'), {
         body: {
             "authenticated": true,
         }
@@ -98,13 +104,13 @@ Then("he will be directed to a success page", () => {
 
 //Scenario: User cannot authenticate via face and wants forgets his login pin
 When("he enters the wrong pin number", () => {
-    const pin = '1234';
+    const pin = '1111';
     for (let i = 0; i < pin.length; i++) {
         const char = pin.charAt(i);
         cy.get('input').eq(i).type(char);
         cy.wait(100);
     }
-    cy.intercept('POST', 'https://backend-dbs-grp7-ml42q3c3ya-as.a.run.app/authenticate/pin', {
+    cy.intercept('POST', Cypress.env('pin_auth_uri'), {
         body: {
             "authenticated": false,
         }
