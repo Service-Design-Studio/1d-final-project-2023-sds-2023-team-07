@@ -6,7 +6,7 @@ Feature: Deposit, Withdraw and Voice Command
     Scenario: Clicking Deposit at Home Page 
         Given that I am at Home Page 
         When I click on the “Deposit” button  
-        Then I should be directed to the Confirm to Deposit Page   
+        Then I should be directed to the Authentication Page   
 
     # Sad path 
     Scenario: Can’t connect to server  
@@ -14,6 +14,12 @@ Feature: Deposit, Withdraw and Voice Command
         When I click on the “Deposit” button  
         And the server is down 
         Then I should see an error pop-up that states “Try Again” 
+
+    Scenario: Authentication Page 
+        Given that I am on the Authentication Page 
+        When I click on the “Auth Now” button 
+        And I am the right user  
+        Then I should be directed to the Confirm to Deposit Page 
 
     Scenario: “No” to Confirm to Deposit 
         Given I am on the Confirm to Deposit Page  
@@ -23,12 +29,6 @@ Feature: Deposit, Withdraw and Voice Command
     Scenario: “Yes” to Confirm to Deposit 
         Given I am on the Confirm to Deposit Page  
         When I click on the “Yes” button 
-        Then I should be directed to the Authentication Page 
-
-    Scenario: Authentication Page 
-        Given that I am on the Authentication Page 
-        When I click on the “Auth Now” button 
-        And I am the right user 
         Then I should be directed to the QR Connection Page  
         And I should see a QR code 
 
@@ -36,8 +36,7 @@ Feature: Deposit, Withdraw and Voice Command
     Scenario: Scan successful 
         Given that I am on the QR Connection Page 
         When I use the QR reader to scan my QR code  
-        Then I should be directed to the Loading Page 
-        And I should see “Scan Success” 
+        Then I should be directed to the Look At ATM Page
 
     # Sad path 
     Scenario: Scan unsuccessful 
@@ -47,7 +46,7 @@ Feature: Deposit, Withdraw and Voice Command
         Then I should see an error pop-up that states “Try Again”  
 
     Scenario: Loading to Success Page 
-        Given that I am at the Loading Page 
+        Given that I am at the Look At ATM Page 
         When my account has been updated 
         Then I should be directed to the Success Page 
         And I should see "Transaction Success” 
@@ -65,7 +64,7 @@ Feature: Deposit, Withdraw and Voice Command
     Scenario: Clicking Withdraw at Home Page 
         Given that I am at Home Page 
         When I click on the “Withdraw” button  
-        Then I should be directed to the Withdrawal Page 
+        Then I should be directed to the Authentication Page 
 
     # Sad path 
     Scenario: Can’t connect to server  
@@ -74,6 +73,12 @@ Feature: Deposit, Withdraw and Voice Command
         And the server is down 
         Then I should see an error pop-up that states “Try Again” 
 
+    Scenario: Authentication Page 
+        Given that I am on the Authentication Page 
+        When I click on the “Auth Now” button 
+        And I am the right user
+        Then I should be directed to the Withdrawal Page 
+    
     Scenario: Clicking Any Amount at Withdrawal Page 
         Given that I am at Withdrawal Page 
         When I click on a box containing a number 
@@ -88,21 +93,14 @@ Feature: Deposit, Withdraw and Voice Command
     Scenario: “Yes” to Confirm to Withdraw 
         Given I am on the Confirm to Withdraw Page  
         When I click on the “Yes” button 
-        Then I should be directed to the Authentication Page 
-
-    Scenario: Authentication Page 
-        Given that I am on the Authentication Page 
-        When I click on the “Auth Now” button 
-        And I am the right user 
         Then I should be directed to the QR Connection Page  
-        And I should see a QR code 
+        And I should see a QR code   
 
     # Happy path 
     Scenario: Scan successful 
         Given that I am on the QR Connection Page 
         When I use the QR reader to scan my QR code  
-        Then I should be directed to the Loading Page 
-        And I should see “Scan Success” 
+        Then I should be directed to the Look At ATM Page
 
     # Sad path 
     Scenario: Scan unsuccessful 
@@ -112,7 +110,7 @@ Feature: Deposit, Withdraw and Voice Command
         Then I should see an error pop-up that states “Try Again”  
 
     Scenario: Loading to Success Page 
-        Given that I am at the Loading Page 
+        Given that I am at the Look At ATM Page 
         When my account has been updated 
         Then I should be directed to the Success Page 
         And I should see "Transaction Success” 
