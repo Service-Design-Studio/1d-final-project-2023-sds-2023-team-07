@@ -26,10 +26,15 @@ const TimeoutFail = () => {
       width="100vw"
       p={3}
     >
-      <Text fontSize="4xl" mb="4">
+      <Text id="textboxid" fontSize="4xl" mb="4">
         Took to long to conduct transaction
       </Text>
-      <Button backgroundColor="dbsRed" color="white" onClick={handleGoHome}>
+      <Button
+        id="buttonid"
+        backgroundColor="dbsRed"
+        color="white"
+        onClick={handleGoHome}
+      >
         Go Home
       </Button>
     </Box>

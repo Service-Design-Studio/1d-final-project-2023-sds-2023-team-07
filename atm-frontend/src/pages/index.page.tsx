@@ -14,6 +14,7 @@ const HomePage = () => {
     <Flex justify="center" align="center" height="100vh">
       <Box>
         <Button
+          id="buttonid"
           onClick={handleButtonClick}
           backgroundColor="dbsRed"
           textColor="white"

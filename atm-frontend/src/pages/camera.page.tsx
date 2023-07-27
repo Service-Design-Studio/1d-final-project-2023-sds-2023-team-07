@@ -82,7 +82,7 @@ const QrCodeScanner = () => {
           display: "none",
         }}
       />
-      {/* <Text>{JSON.stringify(qrCodeResult, null, 2)}</Text> */}
+      {/* <Text id="textboxid" >{JSON.stringify(qrCodeResult, null, 2)}</Text> */}
     </Box>
   );
 };

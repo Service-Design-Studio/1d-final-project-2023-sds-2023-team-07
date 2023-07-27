@@ -91,7 +91,9 @@ const Transaction = () => {
     <Center height="100vh" flexDirection="column">
       {transaction && transaction.transaction_type === "NCD" && (
         <>
-          <Text fontSize="xl">Deposit your cash now</Text>
+          <Text id="textboxid" fontSize="xl">
+            Deposit your cash now
+          </Text>
           <NumberInput
             defaultValue={0}
             min={0}
@@ -109,9 +111,12 @@ const Transaction = () => {
         </>
       )}
       {transaction && transaction.transaction_type === "AWL" && (
-        <Text fontSize="xl">Withdraw ${transaction.amount} now</Text>
+        <Text id="textboxid" fontSize="xl">
+          Withdraw ${transaction.amount} now
+        </Text>
       )}
       <Button
+        id="buttonid"
         backgroundColor="dbsRed"
         textColor="white"
         mt={4}

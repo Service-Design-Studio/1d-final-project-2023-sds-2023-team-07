@@ -26,10 +26,15 @@ const WrongQRCode = () => {
       width="100vw"
       p={3}
     >
-      <Text fontSize="4xl" mb="4">
+      <Text id="textboxid" fontSize="4xl" mb="4">
         Wrong QR Code Format
       </Text>
-      <Button backgroundColor="dbsRed" color="white" onClick={handleGoHome}>
+      <Button
+        id="buttonid"
+        backgroundColor="dbsRed"
+        color="white"
+        onClick={handleGoHome}
+      >
         Go Home
       </Button>
     </Box>
