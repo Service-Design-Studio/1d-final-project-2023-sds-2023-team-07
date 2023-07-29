@@ -34,3 +34,6 @@
 
 Dockerfile
 cloudbuild.yaml
+
+frontend
+backend-api
