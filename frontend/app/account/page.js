@@ -200,7 +200,7 @@ export default function Page() {
                 setQrData({
                   user_id: 1,
                   transaction_type: "AWL",
-                  amount: amountSelected,
+                  amount: 10000,
                 });
                 setPageState("qr");
               }}

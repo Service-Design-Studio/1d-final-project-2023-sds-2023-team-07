@@ -54,6 +54,7 @@ export default function Page() {
         console.error("Error:", error);
       });
   }, []);
+  console.log();
 
   const renderPage = () => {
     switch (pageState) {
@@ -96,7 +97,7 @@ export default function Page() {
                           {new Date(row.created_at).toLocaleDateString()}
                         </Td>
                         <Td id={`amount-${key}`}>{`${
-                          row.transaction_type === "deposit" ? "+" : "-"
+                          row.transaction_type === "NCD" ? "+" : "-"
                         }${row.amount}`}</Td>
                         <Td id={`balance-${key}`}>
                           {row.user_balance_left + "0"}
