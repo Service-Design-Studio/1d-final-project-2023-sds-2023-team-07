@@ -1,3 +1,4 @@
+require 'bigdecimal'
 class TransactionsController < ApplicationController
   before_action :set_user, only: [:create]
   before_action :set_atm_machine, only: [:create]
@@ -10,7 +11,7 @@ class TransactionsController < ApplicationController
       if @user
         @transactions = @user.transactions
       else
-        render json: { error: "User not found" }, status: :not_found and return
+        render json: { error: "User not found" }, status: :unprocessable_entity and return
       end
     else
       @transactions = Transaction.all
@@ -20,7 +21,7 @@ class TransactionsController < ApplicationController
 
   # POST '/transactions' - Create a new transaction
   def create
-    if params[:transaction_type] == 'AWL' && transaction_params[:amount] > @user.balance
+    if params[:transaction_type] == 'AWL' && BigDecimal(transaction_params[:amount]) > @user.balance
       render json: { errors: "Insufficient balance" }, status: :unprocessable_entity
     else
       Transaction.transaction do
@@ -63,8 +64,6 @@ class TransactionsController < ApplicationController
     end
   end
 
-  private
-
   def set_user
     @user = User.find_by(id: params[:user_id])
     unless @user
@@ -80,14 +79,14 @@ class TransactionsController < ApplicationController
     end
   end
 
-  def transaction_params
+  def transaction_params # raise error if params are not present
     transaction_data = params.permit(:user_id, :atm_machine_id, :amount, :transaction_type)
     if transaction_data[:transaction_type] == 'NCD'
-      transaction_data[:user_balance_left] = @user.balance + transaction_data[:amount]
-      transaction_data[:atm_balance_left] = @atm_machine.balance + transaction_data[:amount]
-    elsif transaction_data[:transaction_type] == 'AWL' && transaction_data[:amount] <= @user.balance
-      transaction_data[:user_balance_left] = @user.balance - transaction_data[:amount]
-      transaction_data[:atm_balance_left] = @atm_machine.balance - transaction_data[:amount]
+      transaction_data[:user_balance_left] = @user.balance + BigDecimal(transaction_data[:amount])
+      transaction_data[:atm_balance_left] = @atm_machine.balance + BigDecimal(transaction_data[:amount])
+    elsif transaction_data[:transaction_type] == 'AWL' && BigDecimal(transaction_data[:amount]) <= @user.balance
+      transaction_data[:user_balance_left] = @user.balance - BigDecimal(transaction_data[:amount])
+      transaction_data[:atm_balance_left] = @atm_machine.balance - BigDecimal(transaction_data[:amount])
     end
     transaction_data
   end

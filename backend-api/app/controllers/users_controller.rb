@@ -42,8 +42,6 @@ class UsersController < ApplicationController
     end
   end
 
-  private
-
   def user_params
     params.require(:user).permit(:name, :identification_number, :balance, :pin, :face_image_url, :is_active)
   end
