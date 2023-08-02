@@ -71,3 +71,7 @@ gem 'google-cloud-storage', '>= 1.0.0', require: false
 
 gem 'aws-sdk-rekognition'
 gem "appengine", "~> 0.7.0"
+
+group :development, :test do
+  gem 'dotenv-rails'
+end
