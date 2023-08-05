@@ -1,4 +1,5 @@
 class AuthenticationController < ApplicationController
+    # WILL DELETE THIS CONTROLLER LTR
 
     require 'aws-sdk-rekognition'
     require 'base64'
