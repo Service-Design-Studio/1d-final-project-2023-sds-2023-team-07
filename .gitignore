@@ -36,3 +36,5 @@ node_modules/*
 
 .expo
 .env
+project_structure.text
+headers.txt # for cookies

@@ -19,7 +19,7 @@ class AtmMachinesController < ApplicationController
   def show
     @atm_machine = AtmMachine.find(params[:id])
     render json: @atm_machine
-  end
+  end 
 
   # PATCH '/atm_machines/:id' - Update a specific ATM machine
   # PUT '/atm_machines/:id' - Update a specific ATM machine
@@ -42,11 +42,10 @@ class AtmMachinesController < ApplicationController
     end
   end
   
-  private
+  # private
   
   # Change :atm_id, :address, and :balance_left to :atm_machine_name
   def atm_machine_params
     params.require(:atm_machine).permit(:atm_machine_name, :store_name, :balance)
   end
 end
-  

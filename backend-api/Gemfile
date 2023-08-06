@@ -7,12 +7,11 @@ ruby "3.0.0"
 gem "rails", "~> 7.0.0"
 
 # Use sqlite3 as the database for Active Record
+gem 'sqlite3'
+
 # group :development, :test do
 #   gem 'sqlite3'
 # end
-group :development, :test do
-  gem 'sqlite3'
-end
 
 group :production do
   gem 'pg' # for gcloud deployment
@@ -71,3 +70,7 @@ gem 'google-cloud-storage', '>= 1.0.0', require: false
 
 gem 'aws-sdk-rekognition'
 gem "appengine", "~> 0.7.0"
+
+group :development, :test do
+  gem 'dotenv-rails'
+end
