@@ -31,7 +31,7 @@ export default function Error() {
                 <Button
                   id="refreshButton"
                   onClick={() => {
-                    router.push("/");
+                    router.push("/transactionHistory");
                   }}
                   className="mt-6"
                   colorScheme="red"

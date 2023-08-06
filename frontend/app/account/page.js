@@ -125,7 +125,7 @@ export default function Page() {
             Confirm to Deposit?
             <Button
               onClick={() => {
-                router.push("/");
+                router.push("/transactionHistory");
               }}
               className="mt-6"
               colorScheme="red"
@@ -170,7 +170,7 @@ export default function Page() {
             </div>
             <Button
               onClick={() => {
-                router.push("/");
+                router.push("/transactionHistory");
               }}
               className="mt-6"
               colorScheme="red"
@@ -187,7 +187,7 @@ export default function Page() {
             {`Confirm to Withdraw ${amountSelected} ?`}
             <Button
               onClick={() => {
-                router.push("/");
+                router.push("/transactionHistory");
               }}
               className="mt-6"
               colorScheme="red"
@@ -200,7 +200,7 @@ export default function Page() {
                 setQrData({
                   user_id: 1,
                   transaction_type: "AWL",
-                  amount: 10000,
+                  amount: amountSelected,
                 });
                 setPageState("qr");
               }}
@@ -228,7 +228,7 @@ export default function Page() {
             />
             <Button
               onClick={() => {
-                router.push("/");
+                router.push("/transactionHistory");
               }}
               className="mt-6"
               colorScheme="red"
