@@ -21,21 +21,29 @@ class TransactionsController < ApplicationController
 
   # POST '/transactions' - Create a new transaction
   def create
-    if params[:transaction_type] == 'AWL' && BigDecimal(transaction_params[:amount]) > @user.balance
-      render json: { errors: "Insufficient balance" }, status: :unprocessable_entity
+    @transaction = Transaction.new(transaction_params)
+    if @transaction.save
+      render json: @transaction, status: :created
     else
-      Transaction.transaction do
-        @transaction = Transaction.new(transaction_params)
-        if @transaction.save
-          @user.update!(balance: @transaction.user_balance_left)
-          @atm_machine.update!(balance: @transaction.atm_balance_left)  # Update the AtmMachine balance
-          render json: @transaction, status: :created
-        else
-          render json: {errors: @transaction.errors.full_messages}, status: :unprocessable_entity
-        end
-      end
+      render json: {errors: @transaction.errors.full_messages}, status: :unprocessable_entity
     end
   end
+  # def create
+  #   if params[:transaction_type] == 'AWL' && BigDecimal(transaction_params[:amount]) > @user.balance
+  #     render json: { errors: "Insufficient balance" }, status: :unprocessable_entity
+  #   else
+  #     Transaction.transaction do
+  #       @transaction = Transaction.new(transaction_params)
+  #       if @transaction.save
+  #         @user.update!(balance: @transaction.user_balance_left)
+  #         @atm_machine.update!(balance: @transaction.atm_balance_left)  # Update the AtmMachine balance
+  #         render json: @transaction, status: :created
+  #       else
+  #         render json: {errors: @transaction.errors.full_messages}, status: :unprocessable_entity
+  #       end
+  #     end
+  #   end
+  # end
 
   # GET '/transactions/:id' - Show details of a specific transaction
   def show
@@ -79,15 +87,19 @@ class TransactionsController < ApplicationController
     end
   end
 
-  def transaction_params # raise error if params are not present
-    transaction_data = params.permit(:user_id, :atm_machine_id, :amount, :transaction_type)
-    if transaction_data[:transaction_type] == 'NCD'
-      transaction_data[:user_balance_left] = @user.balance + BigDecimal(transaction_data[:amount])
-      transaction_data[:atm_balance_left] = @atm_machine.balance + BigDecimal(transaction_data[:amount])
-    elsif transaction_data[:transaction_type] == 'AWL' && BigDecimal(transaction_data[:amount]) <= @user.balance
-      transaction_data[:user_balance_left] = @user.balance - BigDecimal(transaction_data[:amount])
-      transaction_data[:atm_balance_left] = @atm_machine.balance - BigDecimal(transaction_data[:amount])
-    end
-    transaction_data
+  # def transaction_params # raise error if params are not present
+  #   transaction_data = params.permit(:user_id, :atm_machine_id, :amount, :transaction_type)
+  #   if transaction_data[:transaction_type] == 'NCD'
+  #     transaction_data[:user_balance_left] = @user.balance + BigDecimal(transaction_data[:amount])
+  #     transaction_data[:atm_balance_left] = @atm_machine.balance + BigDecimal(transaction_data[:amount])
+  #   elsif transaction_data[:transaction_type] == 'AWL' && BigDecimal(transaction_data[:amount]) <= @user.balance
+  #     transaction_data[:user_balance_left] = @user.balance - BigDecimal(transaction_data[:amount])
+  #     transaction_data[:atm_balance_left] = @atm_machine.balance - BigDecimal(transaction_data[:amount])
+  #   end
+  #   transaction_data
+  # end
+  def transaction_params
+    params.require(:transaction).permit(:user_id, :atm_machine_id, :amount, :transaction_type)
   end
+
 end
