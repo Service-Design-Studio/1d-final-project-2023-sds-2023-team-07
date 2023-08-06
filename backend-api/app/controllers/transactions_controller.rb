@@ -59,6 +59,7 @@ class TransactionsController < ApplicationController
       render json: @transaction
     else
       render json: { errors: @transaction.errors.full_messages }, status: :unprocessable_entity
+
     end
   end
 

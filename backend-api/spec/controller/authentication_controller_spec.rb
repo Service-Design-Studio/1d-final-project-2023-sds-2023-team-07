@@ -36,6 +36,7 @@ RSpec.describe AuthenticationController, type: :controller do
         end
 
         it "authenticates if correct user face for user" do
+
             fileObject = File.open("spec/controller/correct.txt","r");
             base_64_string = fileObject.read.to_s
             post :face, params: {image:base_64_string,name:@name}

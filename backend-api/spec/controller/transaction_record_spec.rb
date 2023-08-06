@@ -42,10 +42,13 @@ RSpec.describe TransactionsController, type: :controller do
     end
   end
 
-  describe "POST #withdraw" do
+  describe "POST #deposit" do
     before do
       @user = 1
     end
+    let(:params) {@params}
+    let(:atm_machine) { @atm_machine }
+    let(:transaction_params) {@transaction_params}
 
     it "creates a new withdrawal transaction" do
       transaction_params = { user_id: 1 , atm_machine_id: 1, amount: 50 , transaction_type: "AWL" }
@@ -77,5 +80,6 @@ RSpec.describe TransactionsController, type: :controller do
     it "does not delete transaction if id is invalid" do
       expect {delete :destroy , params:  {id: "3213213213"}}.to raise_error(ActiveRecord::RecordNotFound)
     end # Robust test case (invalid parameter)
+
   end
 end
