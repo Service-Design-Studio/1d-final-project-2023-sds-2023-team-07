@@ -12,16 +12,21 @@ import {
   PinInput,
   PinInputField,
 } from "@chakra-ui/react";
+import { useRouter } from "next/navigation";
 
 export default function page() {
+  const router = useRouter();
+
   const pinOne = useRef(null);
   const pinTwo = useRef(null);
   const pinThree = useRef(null);
   const pinFour = useRef(null);
+
   const [step, setStep] = useState(1);
   const [ic, setIc] = useState("");
   const [name, setName] = useState("");
   const [pin, setPin] = useState("");
+
   const handleInputChange = (event, type) => {
     console.log(event);
     console.log(type);
@@ -58,6 +63,7 @@ export default function page() {
     // } catch (error) {
     //   console.error("Error:", error);
     // }
+    router.push("/stream");
   };
 
   const renderPart = () => {
