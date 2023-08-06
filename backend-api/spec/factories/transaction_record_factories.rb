@@ -9,31 +9,27 @@ FactoryBot.define do
     transaction_type { Transaction.transaction_types.keys.sample }
     created_at { DateTime.now }
     updated_at { DateTime.now }
+    user_balance_left {Faker::Number.decimal(l_digits:2)}
+    atm_balance_left {Faker::Number.decimal(l_digits:2)}
   end
 
   factory :user do
     name { Faker::Name.name }
     identification_number { Faker::IDNumber.unique.valid }
-    account_balance { Faker::Number.decimal(l_digits: 2) }
-    pin {9999}
-    face_image_url { Faker::Internet.url }
-    created_at {DateTime.now()}
-    updated_at {DateTime.now()}
+    balance { Faker::Number.decimal(l_digits: 2) }
+    pin {"1234"} # string
+    face_image_url { Faker::Internet.url } # string
+    is_active {0}# int
+    created_at { DateTime.now }
+    updated_at { DateTime.now }
   end
 
   factory :atm_machine do
-    atm_id { Faker::Number.number(digits: 10).to_s }
+    atm_machine_name {Faker::Company.name}
     store_name { Faker::Company.name }
-    address { Faker::Address.full_address }
     balance { Faker::Number.decimal(l_digits: 2) }
     created_at { DateTime.now }
     updated_at { DateTime.now }
   end
 
-  factory :post do
-    title { Faker::Lorem.sentence }
-    content { Faker::Lorem.paragraph }
-    created_at { DateTime.now }
-    updated_at { DateTime.now }
-  end
 end

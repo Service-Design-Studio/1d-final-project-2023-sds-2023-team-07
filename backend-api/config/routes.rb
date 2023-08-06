@@ -1,20 +1,16 @@
 Rails.application.routes.draw do
-  post 'authenticate/face', to: 'authentication#face'
-  post 'authenticate/pin', to: 'authentication#pin'
-  post 'withdraw', to: 'transactions#withdraw'
-  post 'withdraw/confirm', to: 'transactions#confirm_withdrawal'
-  post 'deposit', to: 'transactions#deposit'
-  post 'deposit/confirm', to: 'transactions#confirm_deposit'
-  post 'voice_transaction', to: 'transactions#voice_transaction'
-  
-  resources :users do
-    resources :transactions, only: [:index]
-  end
+  # User authentication routes
+  # might remove this
+  post 'authenticate/face', to: 'authentication#face' # Handles face authentication
+  post 'authenticate/pin', to: 'authentication#pin'   # Handles pin authentication
 
-  resources :users, only: [:create] do
-    resources :transactions, only: [:index]
-  end
+  # Session routes
+  post '/login', to: 'sessions#create'
+  delete '/logout', to: 'sessions#destroy'
+  get '/is_logged', to: 'sessions#is_logged'
 
+  resources :users
+  resources :atm_machines
+  resources :transactions
 
-  resources :atm_machines, only: [:create]
 end
