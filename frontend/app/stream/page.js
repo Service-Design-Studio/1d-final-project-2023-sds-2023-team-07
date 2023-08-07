@@ -60,27 +60,32 @@ export default function page() {
     async function captureFrame() {
       const video = videoRef.current;
       const canvas = canvasRef.current;
-
+    
       if (video && canvas) {
         canvas.width = video.videoWidth;
         canvas.height = video.videoHeight;
-
+    
         const ctx = canvas.getContext("2d");
         ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-        // const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height)
-        //   .data;
-        // console.log(imageData);
-
+    
         // Convert canvas content to JPEG blob
         canvas.toBlob(async (blob) => {
           if (blob) {
-            // Store the captured blob in the state variable
-            console.log(blob);
-            indexFaces(blob, "ryan");
+            try {
+              // Convert Blob to ArrayBuffer
+              const arrayBuffer = await blob.arrayBuffer();
+              // Create a Buffer from the ArrayBuffer
+              const imageBuffer = Buffer.from(arrayBuffer);
+    
+              // Pass the imageBuffer to indexFaces
+              const img_name = "test"
+              indexFaces(imageBuffer, img_name);
+              console.log("Image Indexed : " , img_name)
+            } catch (error) {
+              console.error("Error converting Blob to Buffer:", error);
+            }
           }
         }, "image/jpeg");
-        // const dataUrl = canvas.toDataURL("image/jpeg");
-        // indexFaces(dataUrl, "ryan");
       }
     }
 
