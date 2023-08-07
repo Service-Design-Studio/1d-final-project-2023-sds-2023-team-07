@@ -46,33 +46,8 @@ export default function page() {
 
   const handleSubmit = async () => {
     try {
-      //   fetch("https://backend-dbs-grp7-ml42q3c3ya-as.a.run.app/users", {
-      //     method: "POST",
-      //     headers: {
-      //       "Content-Type": "application/json",
-      //     },
-      //     body: JSON.stringify({
-      //       name: name,
-      //       identification_number: ic,
-      //       balance: 0,
-      //       pin: pin,
-      //       face_image_url: "http://example.com/face.jpg",
-      //       is_active: 0,
-      //     }),
-      //   }).then(
-      //     await fetch("https://backend-dbs-grp7-ml42q3c3ya-as.a.run.app/login", {
-      //       method: "POST",
-      //       headers: {
-      //         "Content-Type": "application/json",
-      //       },
-      //       body: JSON.stringify({
-      //         identification_number: "ABC123",
-      //         pin: "1234",
-      //       }),
-      //     })
-      //   );
-
-      fetch("https://backend-dbs-grp7-ml42q3c3ya-as.a.run.app/users", {
+      // Fetch from the /api/users endpoint
+      const response1 = await fetch("/api/users/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -85,40 +60,41 @@ export default function page() {
           face_image_url: "http://example.com/face.jpg",
           is_active: 0,
         }),
-      })
-        .then((response) => response.json()) // Convert the response to JSON
-        .then((data1) => {
-          console.log(data1); // Data from first request
+      });
 
-          // Make the second POST request
-          return fetch(
-            "https://backend-dbs-grp7-ml42q3c3ya-as.a.run.app/login",
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                identification_number: "ABC123",
-                pin: "1234",
-              }),
-              credentials: "include",
-            }
-          );
-        })
-        .then((response) => response.json()) // Convert the second response to JSON
-        .then((data2) => {
-          console.log(data2); // Data from second request
-        })
-        .catch((error) => console.error("Error:", error));
-      if (response.ok) {
-        console.log("Data posted successfully");
-      } else {
-        console.error("Failed to post data");
+      const data1 = await response1.json();
+
+      if (!response1.ok) {
+        throw new Error(data1.message || "Failed to post data to /users");
       }
+
+      console.log(data1);
+
+      // If the above fetch was successful, proceed to the next fetch
+
+      // Fetch from the /api/login endpoint
+      const response2 = await fetch("/api/cookie/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          identification_number: "ABC123", // Note: This should probably be changed to the actual IC number you want to use
+          pin: "1234", // Note: This should probably be changed to the actual PIN you want to use
+        }),
+      });
+
+      const data2 = await response2.json();
+
+      if (!response2.ok) {
+        throw new Error(data2.message || "Failed to post data to /login");
+      }
+
+      console.log(data2);
     } catch (error) {
       console.error("Error:", error);
     }
+
     console.log("x");
     router.push("/stream");
   };
