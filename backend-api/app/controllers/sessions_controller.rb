@@ -13,8 +13,8 @@ class SessionsController < ApplicationController
             session[:user_id] = @user.id
             render json: { logged_in: true, user: @user }
         else
-          # If the user does not exist or the provided pin or face image does not match the user's, 
-          # return a JSON response indicating that the user is not logged in
+            # If the user does not exist or the provided pin or face image does not match the user's, 
+            # return a JSON response indicating that the user is not logged in
             render json: { logged_in: false }
         end
     end

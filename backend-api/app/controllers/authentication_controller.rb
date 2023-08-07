@@ -6,11 +6,11 @@ class AuthenticationController < ApplicationController
 
     def face
         image_data = params[:image]
-        param_name = params[:name]
-        if image_data.present? && param_name.present?
+        param_identification_number = params[:identification_number]
+        if image_data.present? && param_identification_number.present?
             name, confidence = find_person_using_image('face-id-test', image_data, 90)
 
-            if param_name == name
+            if param_identification_number == name
                 render json: {authenticated: true, message: "No issues"}, status: :ok
             else
                 render json: {authenticated: false, message: "Face authentication failed"}, status: :ok
@@ -22,9 +22,9 @@ class AuthenticationController < ApplicationController
 
     def pin
         pin_data = params[:pin]
-        param_name = params[:name]
-        if pin_data.present? && param_name.present?
-            user = User.find_by(name: param_name)
+        param_identification_number = params[:identification_number]
+        if pin_data.present? && param_identification_number.present?
+            user = User.find_by(identification_number: param_identification_number)
     
             if user && user.pin == pin_data
                 render json: {authenticated: true, message: "No issues"}, status: :ok
