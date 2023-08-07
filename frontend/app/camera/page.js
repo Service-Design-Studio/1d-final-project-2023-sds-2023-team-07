@@ -80,7 +80,7 @@ export default function Home() {
         "https://backend-dbs-grp7-ml42q3c3ya-as.a.run.app/authenticate/face",
         {
           image: dataURL,
-          name: "Kelvin",
+          name: "ryan",
         },
         config
       )
@@ -88,6 +88,7 @@ export default function Home() {
         console.log(response.data.authenticated);
         console.log("fail counter: " + counter);
         if (response.data.authenticated) {
+          console.log("success");
           const params = extractQueryString(window.location.href);
           router.push(`/account?pageState=${params.pageState}`);
         } else if (!response.data.authenticated && counter == 3) {

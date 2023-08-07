@@ -22,47 +22,104 @@ export default function page() {
   const pinThree = useRef(null);
   const pinFour = useRef(null);
 
+  const [cansubmit, setCanSubmit] = React.useState(false);
   const [step, setStep] = useState(1);
+  const [data, setData] = useState({});
   const [ic, setIc] = useState("");
   const [name, setName] = useState("");
   const [pin, setPin] = useState("");
 
   const handleInputChange = (event, type) => {
-    console.log(event);
     console.log(type);
     switch (type) {
       case "ic":
         setIc(event.target.value);
         break;
       case "name":
-        setIc(event.target.value);
+        setName(event.target.value);
         break;
       case "pin":
-        setIc(event.target.value);
+        setPin(event.target.value);
         break;
     }
   };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const handleSubmit = async () => {
+    try {
+      //   fetch("https://backend-dbs-grp7-ml42q3c3ya-as.a.run.app/users", {
+      //     method: "POST",
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //     },
+      //     body: JSON.stringify({
+      //       name: name,
+      //       identification_number: ic,
+      //       balance: 0,
+      //       pin: pin,
+      //       face_image_url: "http://example.com/face.jpg",
+      //       is_active: 0,
+      //     }),
+      //   }).then(
+      //     await fetch("https://backend-dbs-grp7-ml42q3c3ya-as.a.run.app/login", {
+      //       method: "POST",
+      //       headers: {
+      //         "Content-Type": "application/json",
+      //       },
+      //       body: JSON.stringify({
+      //         identification_number: "ABC123",
+      //         pin: "1234",
+      //       }),
+      //     })
+      //   );
 
-    // try {
-    //   const response = await fetch("https://api.example.com/post-endpoint", {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify({ data: inputValue }),
-    //   });
+      fetch("https://backend-dbs-grp7-ml42q3c3ya-as.a.run.app/users", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: name,
+          identification_number: ic,
+          balance: 0,
+          pin: pin,
+          face_image_url: "http://example.com/face.jpg",
+          is_active: 0,
+        }),
+      })
+        .then((response) => response.json()) // Convert the response to JSON
+        .then((data1) => {
+          console.log(data1); // Data from first request
 
-    //   if (response.ok) {
-    //     console.log("Data posted successfully");
-    //   } else {
-    //     console.error("Failed to post data");
-    //   }
-    // } catch (error) {
-    //   console.error("Error:", error);
-    // }
+          // Make the second POST request
+          return fetch(
+            "https://backend-dbs-grp7-ml42q3c3ya-as.a.run.app/login",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                identification_number: "ABC123",
+                pin: "1234",
+              }),
+              credentials: "include",
+            }
+          );
+        })
+        .then((response) => response.json()) // Convert the second response to JSON
+        .then((data2) => {
+          console.log(data2); // Data from second request
+        })
+        .catch((error) => console.error("Error:", error));
+      if (response.ok) {
+        console.log("Data posted successfully");
+      } else {
+        console.error("Failed to post data");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+    console.log("x");
     router.push("/stream");
   };
 
@@ -72,11 +129,12 @@ export default function page() {
         return (
           <Input
             onChange={(e) => {
-              handleInputChange(e, "ic");
+              handleInputChange(e, "name");
             }}
-            focusBorderColor="pink.400"
-            placeholder="IC Number"
+            focusBorderColor="red"
+            placeholder="Name"
             size="lg"
+            value={name}
           />
         );
       case 2:
@@ -85,14 +143,15 @@ export default function page() {
             onChange={(e) => {
               handleInputChange(e, "ic");
             }}
-            focusBorderColor="pink.400"
-            placeholder="Name"
+            focusBorderColor="red"
+            placeholder="IC Number"
             size="lg"
+            value={ic}
           />
         );
       case 3:
         return (
-          <div>
+          <div className="flex justify-center items-center">
             <PinInput size="lg">
               <PinInputField className="mr-2 mt-6:focus" ref={pinOne} />
               <PinInputField className="mr-2" ref={pinTwo} />
@@ -105,23 +164,41 @@ export default function page() {
   };
   return (
     <ChakraProvider>
-      <div>
-        <form onSubmit={handleSubmit}>
+      <div className="flex h-screen flex-col justify-center items-center">
+        <form
+          onSubmit={(e) => {
+            if (cansubmit) {
+              handleSubmit();
+            }
+            e.preventDefault();
+          }}
+          className="flex justify-center flex-col w-5/6"
+        >
           {renderPart()}
 
           {step === 3 ? (
-            <Button type="submit" className="grow" colorScheme="red" size="md">
+            <Button
+              key="submitButton"
+              type="submit"
+              className="grow mt-6"
+              colorScheme="red"
+              size="md"
+              onClick={() => {
+                setCanSubmit(true);
+              }}
+            >
               Submit
             </Button>
           ) : (
             <Button
-              type="submit"
+              key="nextButton"
               onClick={() => {
                 setStep(step + 1);
               }}
-              className="grow"
+              className="grow mt-6"
               colorScheme="red"
               size="md"
+              type="button"
             >
               Next
             </Button>

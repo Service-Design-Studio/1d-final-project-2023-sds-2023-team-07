@@ -19,9 +19,8 @@ export default function Page() {
   const router = useRouter();
   return (
     <ChakraProvider>
-      <div>
-        base
-        <div>
+      <div className="flex justify-center context-center h-screen">
+        <div className="flex flex-col justify-center context-center">
           <Button
             id="refreshButton"
             onClick={() => {
@@ -29,18 +28,18 @@ export default function Page() {
             }}
             className="mt-6"
             colorScheme="red"
-            size="md"
+            size="lg"
           >
             SIGNUP
           </Button>
           <Button
             id="refreshButton"
             onClick={() => {
-              router.push("/transactionHistory");
+              router.push("/login");
             }}
             className="mt-6"
             colorScheme="red"
-            size="md"
+            size="lg"
           >
             LOGIN
           </Button>

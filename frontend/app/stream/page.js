@@ -28,9 +28,7 @@ export default function page() {
     }
 
     function startCapture() {
-      const myTimeout = setTimeout(captureFrame, 5000);
-
-      //   intervalId = setInterval(captureFrame, 10000); // Capture every 1 second
+      intervalId = setInterval(captureFrame, 500); // Capture every 1 second
     }
 
     async function indexFaces(photo_jpg, personName) {
@@ -60,14 +58,14 @@ export default function page() {
     async function captureFrame() {
       const video = videoRef.current;
       const canvas = canvasRef.current;
-    
+
       if (video && canvas) {
         canvas.width = video.videoWidth;
         canvas.height = video.videoHeight;
-    
+
         const ctx = canvas.getContext("2d");
         ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-    
+
         // Convert canvas content to JPEG blob
         canvas.toBlob(async (blob) => {
           if (blob) {
@@ -76,11 +74,11 @@ export default function page() {
               const arrayBuffer = await blob.arrayBuffer();
               // Create a Buffer from the ArrayBuffer
               const imageBuffer = Buffer.from(arrayBuffer);
-    
+
               // Pass the imageBuffer to indexFaces
-              const img_name = "test"
+              const img_name = "ryan";
               indexFaces(imageBuffer, img_name);
-              console.log("Image Indexed : " , img_name)
+              console.log("Image Indexed : ", img_name);
             } catch (error) {
               console.error("Error converting Blob to Buffer:", error);
             }
