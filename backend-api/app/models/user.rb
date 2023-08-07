@@ -13,10 +13,6 @@ class User < ApplicationRecord
         self.identification_number == identification_number_aws
     end
 
-    def onboard_pin
-        return
-    end
-
     private
     def find_person_using_image(collection_name, base64_image, thresholdval)
         client = Aws::Rekognition::Client.new
