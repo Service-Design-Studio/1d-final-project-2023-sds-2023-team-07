@@ -1,7 +1,8 @@
 "use client";
 import React, { useRef, useEffect } from "react";
 import AWS from "aws-sdk";
-import { useRouter } from "next/router"; // 1. Import useRouter
+import { useRouter } from "next/navigation"; // 1. Import useRouter
+import { Box, Button, Center, Heading } from "@chakra-ui/react";
 
 //Kelvin's credentials
 AWS.config.update({
@@ -98,11 +99,18 @@ export default function page() {
   }, []);
 
   return (
-    <div>
-      <h2>Capture Frames</h2>
+    <Box>
+      <Heading>Capture Frames</Heading>
       <video ref={videoRef} autoPlay playsInline muted />
       <canvas ref={canvasRef} style={{ display: "none" }} />
-      <button onClick={() => router.push("/transactionHistory")}>Next</button>
-    </div>
+      <Center>
+        <Button
+          backgroundColor="red"
+          onClick={() => router.push("/transactionHistory")}
+        >
+          Next
+        </Button>
+      </Center>
+    </Box>
   );
 }
