@@ -1,8 +1,34 @@
 require 'rails_helper'
 require "factory_bot_rails"
 
+
 RSpec.describe AtmMachinesController, type: :controller do
+    # Fuzz testing
     describe "create" do
+        before do
+            @fuzzed_atm_dict = {
+                atm_machine_name: Faker::Alphanumeric.alpha(number: rand(5..10)),
+                store_name: Faker::Alphanumeric.alpha(number: rand(5..20)),
+                balance: rand(0.01..1000.0).round(2)
+              }
+          end
+        
+          it "creates atm successfully given correct fuzzed inputs" do
+            post :create, params: { atm_machine: @fuzzed_atm_dict }
+            
+            expect(response).to have_http_status(:success)
+            parsed_response = JSON.parse(response.body)
+            expected_json = {
+              'id' => parsed_response['id'],
+              'atm_machine_name' => @fuzzed_atm_dict[:atm_machine_name],
+              'store_name' => @fuzzed_atm_dict[:store_name],
+              'balance' => @fuzzed_atm_dict[:balance].to_s
+            }
+            parsed_response.delete("created_at")
+            parsed_response.delete("updated_at")
+            expect(parsed_response).to eq(expected_json)
+          end
+          
         it "creates a new atm if given correct params" do
             @send_params = {atm_machine: {atm_machine_name:"Testing ATM", store_name:"Testing Store Name", balance: 1234.0 }}
             post :create , params: @send_params

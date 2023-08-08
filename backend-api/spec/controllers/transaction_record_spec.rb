@@ -78,4 +78,21 @@ RSpec.describe TransactionsController, type: :controller do
       expect {delete :destroy , params:  {id: "3213213213"}}.to raise_error(ActiveRecord::RecordNotFound)
     end # Robust test case (invalid parameter)
   end
+
+  # fuzzed_data_provider :transaction_params do
+  #   # Define fuzzed inputs for transaction_params
+  #   {
+  #     user_id: 1,
+  #     atm_machine_id: 1,
+  #     amount: Numeric,
+  #     transaction_type: "NCD",
+  #   }
+  # end
+
+  # it "creates a transaction with fuzzed input" do
+  #   fuzzed_input = get_fuzzed_data(:transaction_params)
+
+  #   post :create, params: { transaction: fuzzed_input }
+  #   expect(response).to have_http_status(:success)
+  
 end
