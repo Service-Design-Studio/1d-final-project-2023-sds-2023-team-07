@@ -22,7 +22,6 @@ export default function TableDefault({ data }) {
             <Th>Date</Th>
             <Th>Transaction</Th>
             <Th>Amount Left</Th>
-            <Th>Transaction Code</Th>
           </Tr>
         </Thead>
         <Tbody>
@@ -42,7 +41,6 @@ export default function TableDefault({ data }) {
             ))}
         </Tbody>
       </Table>
-      ;
     </ChakraProvider>
   );
 }
