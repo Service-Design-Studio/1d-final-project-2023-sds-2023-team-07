@@ -1,17 +1,7 @@
 "use client"; // This is a client component 👈🏽
 import Image from "next/image";
 import React, { useEffect, useState, useRef } from "react";
-import {
-  ChakraProvider,
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
-  chakra,
-  Button,
-} from "@chakra-ui/react";
+import { ChakraProvider, Button } from "@chakra-ui/react";
 import axios from "axios";
 
 export default function Page() {
