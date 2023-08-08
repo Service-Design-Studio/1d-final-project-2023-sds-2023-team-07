@@ -21,6 +21,11 @@ class TransactionsController < ApplicationController
 
   # POST '/transactions' - Create a new transaction
   def create
+    # To reject invalid transaction types
+    unless ["NCD", "AWL"].include?(params[:transaction_type])
+      render json: {}, status: :unprocessable_entity
+      return
+    end
     @transaction = Transaction.new(transaction_params)
     if @transaction.save
       render json: @transaction, status: :created
