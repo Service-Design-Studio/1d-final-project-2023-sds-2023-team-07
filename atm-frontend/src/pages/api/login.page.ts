@@ -1,5 +1,5 @@
-import { NextApiRequest, NextApiResponse } from "next";
 import URL from "@/components/url";
+import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(
   req: NextApiRequest,
@@ -19,14 +19,22 @@ export default async function handler(
       credentials: "include",
     });
 
-    const data: any = await response.json(); // Used 'any' for simplicity. You can replace it with a specific type later.
+    const data = await response.json();
 
     if (!response.ok) {
       throw new Error(data.message || "Failed to post data to /login");
     }
 
+    // Check if there are any 'set-cookie' headers
+    const backendCookies = response.headers.get("set-cookie");
+
+    if (backendCookies) {
+      res.setHeader("set-cookie", backendCookies); // Forward the cookies to the browser
+    }
+
     res.status(200).json(data);
-  } catch (error) {
-    res.status(500).json({ message: (error as Error).message });
+  } catch (error: any) {
+    // 'any' is used to allow error.message access without type issues
+    res.status(500).json({ message: error.message });
   }
 }

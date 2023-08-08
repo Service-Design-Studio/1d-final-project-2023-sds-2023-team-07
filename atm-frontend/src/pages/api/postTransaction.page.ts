@@ -1,5 +1,4 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import fetch from "node-fetch";
 import URL from "@/components/url";
 
 export default async function handler(
@@ -11,9 +10,9 @@ export default async function handler(
     return;
   }
 
-  const { atm_machine_id, user_id, transaction_type, amount } = req.body;
+  const { atm_machine_id, amount, transaction_type } = req.body;
 
-  if (!(atm_machine_id && user_id && transaction_type && amount)) {
+  if (!(atm_machine_id && transaction_type && typeof amount === "number")) {
     res
       .status(400)
       .json({ error: "Missing required parameters in request body" });
@@ -22,16 +21,23 @@ export default async function handler(
 
   const body = JSON.stringify({
     atm_machine_id,
-    user_id,
-    transaction_type,
     amount,
+    transaction_type,
   });
+
+  // Extract cookie from the incoming request
+  const userCookie = req.headers.cookie || "";
 
   try {
     const response = await fetch(`${URL}/transactions`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userCookie}`,
+        Cookie: userCookie,
+      },
       body,
+      credentials: "include", // Ensures cookies are sent, important for cross-origin requests
     });
 
     if (!response.ok) {
@@ -43,7 +49,7 @@ export default async function handler(
 
     const data = await response.json();
     res.status(200).json(data);
-  } catch (error) {
+  } catch (error: any) {
     console.error(error);
     res
       .status(500)

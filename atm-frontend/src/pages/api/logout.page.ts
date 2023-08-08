@@ -1,7 +1,7 @@
-import { NextApiRequest, NextApiResponse } from "next";
 import URL from "@/components/url";
+import { NextApiRequest, NextApiResponse } from "next";
 
-export default async function handler(
+export default async function logoutHandler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
@@ -12,17 +12,20 @@ export default async function handler(
   try {
     const response = await fetch(`${URL}/logout`, {
       method: "DELETE",
-      credentials: "include",
+      credentials: "include", // This will ensure cookies are sent with the request
     });
 
-    const data: any = await response.json(); // Used 'any' for simplicity. Consider replacing with a specific type/interface if you know the response shape.
-
     if (!response.ok) {
-      throw new Error(data.message || "Failed to delete data to /logout");
+      const data = await response.json();
+      throw new Error(data.message || "Failed to log out");
     }
 
-    res.status(200).json(data);
-  } catch (error) {
-    res.status(500).json({ message: (error as Error).message });
+    // If you need to remove a specific cookie, you can set its value to empty
+    // and set the `Max-Age` attribute to 0. Here's an example for a cookie named 'authToken':
+    res.setHeader("Set-Cookie", "authToken=; Max-Age=0; Path=/; HttpOnly");
+
+    res.status(200).json({ message: "Logged out successfully" });
+  } catch (error: any) {
+    res.status(500).json({ message: error.message });
   }
 }
