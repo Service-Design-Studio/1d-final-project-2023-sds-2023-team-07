@@ -3,6 +3,7 @@ import { Button } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 
 export default function Base() {
+  const router = useRouter();
   return (
     <div className="flex justify-center context-center h-screen">
       <div className="flex flex-col justify-center context-center">

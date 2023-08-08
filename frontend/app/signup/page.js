@@ -88,15 +88,14 @@ export default function page() {
 
       if (!response2.ok) {
         throw new Error(data2.message || "Failed to post data to /login");
+      } else {
+        router.push("/stream");
       }
 
       console.log(data2);
     } catch (error) {
       console.error("Error:", error);
     }
-
-    console.log("x");
-    router.push("/stream");
   };
 
   const renderPart = () => {

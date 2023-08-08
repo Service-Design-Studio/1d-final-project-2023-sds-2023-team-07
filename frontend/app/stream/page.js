@@ -1,7 +1,7 @@
 "use client";
 import React, { useRef, useEffect } from "react";
 import AWS from "aws-sdk";
-import { useRouter } from "next/router"; // 1. Import useRouter
+import { useRouter } from "next/navigation"; // 1. Import useRouter
 
 //Kelvin's credentials
 AWS.config.update({
