@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  before_action :set_current_user, only: [:show, :update, :destroy]
+
   # POST '/users' - Create a new user
   def create
     @user = User.new(user_params)
@@ -15,34 +17,39 @@ class UsersController < ApplicationController
     render json: @users
   end
 
-  # GET '/users/:id' - Show details of a specific user
+  # GET '/user' - Show details of the currently logged-in user
   def show
-    @user = User.find(params[:id])
-    render json: @user
+    render json: @current_user
   end
 
-  # PATCH '/users/:id' - Update a specific user
-  # PUT '/users/:id' - Update a specific user
+  # PATCH '/user' or PUT '/user' - Update the currently logged-in user
   def update
-    @user = User.find(params[:id])
-    if @user.update(user_params)
-      render json: @user
+    if @current_user.update(user_params)
+      render json: @current_user
     else
-      render json: { errors: @user.errors.full_messages }, status: :unprocessable_entity
+      render json: { errors: @current_user.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
-  # DELETE '/users/:id' - Delete a specific user
+  # DELETE '/user' - Delete the currently logged-in user
   def destroy
-    @user = User.find(params[:id])
-    if @user.destroy
+    if @current_user.destroy
       render json: { message: 'User deleted successfully' }, status: :ok
     else
       render json: { errors: 'Failed to delete user' }, status: :unprocessable_entity
     end
   end
 
+  private
+
   def user_params
     params.require(:user).permit(:name, :identification_number, :balance, :pin, :face_image_url, :is_active)
+  end
+  
+  def set_current_user
+    @current_user = User.find_by(id: session[:user_id])
+    unless @current_user
+      render json: { error: "Not logged in" }, status: :unauthorized
+    end
   end
 end

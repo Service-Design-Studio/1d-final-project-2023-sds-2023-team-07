@@ -9,7 +9,8 @@ Rails.application.routes.draw do
   delete '/logout', to: 'sessions#destroy'
   get '/is_logged', to: 'sessions#is_logged'
 
-  resources :users
+  resources :users, only: [:index, :create]
+  resource :user, only: [:show, :update, :destroy]
   resources :atm_machines
   resources :transactions
 
