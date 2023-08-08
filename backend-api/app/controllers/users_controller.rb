@@ -19,6 +19,9 @@ class UsersController < ApplicationController
 
   # GET '/user' - Show details of the currently logged-in user
   def show
+    if @current_user.nil?
+      raise ActiveRecord::RecordNotFound
+    end
     render json: @current_user
   end
 

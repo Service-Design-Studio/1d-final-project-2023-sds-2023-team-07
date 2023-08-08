@@ -1,6 +1,10 @@
 class SessionsController < ApplicationController
     # POST '/login' - Log in a user
     def create
+        if params[:identification_number].nil? || params[:pin].nil? 
+          render json: {}, status: :unprocessable_entity
+          return
+        end
         @user = User.find_by(identification_number: params[:identification_number])
         puts @user
         puts params[:pin]
