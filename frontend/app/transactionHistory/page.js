@@ -21,7 +21,17 @@ export default function Page() {
   const [pageState, setPageState] = useState("main");
 
   const handleClick = () => {
-    router.push("/camera");
+    var cookies = document.cookie.split(";");
+
+    for (var i = 0; i < cookies.length; i++) {
+      var cookie = cookies[i];
+      var eqPos = cookie.indexOf("=");
+      var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+      document.cookie =
+        name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+    }
+
+    router.push("/");
   };
 
   const handleSpeechClick = () => {
@@ -405,9 +415,9 @@ export default function Page() {
                   className="w-full"
                   colorScheme="red"
                   size="md"
-                  onClick={handleSpeechClick}
+                  onClick={handleClick}
                 >
-                  ACTIVATE SPEECH-TO-TEXT
+                  LOGOUT
                 </Button>
               </div>
             </div>
