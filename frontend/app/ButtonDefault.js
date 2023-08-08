@@ -1,9 +1,8 @@
 "use client";
 import React, { useEffect, useState, useRef } from "react";
-import { Button } from "@chakra-ui/react";
-import { useRouter } from "next/navigation";
+import { Button, ChakraProvider } from "@chakra-ui/react";
 
-export default function page({
+export default function ButtonDefault({
   key,
   onClick,
   className,
