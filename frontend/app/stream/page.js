@@ -1,6 +1,7 @@
 "use client";
 import React, { useRef, useEffect } from "react";
 import AWS from "aws-sdk";
+import { useRouter } from "next/router"; // 1. Import useRouter
 
 //Kelvin's credentials
 AWS.config.update({
@@ -12,6 +13,7 @@ AWS.config.update({
 export default function page() {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
+  const router = useRouter();
 
   useEffect(() => {
     let intervalId;
@@ -28,7 +30,7 @@ export default function page() {
     }
 
     function startCapture() {
-      intervalId = setInterval(captureFrame, 500); // Capture every 1 second
+      intervalId = setInterval(captureFrame, 2000); // Capture every 1 second
     }
 
     async function indexFaces(photo_jpg, personName) {
@@ -100,6 +102,7 @@ export default function page() {
       <h2>Capture Frames</h2>
       <video ref={videoRef} autoPlay playsInline muted />
       <canvas ref={canvasRef} style={{ display: "none" }} />
+      <button onClick={() => router.push("/transactionHistory")}>Next</button>
     </div>
   );
 }
