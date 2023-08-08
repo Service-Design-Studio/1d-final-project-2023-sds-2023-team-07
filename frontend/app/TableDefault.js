@@ -12,7 +12,6 @@ import {
   Button,
   Spinner,
 } from "@chakra-ui/react";
-import { useRouter } from "next/navigation";
 
 export default function TableDefault({ data }) {
   return (
