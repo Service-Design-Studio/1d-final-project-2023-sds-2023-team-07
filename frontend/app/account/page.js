@@ -39,7 +39,7 @@ export default function Page() {
 
   async function checkPatchRecursion() {
     try {
-      const url = "https://kelvin-build-ml42q3c3ya-as.a.run.app/users/1";
+      const url = "https://backend-dbs-grp7-ml42q3c3ya-as.a.run.app/users/1";
       // GET request to fetch the boolean value
       const response = await fetch(url);
       const data = await response.json();
@@ -50,26 +50,32 @@ export default function Page() {
       console.log(currentValue);
       if (currentValue === 1) {
         // If it's true, send a PATCH request to change it back to false
-        await fetch("https://kelvin-build-ml42q3c3ya-as.a.run.app/users/1", {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ ["is_active"]: 0 }),
-        });
+        await fetch(
+          "https://backend-dbs-grp7-ml42q3c3ya-as.a.run.app/users/1",
+          {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ ["is_active"]: 0 }),
+          }
+        );
         router.push("/success");
         console.log("GO TO SUCCESS");
       } else if (currentValue === 2) {
         // If it's true, send a PATCH request to change it back to false
-        await fetch("https://kelvin-build-ml42q3c3ya-as.a.run.app/users/1", {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            ["is_active"]: 0,
-          }),
-        });
+        await fetch(
+          "https://backend-dbs-grp7-ml42q3c3ya-as.a.run.app/users/1",
+          {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              ["is_active"]: 0,
+            }),
+          }
+        );
         router.push("/fail");
         console.log("GO TO FAIL");
       } else {

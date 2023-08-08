@@ -3,7 +3,6 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import {
   ChakraProvider,
-  Table,
   Thead,
   Tbody,
   Tr,
@@ -14,8 +13,20 @@ import {
   Spinner,
 } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
+import Table from "./Table";
 
 export default function Page() {
+  useEffect(() => {
+    fetch("https://backend-dbs-grp7-ml42q3c3ya-as.a.run.app/login", {
+      method: "GET",
+      credentials: "include", // ensures cookies are sent with cross-origin requests
+      headers: {
+        // any other headers you need
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => console.log(data));
+  }, []);
   const router = useRouter();
   return (
     <ChakraProvider>

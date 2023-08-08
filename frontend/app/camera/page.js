@@ -80,19 +80,26 @@ export default function Home() {
         "https://backend-dbs-grp7-ml42q3c3ya-as.a.run.app/authenticate/face",
         {
           image: dataURL,
-          name: "ryan",
+          identification_number: "ryan",
         },
         config
       )
       .then((response) => {
         console.log(response.data.authenticated);
         console.log("fail counter: " + counter);
+
+        // SUCCESS LOGIC AND ROUTING
         if (response.data.authenticated) {
           console.log("success");
           const params = extractQueryString(window.location.href);
+          if (params["ic"]) {
+            router.push("/transactionhistory");
+          }
           router.push(`/account?pageState=${params.pageState}`);
+          // IF FAIL 3 TIMES REDIRECT TO PIN
         } else if (!response.data.authenticated && counter == 3) {
           setPageState("pin");
+          // IF FAIL LESS THAN 3 TIMES ADD TO INTEGER
         } else {
           setAuthFail(true);
           setCounter(counter + 1);
@@ -114,9 +121,10 @@ export default function Home() {
 
   // post data to backend on hasPhoto boolean true
   useEffect(() => {
-    if (pageState == "main") {
-    }
-  }, [hasPhoto]);
+    const params = extractQueryString(window.location.href);
+
+    console.log(params);
+  }, []);
 
   const renderPage = () => {
     switch (pageState) {

@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from "react";
 import {
   ChakraProvider,
-  Table,
   Thead,
   Tbody,
   Tr,
@@ -13,6 +12,7 @@ import {
   Spinner,
 } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
+import Table from "../Table";
 
 export default function Page() {
   const router = useRouter();
@@ -33,7 +33,7 @@ export default function Page() {
     window.addEventListener("resize", () => {
       setIsLandscape(window.innerHeight < window.innerWidth);
     });
-    fetch("https://kelvin-build-ml42q3c3ya-as.a.run.app/transactions?user=1")
+    fetch("https://backend-dbs-grp7-ml42q3c3ya-as.a.run.app/transactions")
       .then((response) => {
         console.log("Response: ", response);
         if (!response.ok) {
@@ -75,39 +75,7 @@ export default function Page() {
         return (
           <main className="flex max-h-screen flex-col items-center justify-between">
             <div className="h-5/6 overflow-scroll w-full">
-              <Table id="transactions">
-                <Thead>
-                  <Tr>
-                    <Th>Date</Th>
-                    <Th>Transaction</Th>
-                    <Th>Amount Left</Th>
-                    {isLandscape ? <Th>Transaction Code</Th> : <div></div>}
-                  </Tr>
-                </Thead>
-                <Tbody>
-                  {fetchData
-                    .slice(0)
-                    .reverse()
-                    .map((row, key) => (
-                      <Tr key={row.id}>
-                        <Td id={`date-${key}`}>
-                          {new Date(row.created_at).toLocaleDateString()}
-                        </Td>
-                        <Td id={`amount-${key}`}>{`${
-                          row.transaction_type === "NCD" ? "+" : "-"
-                        }${row.amount}`}</Td>
-                        <Td id={`balance-${key}`}>
-                          {row.user_balance_left + "0"}
-                        </Td>
-                        {isLandscape ? (
-                          <Td id={`type-${key}`}>{row.transaction_type}</Td>
-                        ) : (
-                          <div></div>
-                        )}
-                      </Tr>
-                    ))}
-                </Tbody>
-              </Table>
+              <Table data={fetchData} />
             </div>
             <div className="h-1/6 pt-2 pb-2 content-stretch w-full pl-2 pr-2">
               <div className="flex justify-between mb-3">
