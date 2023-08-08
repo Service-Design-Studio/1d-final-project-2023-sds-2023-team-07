@@ -3,14 +3,15 @@ const { defineConfig } = require("cypress");
 // import { addCucumberPreprocessorPlugin } from "@badeball/cypress-cucumber-preprocessor";
 // import createEsbuildPlugin from "@badeball/cypress-cucumber-preprocessor/esbuild";
 const createBundler = require("@bahmutov/cypress-esbuild-preprocessor");
-const addCucumberPreprocessorPlugin = require("@badeball/cypress-cucumber-preprocessor")
-  .addCucumberPreprocessorPlugin;
-const createEsbuildPlugin = require("@badeball/cypress-cucumber-preprocessor/esbuild")
-  .createEsbuildPlugin;
+const addCucumberPreprocessorPlugin =
+  require("@badeball/cypress-cucumber-preprocessor").addCucumberPreprocessorPlugin;
+const createEsbuildPlugin =
+  require("@badeball/cypress-cucumber-preprocessor/esbuild").createEsbuildPlugin;
 
 module.exports = defineConfig({
   viewportHeight: 850,
   viewportWidth: 414,
+
   env: {
     transactions_uri:
       "https://backend-dbs-grp7-ml42q3c3ya-as.a.run.app/transactions?user=*",
@@ -19,10 +20,11 @@ module.exports = defineConfig({
     pin_auth_uri:
       "https://backend-dbs-grp7-ml42q3c3ya-as.a.run.app/authenticate/pin",
   },
+
   e2e: {
     baseUrl: "http://localhost:3000",
     // baseUrl: 'https://frontend-ml42q3c3ya-as.a.run.app',
-    specPattern: "cypress/e2e/features/**/*.feature",
+    specPattern: "cypress/e2e/**/*.feature",
     async setupNodeEvents(on, config) {
       // implement node event listeners here
       await addCucumberPreprocessorPlugin(on, config);
@@ -35,6 +37,13 @@ module.exports = defineConfig({
       );
 
       return config;
+    },
+  },
+
+  component: {
+    devServer: {
+      framework: "next",
+      bundler: "webpack",
     },
   },
 });

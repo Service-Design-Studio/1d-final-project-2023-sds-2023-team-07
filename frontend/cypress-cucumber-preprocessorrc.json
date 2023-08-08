@@ -1,3 +1,6 @@
 {
-    "stepDefinitions": ["cypress/support/step_definitions/[filepath].{js,ts}"]
+    "stepDefinitions": [
+        "cypress/e2e/[filepath].js",
+        "cypress/e2e/common-step-definitions/*.js"
+    ]
 }
