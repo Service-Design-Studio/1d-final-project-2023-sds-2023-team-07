@@ -25,7 +25,8 @@ export default function Page({ data }) {
       </Tr>
     </Thead>
     <Tbody>
-      {Data.slice(0)
+      {data
+        .slice(0)
         .reverse()
         .map((row, key) => (
           <Tr key={row.id}>

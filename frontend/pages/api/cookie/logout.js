@@ -7,7 +7,7 @@ export default async function handler(req, res) {
 
   try {
     const response = await fetch(
-      "https://backend-dbs-grp7-ml42q3c3ya-as.a.run.app/login",
+      "https://backend-dbs-grp7-ml42q3c3ya-as.a.run.app/logout",
       {
         method: "DELETE",
         credentials: "include",
