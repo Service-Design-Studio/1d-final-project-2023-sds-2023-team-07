@@ -79,8 +79,8 @@ export default function page() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          identification_number: "ABC123", // Note: This should probably be changed to the actual IC number you want to use
-          pin: "1234", // Note: This should probably be changed to the actual PIN you want to use
+          identification_number: ic, // Note: This should probably be changed to the actual IC number you want to use
+          pin: pin, // Note: This should probably be changed to the actual PIN you want to use
         }),
       });
 

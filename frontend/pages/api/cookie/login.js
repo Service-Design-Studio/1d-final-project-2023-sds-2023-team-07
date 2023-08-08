@@ -24,6 +24,13 @@ export default async function handler(req, res) {
       throw new Error(data.message || "Failed to post data to /login");
     }
 
+    // Check if there are any 'set-cookie' headers
+    const backendCookies = response.headers.get("set-cookie");
+
+    if (backendCookies) {
+      res.setHeader("set-cookie", backendCookies); // Forward the cookies to the browser
+    }
+
     res.status(200).json(data);
   } catch (error) {
     res.status(500).json({ message: error.message });

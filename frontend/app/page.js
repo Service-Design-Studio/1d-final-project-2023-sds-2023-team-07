@@ -20,7 +20,7 @@ export default function Page() {
   const [cookie, setCookie] = useState(null);
   useEffect(() => {
     if (document.cookie) {
-      router.push("/transactionhistory");
+      router.push("/transactionHistory");
     }
     setCookie(false);
   }, []);

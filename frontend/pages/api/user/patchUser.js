@@ -1,3 +1,5 @@
+import { NextApiRequest, NextApiResponse } from "next";
+
 export default async (req, res) => {
   try {
     const response = await fetch(
