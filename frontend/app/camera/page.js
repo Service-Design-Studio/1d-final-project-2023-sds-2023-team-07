@@ -86,7 +86,6 @@ export default function Home() {
       )
       .then((response) => {
         console.log(response.data.authenticated);
-        console.log("fail counter: " + counter);
 
         // SUCCESS LOGIC AND ROUTING
         if (response.data.authenticated) {
@@ -98,9 +97,11 @@ export default function Home() {
           router.push(`/account?pageState=${params.pageState}`);
           // IF FAIL 3 TIMES REDIRECT TO PIN
         } else if (!response.data.authenticated && counter == 3) {
+          console.log("fail counter: " + counter);
           setPageState("pin");
           // IF FAIL LESS THAN 3 TIMES ADD TO INTEGER
         } else {
+          console.log("fail counter: " + counter);
           setAuthFail(true);
           setCounter(counter + 1);
         }

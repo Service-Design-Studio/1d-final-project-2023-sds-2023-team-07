@@ -26,6 +26,23 @@ export default function Page() {
   }, []);
 
   return (
-    <ChakraProvider>{cookie === null ? <Spinner /> : <Base />}</ChakraProvider>
+    <ChakraProvider>
+      {cookie === null ? (
+        <div className="flex h-screen flex-col items-center justify-center">
+          <div className="flex flex-col items-center">
+            <Spinner
+              thickness="4px"
+              speed="0.65s"
+              emptyColor="gray.200"
+              color="red"
+              size="xl"
+            />
+            <p className="my-2 mt-4 text-gray-800">Loading...</p>
+          </div>
+        </div>
+      ) : (
+        <Base />
+      )}
+    </ChakraProvider>
   );
 }
