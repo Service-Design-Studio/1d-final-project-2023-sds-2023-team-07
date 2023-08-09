@@ -22,7 +22,10 @@ export default async function logoutHandler(
 
     // If you need to remove a specific cookie, you can set its value to empty
     // and set the `Max-Age` attribute to 0. Here's an example for a cookie named 'authToken':
-    res.setHeader("Set-Cookie", "authToken=; Max-Age=0; Path=/; HttpOnly");
+    res.setHeader(
+      "Set-Cookie",
+      "_your_app_session=; Max-Age=0; Path=/; HttpOnly"
+    );
 
     res.status(200).json({ message: "Logged out successfully" });
   } catch (error: any) {
