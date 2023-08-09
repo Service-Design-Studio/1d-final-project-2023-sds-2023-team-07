@@ -104,7 +104,7 @@ export default function Page() {
     const url = "api/user/getUser";
     // GET request to fetch the boolean value
     const response = await fetch(url, {
-      credentials: "include",
+      credentials: "cross-origin",
       method: "GET",
     });
     const data = await response.json();

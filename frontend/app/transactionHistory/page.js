@@ -56,6 +56,26 @@ export default function Page() {
     console.log("a");
   }
 
+  async function logout() {
+    fetch("/api/cookie/logout", {
+      method: "DELETE",
+      credentials: "same-origin",
+    })
+      .then((response) => {
+        if (!response.ok) {
+          // If server returns a non-200/204 status, reject promise with status text
+          return Promise.reject(response.statusText);
+        }
+        return response.json(); // or just return response if you don't need to read the response body
+      })
+      .then((data) => {
+        console.log("Successfully logged out:", data); // handle success response if needed
+      })
+      .catch((error) => {
+        console.error("Failed to log out:", error);
+      });
+  }
+
   useEffect(() => {
     getTable();
   }, []);
@@ -113,7 +133,7 @@ export default function Page() {
                   className="w-full"
                   colorScheme="red"
                   size="md"
-                  onClick={handleClick}
+                  onClick={logout}
                 >
                   LOGOUT
                 </Button>
