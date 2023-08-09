@@ -50,9 +50,12 @@ class TransactionsController < ApplicationController
   private
 
   def set_current_user
-    @current_user = User.find_by(id: session[:user_id])
-    unless @current_user
-      render json: { error: "Not logged in" }, status: :unauthorized
+    user_id = session[:user_id]  # Get user_id from session or transaction parameters
+    @current_user = User.find_by(id: user_id)
+
+    if @current_user.nil? || user_id.to_i <= 0 || user_id > User.last.id 
+      render json: { error: "Not logged in or Invalid User ID" }, status: :unprocessable_entity
+      return
     end
   end
 
