@@ -6,7 +6,7 @@ RSpec.describe AuthenticationController, type: :controller do
         before do
             @name = "Kelvin"
         end
-        xit "authenticates if correct pin for correct user" do
+        it "authenticates if correct pin for correct user" do
             correct_pin = 1234
             post :pin, params: { pin: correct_pin, identification_number:"ABC123"}
             expect(JSON.parse(response.body)["authenticated"]).to eq(true)
@@ -14,7 +14,7 @@ RSpec.describe AuthenticationController, type: :controller do
             expect(response).to have_http_status(:success)
         end # Normal unit test
 
-        xit "does not authenticate if wrong pin for correct user" do
+        it "does not authenticate if wrong pin for correct user" do
             @wrong_pin = 123812
             post :pin, params: { pin: @wrong_pin, identification_number:"ABC123"}
             expect(JSON.parse(response.body)["authenticated"]).to eq(false)
@@ -22,7 +22,7 @@ RSpec.describe AuthenticationController, type: :controller do
             expect(response).to have_http_status(:success)
         end # Boundary test case
 
-        xit "does not authenticate if either pin or user is not declared" do 
+        it "does not authenticate if either pin or user is not declared" do 
             post :pin, params: { pin: @wrong_pin}
             expect(JSON.parse(response.body)["authenticated"]).to eq(false)
             expect(JSON.parse(response.body)["message"]).to eq("Server error")
@@ -36,17 +36,17 @@ RSpec.describe AuthenticationController, type: :controller do
             @identification_number="ABC123"
         end
         # Need to change identification_number once user reindex
-        xit "authenticates if correct user face for user" do
-            fileObject = File.open("spec/controller/correct.txt","r");
+        it "authenticates if correct user face for user" do
+            fileObject = File.open("./spec/controllers/correct.txt","r");
             base_64_string = fileObject.read.to_s
-            post :face, params: {image:base_64_string,identification_number:"Kelvin"}
+            post :face, params: {image:base_64_string,identification_number:"ABC123"}
             expect(JSON.parse(response.body)["authenticated"]).to eq(true)
             expect(JSON.parse(response.body)["message"]).to eq("No issues")
             expect(response).to have_http_status(:success)
         end # Normal unit test
 
-        xit "does not authenticate if wrong face for correct user" do
-            fileObject = File.open("spec/controller/wrong.txt", "r")
+        it "does not authenticate if wrong face for correct user" do
+            fileObject = File.open("./spec/controllers/wrong.txt", "r")
             base_64_string = fileObject.read.to_s
             post :face, params: {image:base_64_string,identification_number:@identification_number}
             expect(JSON.parse(response.body)["authenticated"]).to eq(false)
@@ -54,7 +54,7 @@ RSpec.describe AuthenticationController, type: :controller do
             expect(response).to have_http_status(:success)
         end # Boundary test case
 
-        xit "only authenticate if both face and name is present" do
+        it "only authenticate if both face and name is present" do
             post :face, params: {image: "sdasd"}
             expect(JSON.parse(response.body)["authenticated"]).to eq(false)
             expect(JSON.parse(response.body)["message"]).to eq("Server error")
