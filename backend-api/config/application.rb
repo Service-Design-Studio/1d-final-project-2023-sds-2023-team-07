@@ -21,7 +21,7 @@ module BackendApi
 
     # Only loads a smaller set of middleware suitable for API only apps.
     # Middleware like session, flash, cookies can be added back manually.
-    config.session_store :cookie_store, key: '_your_app_session'
+    config.session_store :cookie_store, key: '_your_app_session', httponly: false
     config.middleware.use ActionDispatch::Cookies
     config.middleware.use ActionDispatch::Session::CookieStore, key: '_your_app_session'
 
