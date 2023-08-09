@@ -16,10 +16,13 @@ class TransactionsController < ApplicationController
     render json: { errors: e.record.errors.full_messages }, status: :unprocessable_entity
   end
 
-
   # GET '/transactions/:id'
   def show
-    render json: @transaction
+    if @transaction.nil?
+      render json: { error: "Transaction not found" }, status: :unprocessable_entity
+    else
+      render json: @transaction
+    end
   end
 
   # PATCH '/transactions/:id' or PUT '/transactions/:id'
@@ -56,7 +59,7 @@ class TransactionsController < ApplicationController
   def set_transaction
     @transaction = Transaction.find_by(id: params[:id])
     if @transaction.nil? || @transaction.user != @current_user
-      render json: { error: "Transaction not found or not authorized" }, status: :not_found
+      render json: { error: "Transaction not found or not authorized" }, status: :unprocessable_entity
     end
   end
   
@@ -64,7 +67,7 @@ class TransactionsController < ApplicationController
   def set_atm_machine
     @atm_machine = AtmMachine.find_by(id: params[:atm_machine_id])
     unless @atm_machine
-      render json: { error: "ATM Machine not found" }, status: :not_found
+      render json: { error: "ATM Machine not found" }, status: :unprocessable_entity
     end
   end
 
