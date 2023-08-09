@@ -20,6 +20,7 @@ const QrCodeScanner = () => {
       atm_machine_id: { type: "number" },
       amount: { type: ["number", "null"] },
       transaction_type: { type: "string" },
+      
     },
     required: ["user_id", "amount", "transaction_type"],
     additionalProperties: false,

@@ -1,7 +1,7 @@
 import Transaction from "@/pages/status/Transaction.page";
 
 export interface TransactionData {
-  user_id: number;
+  user_id?: number;
   atm_machine_id?: number; // Make this optional
   amount: number | null;
   transaction_type: string;
