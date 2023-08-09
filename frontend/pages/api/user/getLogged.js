@@ -4,7 +4,6 @@ export default async (req, res) => {
   if (req.method === "GET") {
     // Extract cookie from the incoming request
     const userCookie = req.headers.cookie;
-
     try {
       // Use the cookie when making the external API request.
       const response = await fetch(
@@ -24,7 +23,17 @@ export default async (req, res) => {
       }
 
       const data = await response.json();
-      res.status(200).json(data);
+      if (userCookie) {
+        res.status(200).json({
+          data: data,
+          cookie: true,
+        });
+      } else {
+        res.status(200).json({
+          data: data,
+          cookie: false,
+        });
+      }
     } catch (error) {
       res.status(500).json({ error: error.message });
     }

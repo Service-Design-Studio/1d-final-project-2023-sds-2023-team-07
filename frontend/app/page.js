@@ -29,15 +29,14 @@ export default function Page() {
     if (!response2.ok) {
       throw new Error(data2.message || "Failed to post data to /login");
     } else {
-      console.log(data2);
-      console.log("success");
+      if (data2.cookie) {
+        router.push("/transactionHistory");
+      } else {
+        setCookie(false);
+      }
     }
   }
   useEffect(() => {
-    // if (document.cookie) {
-    //   router.push("/transactionHistory");
-    // }
-    // setCookie(false);
     checkifloggedin();
   }, []);
 
