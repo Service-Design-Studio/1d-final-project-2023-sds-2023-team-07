@@ -6,14 +6,23 @@ class Transaction < ApplicationRecord
   validates :amount, presence: true, numericality: { greater_than: 0 }
   
   # Custom validation
+  validate :validate_user_id
+  validate :validate_atm_machine_id
   validate :sufficient_balance, if: -> { transaction_type == 'AWL' }
 
   after_create :update_balances
 
   def self.create_for_user!(params, user)
     transaction = new(params)
+  
+    # Validate user based on user_id
+    if !user || !User.exists?(user.id) || user.id <= 0
+      transaction.errors.add(:user, "Invalid user")
+      raise ActiveRecord::RecordInvalid, transaction
+    end
+  
     transaction.user = user
-    
+      
     # Check for ATM machine existence
     unless AtmMachine.exists?(params[:atm_machine_id])
       transaction.errors.add(:atm_machine_id, "ATM Machine not found")
@@ -23,6 +32,7 @@ class Transaction < ApplicationRecord
     transaction.save!
     transaction
   end
+  
   def update_balances
       if transaction_type == 'NCD'
           user.increment!(:balance, BigDecimal(amount))
@@ -39,13 +49,24 @@ class Transaction < ApplicationRecord
       self.save!
     
   end
-  
-
+    
   private
+    
 
   def sufficient_balance
     errors.add(:amount, "Insufficient balance") if BigDecimal(amount) > user.balance && BigDecimal(amount) > atm_machine.balance
   end
 
-  
+  def validate_user_id
+    if !user_id.is_a?(Integer) || user_id < 0 || user_id > User.maximum(:id)
+      errors.add(:user, "Invalid user ID")
+    end
+  end
+
+  def validate_atm_machine_id
+    if !atm_machine_id.is_a?(Integer) || atm_machine_id < 0 || atm_machine_id > AtmMachine.maximum(:id)
+      errors.add(:atm_machine_id, "Invalid ATM machine ID")
+    end
+  end
+
 end
