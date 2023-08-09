@@ -14,15 +14,16 @@ const SuccessBalance = () => {
       handleGoHome();
     }, 20000);
 
-    if (data && typeof data === "string") {
-      const { user_id } = JSON.parse(data);
-      console.log(user_id);
+    // You don't need to extract user_id from the query anymore since the handler doesn't use it.
 
-      fetch(`/api/getUserBalance?user_id=${user_id}`)
-        .then((response) => response.json())
-        .then((data) => setUser(data as UserData)) // assert 'data' to be of type 'UserData'
-        .catch(console.error);
-    }
+    // Fetch directly without the query parameter
+    fetch(`/api/getUserBalance`, {
+      method: "GET",
+      credentials: "same-origin", // Ensure cookies are sent
+    })
+      .then((response) => response.json())
+      .then((data) => setUser(data as UserData)) // assert 'data' to be of type 'UserData'
+      .catch(console.error);
 
     return () => clearTimeout(timer);
   }, [router, data]);
@@ -42,7 +43,9 @@ const SuccessBalance = () => {
       p={3}
     >
       <Text id="textboxid" fontSize="4xl" mb="4">
-        {user ? `Your account balance is ${user.balance}` : "Loading..."}
+        {user
+          ? `Your account balance is $${Number(user.balance).toFixed(2)}`
+          : "Loading..."}
       </Text>
       <Button
         id="buttonid"

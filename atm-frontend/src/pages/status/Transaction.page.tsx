@@ -58,23 +58,25 @@ const Transaction = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(transaction),
+        credentials: "same-origin",
       })
-        .then((response) => response.json())
+        .then((response) => {
+          return response.json();
+        })
         .then((data) => {
           if (data.error) {
             // Throw error if there's an error in the response data
             throw new Error(data.error);
           } else {
-            return fetch(
-              `/api/patchUserIsActive?user_id=${transaction.user_id}`,
-              {
-                method: "PATCH",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ is_active: 1 }),
-              }
-            );
+            // Only patch the is_active state as user_id is inferred from the cookie on the backend
+            return fetch("/api/patchUserIsActive", {
+              method: "PATCH",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ is_active: 1 }),
+              credentials: "same-origin",
+            });
           }
         })
         .then((response) => {
@@ -90,12 +92,14 @@ const Transaction = () => {
         .catch((error) => {
           console.error(error);
           // On error, PATCH is_active to 2 and then route to NotEnoughMoneyFail
-          fetch(`/api/patchUserIsActive?user_id=${transaction.user_id}`, {
+          fetch("/api/patchUserIsActive", {
             method: "PATCH",
             headers: {
               "Content-Type": "application/json",
             },
+            // Only patch the is_active state as user_id is inferred from the cookie on the backend
             body: JSON.stringify({ is_active: 2 }),
+            credentials: "same-origin",
           })
             .then(() => {
               console.log("routing bokek");
