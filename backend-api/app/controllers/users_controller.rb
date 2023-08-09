@@ -19,7 +19,11 @@ class UsersController < ApplicationController
 
   # GET '/user' - Show details of the currently logged-in user
   def show
-    render json: @current_user
+    if @current_user.nil?
+      raise ActiveRecord::RecordNotFound
+    else
+      render json: @current_user
+    end
   end
 
   # PATCH '/user' or PUT '/user' - Update the currently logged-in user
