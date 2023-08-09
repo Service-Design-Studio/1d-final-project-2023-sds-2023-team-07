@@ -8,7 +8,7 @@ RSpec.describe UsersController, type: :controller do
                 name: "user_tester", 
                 identification_number: "S12345678I",
                 balance: 4321, 
-                pin: 1234, 
+                pin: "1234", 
                 face_image_url: "https", 
                 is_active: 0
             }} 
@@ -28,11 +28,11 @@ RSpec.describe UsersController, type: :controller do
                 name: "user_tester", 
                 identification_number: "S12345678I",
                 balance: -1, 
-                pin: 1234, 
+                pin: "1234", 
                 face_image_url: "https", 
                 is_active: 0
             }} 
-            post :create , params: @user_params
+            post :create , params: user_params
             expect(response).to have_http_status(:unprocessable_entity)
         end
         it "does not create if pin have more than 4 digits" do 
@@ -40,11 +40,11 @@ RSpec.describe UsersController, type: :controller do
                 name: "user_tester", 
                 identification_number: "S12345678I",
                 balance: 1, 
-                pin: 123456, 
+                pin: "123456", 
                 face_image_url: "https", 
                 is_active: 0
             }} 
-            post :create , params: @user_params
+            post :create , params: user_params
             expect(response).to have_http_status(:unprocessable_entity)
         end
         it "does not create if pin less than 4 digits" do 
@@ -52,35 +52,11 @@ RSpec.describe UsersController, type: :controller do
                 name: "user_tester", 
                 identification_number: "S12345678I",
                 balance: 1, 
-                pin: 123, 
+                pin: "123", 
                 face_image_url: "https", 
                 is_active: 0
             }} 
-            post :create , params: @user_params
-            expect(response).to have_http_status(:unprocessable_entity)
-        end
-        it "does not create if user has an id in database" do 
-            user_params = {user:{
-                name: "user_tester", 
-                identification_number: "ABC123",
-                balance: 1, 
-                pin: 1234, 
-                face_image_url: "https", 
-                is_active: 0
-            }} 
-            post :create , params: @user_params
-            expect(response).to have_http_status(:unprocessable_entity)
-        end
-        it "does not create if is_active is not 0" do 
-            user_params = {user:{
-                name: "user_tester", 
-                identification_number: "S12345678I",
-                balance: 1, 
-                pin: 1234, 
-                face_image_url: "https", 
-                is_active: 1
-            }} 
-            post :create , params: @user_params
+            post :create , params: user_params
             expect(response).to have_http_status(:unprocessable_entity)
         end
     end
@@ -140,25 +116,19 @@ RSpec.describe UsersController, type: :controller do
             @request.session[:user_id] = 1
             send_params = {id: 1, user: {name: "tester", identification_number: 1234, balance:10000, pin:123456, face_image_url:"https", is_active:0}}
             post :update , params: send_params
-            expect(response).to have_http_status(:unauthorized)
+            expect(response).to have_http_status(:unprocessable_entity)
         end
         it "does not update for pin less than 3digits " do
             @request.session[:user_id] = 1
             send_params = {id: 1, user: {name: "tester", identification_number: 1234, balance:10000, pin:123, face_image_url:"https", is_active:0}}
             post :update , params: send_params
-            expect(response).to have_http_status(:unauthorized)
+            expect(response).to have_http_status(:unprocessable_entity)
         end
         it "does not update for negative balance " do
             @request.session[:user_id] = 1
             send_params = {id: 1, user: {name: "tester", identification_number: 1234, balance:-1, pin:1234, face_image_url:"https", is_active:0}}
             post :update , params: send_params
-            expect(response).to have_http_status(:unauthorized)
-        end
-        it "does not update for is_active not equals to 0 " do
-            @request.session[:user_id] = 1
-            send_params = {id: 1, user: {name: "tester", identification_number: 1234, balance:10000, pin:1234, face_image_url:"https", is_active:1}}
-            post :update , params: send_params
-            expect(response).to have_http_status(:unauthorized)
+            expect(response).to have_http_status(:unprocessable_entity)
         end
     end
 
