@@ -13,6 +13,7 @@ import {
 } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import TableDefault from "../TableDefault";
+import Error from "../Error";
 
 export default function Page() {
   const router = useRouter();

@@ -10,7 +10,7 @@ AWS.config.update({
   region: "ap-southeast-1",
 });
 
-export default function page() {
+export default function Page() {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
   const router = useRouter();
