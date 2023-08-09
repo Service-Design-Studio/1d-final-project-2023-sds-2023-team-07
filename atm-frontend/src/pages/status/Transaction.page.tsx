@@ -25,7 +25,10 @@ const Transaction = () => {
       console.log(parsedData);
 
       const { identification_number, pin } = parsedData;
-
+      console.log({
+        identification_number,
+        pin,
+      });
       fetch("/api/login", {
         method: "POST",
         headers: {
