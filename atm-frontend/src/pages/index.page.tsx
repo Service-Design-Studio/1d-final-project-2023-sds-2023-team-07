@@ -11,6 +11,7 @@ const HomePage = () => {
   };
 
   useEffect(() => {
+    console.log(document.cookie);
     fetch("/api/logout", {
       method: "DELETE",
       credentials: "same-origin",
