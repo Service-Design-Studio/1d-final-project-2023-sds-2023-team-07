@@ -18,11 +18,27 @@ import Base from "./Base";
 export default function Page() {
   const router = useRouter();
   const [cookie, setCookie] = useState(null);
-  useEffect(() => {
-    if (document.cookie) {
-      router.push("/transactionHistory");
+
+  async function checkifloggedin() {
+    const response2 = await fetch("api/user/getLogged", {
+      credentials: "same-origin",
+      method: "GET",
+    });
+
+    const data2 = await response2.json();
+    if (!response2.ok) {
+      throw new Error(data2.message || "Failed to post data to /login");
+    } else {
+      console.log(data2);
+      console.log("success");
     }
-    setCookie(false);
+  }
+  useEffect(() => {
+    // if (document.cookie) {
+    //   router.push("/transactionHistory");
+    // }
+    // setCookie(false);
+    checkifloggedin();
   }, []);
 
   return (

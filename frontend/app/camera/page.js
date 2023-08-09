@@ -91,6 +91,7 @@ export default function Home() {
         if (response.data.authenticated) {
           console.log("success");
           const params = extractQueryString(window.location.href);
+          console.log(params);
           if (params["ic"]) {
             router.push("/transactionhistory");
           }
