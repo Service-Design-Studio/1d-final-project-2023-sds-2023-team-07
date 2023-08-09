@@ -32,27 +32,27 @@ RSpec.describe User, type: :model do
       @dog = File.read(dog_file_path)
     end
   
-    xit "returns true for matching face" do
+    it "returns true for matching face" do
       allow(@user).to receive(:identification_number).and_return('ABC123')
       expect(@user.authenticate_face(@correct)).to eq(true)
     end
   
-    xit "returns false for non-matching face" do
+    it "returns false for non-matching face" do
       allow(@user).to receive(:identification_number).and_return('ABC123')
       expect(@user.authenticate_face(@wrong)).to eq(false)
     end
   
-    xit "returns false for image with low confidence" do
+    it "returns false for image with low confidence" do
       allow(@user).to receive(:identification_number).and_return('ABC123')
       expect(@user.authenticate_face(@wrong)).to eq(false)
     end
   
-    xit "returns a response if image provided contains 'data:image/jpeg;base64,' prefix" do
+    it "returns a response if image provided contains 'data:image/jpeg;base64,' prefix" do
       allow(@user).to receive(:identification_number).and_return('ABC123')
       expect(@user.authenticate_face(@correct)).to eq(true)
     end
   
-    xit "raises ValidationException for invalid or corrupted base64_image" do
+    it "raises ValidationException for invalid or corrupted base64_image" do
       allow(@user).to receive(:identification_number).and_return('ABC123')
       expect {
         @user.authenticate_face('1')
@@ -60,21 +60,21 @@ RSpec.describe User, type: :model do
     end
     
   
-    xit "returns false if empty base64_image" do
+    it "returns false if empty base64_image" do
       allow(@user).to receive(:identification_number).and_return('ABC123')
       expect {
         @user.authenticate_face('1')
       }.to raise_error(Aws::Rekognition::Errors::ValidationException)
     end
   
-    xit "raises InvalidParameterException for non-face base64_image" do
+    it "raises InvalidParameterException for non-face base64_image" do
       allow(@user).to receive(:identification_number).and_return('ABC123')
       expect {
         @user.authenticate_face(@dog)
       }.to raise_error(Aws::Rekognition::Errors::InvalidParameterException)
     end    
   
-    xit "returns true or false based on highest index face for different people for base64 image" do
+    it "returns true or false based on highest index face for different people for base64 image" do
       allow(@user).to receive(:identification_number).and_return('ryan')
       expect(@user.authenticate_face(@correct)).to eq(false)
     end
