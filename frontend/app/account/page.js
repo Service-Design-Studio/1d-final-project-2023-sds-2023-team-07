@@ -14,6 +14,8 @@ export default function Page() {
   const [pageState, setPageState] = useState("loading");
   const [amountSelected, setAmountSelected] = useState(null);
   const [qrData, setQrData] = useState(null);
+  const [id, setid] = useState("");
+  const [pin, setPin] = useState("");
   const amountArray = ["10", "20", "50", "100", "200", "500"];
   const router = useRouter();
   const qrRef = useRef(null);
@@ -98,11 +100,24 @@ export default function Page() {
     console.log("firing");
   }, []);
 
+  async function getUser() {
+    const url = "api/user/getUser";
+    // GET request to fetch the boolean value
+    const response = await fetch(url, {
+      credentials: "include",
+      method: "GET",
+    });
+    const data = await response.json();
+    setid(data.identification_number);
+    setPin(data.pin);
+  }
+
   useEffect(() => {
     console.log(pageState);
     if (pageState == "qr") {
       console.log("b");
       checkPatchRecursion();
+      getUser();
     }
   }, [pageState]);
 
@@ -141,7 +156,9 @@ export default function Page() {
             <Button
               onClick={() => {
                 setQrData({
-                  user_id: 1,
+                  user_id: 0,
+                  identification_number: id,
+                  pin: pin,
                   transaction_type: "NCD",
                   amount: null,
                 });
@@ -203,7 +220,9 @@ export default function Page() {
             <Button
               onClick={() => {
                 setQrData({
-                  user_id: 1,
+                  user_id: 0,
+                  identification_number: id,
+                  pin: pin,
                   transaction_type: "AWL",
                   amount: amountSelected,
                 });
