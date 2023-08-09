@@ -23,14 +23,33 @@ export default function Home() {
   const [display, setDisplay] = useState(false);
   const [authFail, setAuthFail] = useState(false);
 
+  const isMobile = () => {
+    // This is a simple way to detect mobile devices based on userAgent.
+    // It's not foolproof, but it works for most popular devices.
+    return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+  };
+
   const getVideo = () => {
-    navigator.mediaDevices
-      .getUserMedia({
+    let constraints;
+
+    if (isMobile()) {
+      constraints = {
+        video: {
+          facingMode: "environment", // This will target the front camera on mobile devices
+          aspectRatio: { ideal: 1.7777777778 }, // 16:9 aspect ratio
+        },
+      };
+    } else {
+      constraints = {
         video: {
           width: 2000,
           height: 1000,
         },
-      })
+      };
+    }
+
+    navigator.mediaDevices
+      .getUserMedia(constraints)
       .then((stream) => {
         let video = videoRef.current;
         video.srcObject = stream;
