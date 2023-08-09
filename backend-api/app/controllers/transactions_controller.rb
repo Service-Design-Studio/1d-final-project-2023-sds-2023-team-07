@@ -10,11 +10,14 @@ class TransactionsController < ApplicationController
 
   # POST '/transactions'
   def create
-    @transaction = Transaction.create_for_user!(transaction_params, @current_user)
-    render json: @transaction, status: :created
+    Transaction.transaction do
+      @transaction = Transaction.create_for_user!(transaction_params, @current_user)
+      render json: @transaction, status: :created
+    end
   rescue ActiveRecord::RecordInvalid => e
     render json: { errors: e.record.errors.full_messages }, status: :unprocessable_entity
   end
+  
 
   # GET '/transactions/:id'
   def show
