@@ -5,6 +5,7 @@ import {
   PinInputField,
   ChakraProvider,
   Spinner,
+  Input,
 } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState, useRef } from "react";
@@ -16,9 +17,11 @@ export default function Page() {
   const [qrData, setQrData] = useState(null);
   const [id, setid] = useState("");
   const [pin, setPin] = useState("");
+  const [withdrawInput, setWithdrawInput] = useState("");
   const amountArray = ["10", "20", "50", "100", "200", "500"];
   const router = useRouter();
   const qrRef = useRef(null);
+  const inputRef = useRef(null);
 
   const extractQueryString = (urlString) => {
     const url = new URL(urlString);
@@ -31,7 +34,6 @@ export default function Page() {
 
     return keyValuePairs;
   };
-
   const selectAmount = (event) => {
     const element = event.target;
     const amount = parseInt(element.textContent.slice(1));
@@ -50,6 +52,8 @@ export default function Page() {
       const data = await response.json();
       console.log(data);
 
+      console.log(pin);
+      console.log(id);
       // Check if the boolean has turned from false to true
       const currentValue = data["is_active"];
       console.log(currentValue);
@@ -86,13 +90,32 @@ export default function Page() {
     } catch (error) {
       console.error("Error while processing requests:", error);
     }
-    console.log("a");
   }
+
+  async function getUser() {
+    const url = "api/user/getUser";
+    // GET request to fetch the boolean value
+    const response = await fetch(url, {
+      credentials: "include",
+      method: "GET",
+    });
+    const data = await response.json();
+    console.log("FUCK YOU");
+    console.log(data);
+    console.log(data.identification_number);
+    console.log(data.pin);
+    setid(data.identification_number);
+    setPin(data.pin);
+  }
+  const handleInputChange = (event) => {
+    setWithdrawInput(event.target.value);
+  };
 
   useEffect(() => {
     const params = extractQueryString(window.location.href);
     setPageState(params.pageState);
     console.log(pageState);
+    getUser();
     if (pageState == "qr") {
       console.log("b");
       checkPatchRecursion();
@@ -100,24 +123,12 @@ export default function Page() {
     console.log("firing");
   }, []);
 
-  async function getUser() {
-    const url = "api/user/getUser";
-    // GET request to fetch the boolean value
-    const response = await fetch(url, {
-      credentials: "cross-origin",
-      method: "GET",
-    });
-    const data = await response.json();
-    setid(data.identification_number);
-    setPin(data.pin);
-  }
-
   useEffect(() => {
     console.log(pageState);
+    getUser();
     if (pageState == "qr") {
       console.log("b");
       checkPatchRecursion();
-      getUser();
     }
   }, [pageState]);
 
@@ -177,6 +188,30 @@ export default function Page() {
         return (
           <div className="flex h-screen flex-col items-center justify-center">
             SELECT
+            <Input
+              ref={inputRef}
+              onChange={(e) => {
+                handleInputChange(e);
+              }}
+              focusBorderColor="red"
+              placeholder="IC"
+              size="lg"
+              value={withdrawInput}
+            />
+            <Button
+              key="nextButton"
+              className="mt-6"
+              colorScheme="red"
+              size="md"
+              type="button"
+              onClick={() => {
+                console.log(inputRef.current.value);
+                setAmountSelected(inputRef.current.value);
+                setPageState("withdraw");
+              }}
+            >
+              Next
+            </Button>
             <div className="grid grid-cols-2 gap-4">
               {amountArray.map((amount, index) => (
                 <Button

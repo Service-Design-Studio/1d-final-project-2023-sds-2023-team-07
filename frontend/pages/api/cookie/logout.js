@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
-export default async function handler() {
+export default async function handler(req, res) {
   if (req.method !== "DELETE") {
     return res.status(405).end();
   }

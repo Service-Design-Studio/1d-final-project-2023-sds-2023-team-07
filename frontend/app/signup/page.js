@@ -45,6 +45,11 @@ export default function page() {
   };
 
   const handleSubmit = async () => {
+    const pin1 =
+      pinOne.current.value +
+      pinTwo.current.value +
+      pinThree.current.value +
+      pinFour.current.value;
     try {
       // Fetch from the /api/users endpoint
       const response1 = await fetch("/api/users/create", {
@@ -56,7 +61,7 @@ export default function page() {
           name: name,
           identification_number: ic,
           balance: 0,
-          pin: pin,
+          pin: pin1,
           face_image_url: "http://example.com/face.jpg",
           is_active: 0,
         }),
@@ -80,7 +85,7 @@ export default function page() {
         },
         body: JSON.stringify({
           identification_number: ic, // Note: This should probably be changed to the actual IC number you want to use
-          pin: pin, // Note: This should probably be changed to the actual PIN you want to use
+          pin: pin1, // Note: This should probably be changed to the actual PIN you want to use
         }),
       });
 
@@ -89,7 +94,10 @@ export default function page() {
       if (!response2.ok) {
         throw new Error(data2.message || "Failed to post data to /login");
       } else {
-        router.push("/stream");
+        console.log(data2);
+        if (data2.logged_in) {
+          router.push("/stream");
+        }
       }
 
       console.log(data2);

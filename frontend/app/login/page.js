@@ -13,36 +13,52 @@ export default function page() {
   const router = useRouter();
   const [ps, setPs] = useState("ic");
   const [ic, setIc] = useState("");
-  const [pin, setPin] = useState();
+  const [pin, setPin] = useState("");
   const pinOne = useRef(null);
   const pinTwo = useRef(null);
   const pinThree = useRef(null);
   const pinFour = useRef(null);
 
   async function login() {
-    setPin(
+    const pin1 =
       pinOne.current.value +
-        pinTwo.current.value +
-        pinThree.current.value +
-        pinFour.current.value
-    );
-    const response2 = await fetch("/api/cookie/login", {
+      pinTwo.current.value +
+      pinThree.current.value +
+      pinFour.current.value;
+    console.log(typeof pin1);
+    console.log(pin1);
+    console.log(typeof ic);
+    console.log(ic);
+    fetch("/api/cookie/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        identification_number: ic, // Note: This should probably be changed to the actual IC number you want to use
-        pin: pin, // Note: This should probably be changed to the actual PIN you want to use
+        // identification_number: "ABC123",
+        // pin: "1234",
+        identification_number: ic,
+        pin: pin1,
       }),
-    });
-
-    const data2 = await response2.json();
-    if (!response2.ok) {
-      throw new Error(data2.message || "Failed to post data to /login");
-    } else {
-      console.log("success");
-    }
+      credentials: "same-origin",
+    })
+      .then((response) => response.json())
+      .then((result) => {
+        // Handle the result from your login endpoint
+        // For example, if there's an error or if the user was successfully logged in.
+        console.log(result);
+        if (result.logged_in) {
+          console.log(result);
+          router.push("/");
+        }
+        if (!result.ok) {
+          throw new Error(result.message || "Failed to post data to /login");
+        }
+      })
+      .catch((error) => {
+        // Handle errors from the fetch or the endpoint
+        console.error("Failed to login:", error);
+      });
   }
 
   const handleInputChange = (event) => {

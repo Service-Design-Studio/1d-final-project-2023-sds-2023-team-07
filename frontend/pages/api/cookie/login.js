@@ -7,7 +7,7 @@ export default async function handler(req, res) {
 
   try {
     const response = await fetch(
-      "https://backend-dbs-grp7-ml42q3c3ya-as.a.run.app/login",
+      `https://backend-dbs-grp7-ml42q3c3ya-as.a.run.app/login`,
       {
         method: "POST",
         headers: {
@@ -33,6 +33,7 @@ export default async function handler(req, res) {
 
     res.status(200).json(data);
   } catch (error) {
+    // 'any' is used to allow error.message access without type issues
     res.status(500).json({ message: error.message });
   }
 }

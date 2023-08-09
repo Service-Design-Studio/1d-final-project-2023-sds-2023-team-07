@@ -69,7 +69,12 @@ export default function Page() {
         return response.json(); // or just return response if you don't need to read the response body
       })
       .then((data) => {
-        console.log("Successfully logged out:", data); // handle success response if needed
+        console.log("Successfully logged out:", data);
+
+        // handle success response if needed
+        if (data.message == "Logged out successfully") {
+          router.push("/");
+        }
       })
       .catch((error) => {
         console.error("Failed to log out:", error);

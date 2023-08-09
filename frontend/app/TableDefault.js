@@ -14,6 +14,7 @@ import {
 } from "@chakra-ui/react";
 
 export default function TableDefault({ data }) {
+  console.log(data);
   return (
     <ChakraProvider>
       <Table id="transactions">
