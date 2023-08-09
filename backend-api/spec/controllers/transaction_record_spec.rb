@@ -25,6 +25,12 @@ RSpec.describe TransactionsController, type: :controller do
       get :index 
       expect(response).to have_http_status(:success)
     end # Normal unit test
+
+    it "does not return if user id is negative" do 
+      @request.session[:user_id] = -1
+      get :index
+      expect(response).to have_http_status(:unauthorized)
+    end
   end
 
   describe "POST #create" do
@@ -46,12 +52,88 @@ RSpec.describe TransactionsController, type: :controller do
       expect(Transaction.last.transaction_type).to eq("AWL")
     end # Integration test, changes other stuff than TransactionModel
 
-    it "does not accept any other transaction types" do
-      transaction_params = { user_id: 1 , atm_machine_id: 1, amount: 50 , transaction_type: "XXX" }
+    it "should return an error for invalid transaction_type" do
+      transaction_params = { user_id: 1, atm_machine_id: 1, amount: 50.0, transaction_type: "STH ELSE" }
       @request.session[:transaction] = transaction_params
-      post :create, params: {transaction: transaction_params, atm_machine_id: 1 }
+      post :create, params: { transaction: transaction_params , atm_machine_id:1  }
       expect(response).to have_http_status(:unprocessable_entity)
-    end # NATHAN DONT ALLOW OTHER TYPES OF TRANSACTIONS BESIDE NCD AWL
+    end
+
+    it "should return an error for negative amount in deposit transaction" do
+      transaction_params = { user_id: 1, atm_machine_id: 1, amount: -1, transaction_type: "NCD" }
+      @request.session[:transaction] = transaction_params
+      post :create, params: { transaction: transaction_params , atm_machine_id:1  }
+      expect(response).to have_http_status(:unprocessable_entity)
+    end
+    it "should return an error for negative amount in withdrawal transaction" do
+      transaction_params = { user_id: 1, atm_machine_id: 1, amount: -1, transaction_type: "AWL" }
+      @request.session[:transaction] = transaction_params
+      post :create, params: { transaction: transaction_params , atm_machine_id:1  }
+      expect(response).to have_http_status(:unprocessable_entity)
+    end
+    
+    it "should return an error for withdrawal for negative user_id" do
+      transaction_params = { user_id: -1, atm_machine_id: 1, amount: 50.0, transaction_type: "AWL" }
+      @request.session[:transaction] = transaction_params
+      post :create, params: { transaction: transaction_params , atm_machine_id:1  }
+      expect(response).to have_http_status(:unprocessable_entity)
+    end
+
+    it "should return an error for withdrawal out of range user_id" do
+      transaction_params = { user_id: 100000, atm_machine_id: 1, amount: 50.0, transaction_type: "AWL" }
+      @request.session[:transaction] = transaction_params
+      post :create, params: { transaction: transaction_params , atm_machine_id:1  }
+      expect(response).to have_http_status(:unprocessable_entity)
+    end
+
+    it "should return an error for withdrawal invalid atm_machine_id" do
+      transaction_params = { user_id: 1, atm_machine_id: -1, amount: 50.0, transaction_type: "AWL" }
+      @request.session[:transaction] = transaction_params
+      post :create, params: { transaction: transaction_params , atm_machine_id:-1  }
+      expect(response).to have_http_status(:unprocessable_entity)
+    end
+
+    it "should return an error for withdrawal out of range atm_machine_id" do
+      transaction_params = { user_id: 1, atm_machine_id: 100000, amount: 50.0, transaction_type: "AWL" }
+      @request.session[:transaction] = transaction_params
+      post :create, params: { transaction: transaction_params , atm_machine_id:100000  }
+      expect(response).to have_http_status(:unprocessable_entity)
+    end
+
+    it "should return an error for deposit invalid transaction amount " do
+      transaction_params = { user_id: 1, atm_machine_id: 1, amount: -50.0, transaction_type: "NCD" }
+      @request.session[:transaction] = transaction_params
+      post :create, params: { transaction: transaction_params , atm_machine_id:1  }
+      expect(response).to have_http_status(:unprocessable_entity)
+    end
+    
+    it "should return an error for deposit invalid user_id" do
+      transaction_params = { user_id: -1, atm_machine_id: 1, amount: 50.0, transaction_type: "NCD" }
+      @request.session[:transaction] = transaction_params
+      post :create, params: { transaction: transaction_params , atm_machine_id:1  }
+      expect(response).to have_http_status(:unprocessable_entity)
+    end
+
+    it "should return an error for deposit out of range user_id" do
+      transaction_params = { user_id: 100000, atm_machine_id: 1, amount: 50.0, transaction_type: "NCD" }
+      @request.session[:transaction] = transaction_params
+      post :create, params: { transaction: transaction_params , atm_machine_id:100000  }
+      expect(response).to have_http_status(:unprocessable_entity)
+    end
+
+    it "should return an error for deposit invalid atm_machine_id" do
+      transaction_params = { user_id: 1, atm_machine_id: -1, amount: 50.0, transaction_type: "NCD" }
+      @request.session[:transaction] = transaction_params
+      post :create, params: { transaction: transaction_params , atm_machine_id:-1 }
+      expect(response).to have_http_status(:unprocessable_entity)
+    end
+
+    it "should return an error for deposit out of range atm_machine_id" do
+      transaction_params = { user_id: 1, atm_machine_id: 100000, amount: 50.0, transaction_type: "NCD" }
+      @request.session[:transaction] = transaction_params
+      post :create, params: { transaction: transaction_params , atm_machine_id:100000 }
+      expect(response).to have_http_status(:unprocessable_entity)
+    end
   end
 
 
@@ -68,7 +150,11 @@ RSpec.describe TransactionsController, type: :controller do
     it "does not show anything for invalid id" do
       get :show , params: {id: "asdfsdf"}
       expect(response).to have_http_status(:unprocessable_entity)
-    end # Robust test case (invalid parameter) // FIX CONTROLLER NATHANS PRBLM
+    end # Robust test case (invalid parameter) 
+    it "does not show anything for negative id" do
+      get :show , params: {id: -1}
+      expect(response).to have_http_status(:unprocessable_entity)
+    end
   end
 
   describe "DELETE destroy" do
@@ -88,5 +174,11 @@ RSpec.describe TransactionsController, type: :controller do
       expect(response).to have_http_status(:unprocessable_entity)
       expect(JSON.parse(response.body)).to include('error')
     end # Robust test case (invalid parameter)
+
+    it "does not delete transaction if id is negative" do
+      delete :destroy, params: {id:-1}
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(JSON.parse(response.body)).to include('error')
+    end
   end
 end

@@ -41,6 +41,12 @@ RSpec.describe AtmMachinesController, type: :controller do
             expect(parsed_response).to eq(expected_json)
         end # Normal unit test
 
+        it "does not create if negative balance" do
+            @send_params = {atm_machine:{atm_machine_name:"Testing ATM",store_name: "Testing Store Name", balance:-1 }}
+            post :create , params: @send_params
+            expect(response).to have_http_status(:unprocessable_entity)
+        end
+
         it "does not create an atm machine if wrong params" do
             @send_params = {atm_machine:{id: "XMM" }} 
             post :create , params: @send_params
@@ -66,6 +72,11 @@ RSpec.describe AtmMachinesController, type: :controller do
             send_params = {id: 20000 }
             expect { post :show , params: send_params }.to raise_error(ActiveRecord::RecordNotFound)
         end # Boundary test case
+
+        it "does not show any details if id is -1 " do
+            send_params = {id: -1 }
+            expect { post :show , params: send_params }.to raise_error(ActiveRecord::RecordNotFound)
+        end # Boundary test case
     end
 
     describe "update" do
@@ -77,8 +88,23 @@ RSpec.describe AtmMachinesController, type: :controller do
 
         it "does not update atm_machine if the id is wrong" do
             send_params = {id: "jdasjdoas" }
-            expect { post :update , params: send_params }.to raise_error(ActiveRecord::RecordNotFound)
+            expect { put :update , params: send_params }.to raise_error(ActiveRecord::RecordNotFound)
         end # Robust test case (invalid parameter)
+        it "does not update if atm_machine id is -1" do
+            send_params = {id:-1, atm_machine:{atm_machine_name:"Testing ATM",store_name: "Testing Store Name", balance:1234 }}
+            expect { post :update , params: send_params }.to raise_error(ActiveRecord::RecordNotFound)
+        end
+        it "updates with another name given valid params" do
+            send_params = {id:1, atm_machine:{atm_machine_name:"Another ATM Name",store_name: "Another Store Name", balance:1234 }}
+            put :update , params: send_params
+            expect(response).to have_http_status(:success)
+        end
+        it "does not update with negative balance" do
+            send_params = {id:1, atm_machine:{atm_machine_name:"Another ATM Name",store_name: "Another Store Name", balance:-1 }}
+            put :update , params: send_params
+            expect(response).to have_http_status(:unprocessable_entity)
+        end
+        
     end
 
     describe "destroy" do
@@ -97,6 +123,11 @@ RSpec.describe AtmMachinesController, type: :controller do
             send_params = {id: "jdasjdoas" }
             expect {post :destroy , params: send_params}.to raise_error(ActiveRecord::RecordNotFound)
         end # Robust test case (invalid parameter)
+        it "should fail if negative id " do
+            send_params = {id: "jdasjdoas" }
+            expect {post :destroy , params: send_params}.to raise_error(ActiveRecord::RecordNotFound)
+        end
+    
     end
 end
 

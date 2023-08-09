@@ -23,6 +23,66 @@ RSpec.describe UsersController, type: :controller do
                 post :create, params: { user: {} }
             }.to raise_error(ActionController::ParameterMissing) 
         end # Robust test case (missing parameters)
+        it "does not create if negative balance" do 
+            user_params = {user:{
+                name: "user_tester", 
+                identification_number: "S12345678I",
+                balance: -1, 
+                pin: 1234, 
+                face_image_url: "https", 
+                is_active: 0
+            }} 
+            post :create , params: @user_params
+            expect(response).to have_http_status(:unprocessable_entity)
+        end
+        it "does not create if pin have more than 4 digits" do 
+            user_params = {user:{
+                name: "user_tester", 
+                identification_number: "S12345678I",
+                balance: 1, 
+                pin: 123456, 
+                face_image_url: "https", 
+                is_active: 0
+            }} 
+            post :create , params: @user_params
+            expect(response).to have_http_status(:unprocessable_entity)
+        end
+        it "does not create if pin less than 4 digits" do 
+            user_params = {user:{
+                name: "user_tester", 
+                identification_number: "S12345678I",
+                balance: 1, 
+                pin: 123, 
+                face_image_url: "https", 
+                is_active: 0
+            }} 
+            post :create , params: @user_params
+            expect(response).to have_http_status(:unprocessable_entity)
+        end
+        it "does not create if user has an id in database" do 
+            user_params = {user:{
+                name: "user_tester", 
+                identification_number: "ABC123",
+                balance: 1, 
+                pin: 1234, 
+                face_image_url: "https", 
+                is_active: 0
+            }} 
+            post :create , params: @user_params
+            expect(response).to have_http_status(:unprocessable_entity)
+        end
+        it "does not create if is_active is not 0" do 
+            user_params = {user:{
+                name: "user_tester", 
+                identification_number: "S12345678I",
+                balance: 1, 
+                pin: 1234, 
+                face_image_url: "https", 
+                is_active: 1
+            }} 
+            post :create , params: @user_params
+            expect(response).to have_http_status(:unprocessable_entity)
+        end
     end
 
     describe "index" do
@@ -49,6 +109,11 @@ RSpec.describe UsersController, type: :controller do
             allow(controller).to receive(:set_current_user).and_return(User.find_by(id:"This cant be right"))
             expect {get :show}.to raise_error(ActiveRecord::RecordNotFound)
         end # Robust test case (invalid parameter)
+        it "should not give a success response if the user id is negative" do
+            @request.session[:user_id] = -1
+            allow(controller).to receive(:set_current_user).and_return(User.find_by(id:"This cant be right"))
+            expect {get :show}.to raise_error(ActiveRecord::RecordNotFound)
+        end
     end
 
     describe "update" do
@@ -65,6 +130,36 @@ RSpec.describe UsersController, type: :controller do
             post :update , params: send_params
             expect(response).to have_http_status(:unauthorized)
         end # Robust test case (invalid parameter)
+        it "does not update for negative id" do
+            @request.session[:user_id] = -1
+            send_params = {id: -1, user: {name: "tester", identification_number: 1234, balance:10000, pin:1234, face_image_url:"https", is_active:0}}
+            post :update , params: send_params
+            expect(response).to have_http_status(:unauthorized)
+        end
+        it "does not update for pin more than 4 digits " do
+            @request.session[:user_id] = 1
+            send_params = {id: 1, user: {name: "tester", identification_number: 1234, balance:10000, pin:123456, face_image_url:"https", is_active:0}}
+            post :update , params: send_params
+            expect(response).to have_http_status(:unauthorized)
+        end
+        it "does not update for pin less than 3digits " do
+            @request.session[:user_id] = 1
+            send_params = {id: 1, user: {name: "tester", identification_number: 1234, balance:10000, pin:123, face_image_url:"https", is_active:0}}
+            post :update , params: send_params
+            expect(response).to have_http_status(:unauthorized)
+        end
+        it "does not update for negative balance " do
+            @request.session[:user_id] = 1
+            send_params = {id: 1, user: {name: "tester", identification_number: 1234, balance:-1, pin:1234, face_image_url:"https", is_active:0}}
+            post :update , params: send_params
+            expect(response).to have_http_status(:unauthorized)
+        end
+        it "does not update for is_active not equals to 0 " do
+            @request.session[:user_id] = 1
+            send_params = {id: 1, user: {name: "tester", identification_number: 1234, balance:10000, pin:1234, face_image_url:"https", is_active:1}}
+            post :update , params: send_params
+            expect(response).to have_http_status(:unauthorized)
+        end
     end
 
     describe "destroy" do
@@ -86,5 +181,11 @@ RSpec.describe UsersController, type: :controller do
             delete :destroy 
             expect(response).to have_http_status(:unauthorized)
         end # Robust test case (invalid parameter)
+        it "does not delete negative id users" do
+            @request.session[:user_id] =-1
+            send_params = {id: -1}
+            delete :destroy 
+            expect(response).to have_http_status(:unauthorized)
+        end
     end
 end

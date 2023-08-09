@@ -23,6 +23,22 @@ class Transaction < ApplicationRecord
     transaction.save!
     transaction
   end
+  def update_balances
+      if transaction_type == 'NCD'
+          user.increment!(:balance, BigDecimal(amount))
+          atm_machine.increment!(:balance, BigDecimal(amount))
+      else
+          user.decrement!(:balance, BigDecimal(amount))
+          atm_machine.decrement!(:balance, BigDecimal(amount))
+        end
+      
+  
+      # Updating the balance left fields for the transaction
+      self.user_balance_left = user.balance
+      self.atm_balance_left = atm_machine.balance
+      self.save!
+    
+  end
   
 
   private
@@ -31,20 +47,5 @@ class Transaction < ApplicationRecord
     errors.add(:amount, "Insufficient balance") if BigDecimal(amount) > user.balance && BigDecimal(amount) > atm_machine.balance
   end
 
-  def update_balances
-    ApplicationRecord.transaction do
-      if transaction_type == 'NCD'
-        user.increment!(:balance, BigDecimal(amount))
-        atm_machine.increment!(:balance, BigDecimal(amount))
-      else
-        user.decrement!(:balance, BigDecimal(amount))
-        atm_machine.decrement!(:balance, BigDecimal(amount))
-      end
-
-      # Updating the balance left fields for the transaction
-      self.user_balance_left = user.balance
-      self.atm_balance_left = atm_machine.balance
-      self.save!
-    end
-  end
+  
 end

@@ -13,22 +13,70 @@ RSpec.describe User, type: :model do
     it "returns false for incorrect pin" do
       expect(@user.authenticate_pin('5678')).to eq(false)
     end
+    it "returns false for no pin provided" do
+      expect(@user.authenticate_pin(nil)).to eq(false)
+    end
+    it "returns false for empty pin provided" do
+      expect(@user.authenticate_pin("")).to eq(false)
+    end
   end
 
   describe "#authenticate_face" do
     before do
-        @user = User.find_by(id:1)
-        file_path = 'spec/controllers/correct.txt'
-        @file_contents = File.read(file_path)
+      @user = User.find_by(id: 1)
+      file_path = 'spec/controllers/correct.txt'
+      @correct = File.read(file_path)
+      wrong_file_path = 'spec/controllers/wrong.txt'
+      @wrong = File.read(wrong_file_path)
+      dog_file_path = 'spec/controllers/dog.txt'
+      @dog = File.read(dog_file_path)
     end
+  
     xit "returns true for matching face" do
-      allow(RekognitionService).to receive(:find_person_by_image).and_return(['ABC123', 99.99996948242188])
-        expect(@user.authenticate_face('1')).to eq(true)
+      allow(@user).to receive(:identification_number).and_return('ABC123')
+      expect(@user.authenticate_face(@correct)).to eq(true)
     end
-
+  
     xit "returns false for non-matching face" do
-      allow(RekognitionService).to receive(:find_person_by_image).and_return(['ASSAS', 99.99996948242188])
-        expect(@user.authenticate_face('1')).to eq(false)
+      allow(@user).to receive(:identification_number).and_return('ABC123')
+      expect(@user.authenticate_face(@wrong)).to eq(false)
+    end
+  
+    xit "returns false for image with low confidence" do
+      allow(@user).to receive(:identification_number).and_return('ABC123')
+      expect(@user.authenticate_face(@wrong)).to eq(false)
+    end
+  
+    xit "returns a response if image provided contains 'data:image/jpeg;base64,' prefix" do
+      allow(@user).to receive(:identification_number).and_return('ABC123')
+      expect(@user.authenticate_face(@correct)).to eq(true)
+    end
+  
+    xit "raises ValidationException for invalid or corrupted base64_image" do
+      allow(@user).to receive(:identification_number).and_return('ABC123')
+      expect {
+        @user.authenticate_face('1')
+      }.to raise_error(Aws::Rekognition::Errors::ValidationException)
+    end
+    
+  
+    xit "returns false if empty base64_image" do
+      allow(@user).to receive(:identification_number).and_return('ABC123')
+      expect {
+        @user.authenticate_face('1')
+      }.to raise_error(Aws::Rekognition::Errors::ValidationException)
+    end
+  
+    xit "raises InvalidParameterException for non-face base64_image" do
+      allow(@user).to receive(:identification_number).and_return('ABC123')
+      expect {
+        @user.authenticate_face(@dog)
+      }.to raise_error(Aws::Rekognition::Errors::InvalidParameterException)
+    end    
+  
+    xit "returns true or false based on highest index face for different people for base64 image" do
+      allow(@user).to receive(:identification_number).and_return('ryan')
+      expect(@user.authenticate_face(@correct)).to eq(false)
     end
   end
 end
