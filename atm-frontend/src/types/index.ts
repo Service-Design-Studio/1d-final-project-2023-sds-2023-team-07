@@ -11,7 +11,7 @@ export interface UserData {
   id: number;
   name: string;
   identification_number: string;
-  balance: string;
+  balance: number | string;
   pin: string;
   face_image_url: string;
   is_active: number;
