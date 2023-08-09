@@ -10,6 +10,7 @@ RSpec.describe User, type: :model do
       expect(@user.authenticate_pin('1234')).to eq(true)
     end
 
+    ####### VIDEO DEMO NEGATIVE TEST CASE, expected to fail
     it "returns false for incorrect pin" do
       expect(@user.authenticate_pin('5678')).to eq(false)
     end
@@ -19,6 +20,7 @@ RSpec.describe User, type: :model do
     it "returns false for empty pin provided" do
       expect(@user.authenticate_pin("")).to eq(false)
     end
+    #######
   end
 
   describe "#authenticate_face" do
