@@ -21,8 +21,9 @@ class UsersController < ApplicationController
   def show
     if @current_user.nil?
       raise ActiveRecord::RecordNotFound
+    else
+      render json: @current_user
     end
-    render json: @current_user
   end
 
   # PATCH '/user' or PUT '/user' - Update the currently logged-in user

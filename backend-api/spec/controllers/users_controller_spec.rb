@@ -34,51 +34,57 @@ RSpec.describe UsersController, type: :controller do
 
     describe "show" do
         before do
-            @current_user = User.find_by(id:1)
+            @valid_id = 1
+            @invalid_id = 9021312903
         end
         it "shows details of a specific user given  valid user id" do
-            allow(controller).to receive(:set_current_user).and_return(@current_user)
+            @request.session[:user_id] = @valid_id
             get :show
             expect(response).to have_http_status(:success)
+            expect(JSON.parse(response.body)).to include('name', 'identification_number', 'balance', 'pin', 'face_image_url', 'is_active')
         end # Normal unit test
 
         it "should not give a success response if the user id does not exist" do
-            @current_user = User.find_by(id:"This cant be right")
+            @request.session[:user_id] = @invalid_id
             allow(controller).to receive(:set_current_user).and_return(User.find_by(id:"This cant be right"))
             expect {get :show}.to raise_error(ActiveRecord::RecordNotFound)
         end # Robust test case (invalid parameter)
     end
 
     describe "update" do
-        before do 
-            allow(controller).to receive(:set_current_user).and_return(User.find_by(id: 1))
-        end
         it "updates a valid user" do
+            @request.session[:user_id] = 1
             send_params = {id: 1 ,user: {name: "tester", identification_number: 1234, balance:10000, pin:1234, face_image_url:"https", is_active:0}}
             post :update , params: send_params
             expect(response).to have_http_status(:success)
         end # Normal unit test
         
         it "does not update for invalid users" do
+            @request.session[:user_id] = 38239
             send_params = {id: 38239, user: {name: "tester", identification_number: 1234, balance:10000, pin:1234, face_image_url:"https", is_active:0}}
-            expect {post :update , params: send_params}.to raise_error(ActiveRecord::RecordNotFound)
+            post :update , params: send_params
+            expect(response).to have_http_status(:unauthorized)
         end # Robust test case (invalid parameter)
     end
 
     describe "destroy" do
-        it "deletes users that are valid" do 
-            send_params = {id: 7}
+        it "deletes users that are valid with no foreign key" do 
+            @request.session[:user_id] = 7
+            post :destroy
             expect(response).to have_http_status(:success)
         end # Normal unit test
 
         it "does not deletes users that are valid when tied to foreign key" do 
+            @request.session[:user_id] = 1
             send_params = {id: 1}
             expect {post :destroy , params: send_params}.to raise_error(ActiveRecord::InvalidForeignKey)
         end # Boundary test case
 
         it "does not delete invalid users" do
+            @request.session[:user_id] ="koaskdas"
             send_params = {id: "koaskdas"}
-            expect {post :destroy , params: send_params}.to raise_error(ActiveRecord::RecordNotFound)
+            delete :destroy 
+            expect(response).to have_http_status(:unauthorized)
         end # Robust test case (invalid parameter)
     end
 end

@@ -33,6 +33,10 @@ class TransactionsController < ApplicationController
 
   # DELETE '/transactions/:id'
   def destroy
+    if @current_user.nil? 
+      raise ActiveRecord::RecordNotFound
+      return
+    end
     if @transaction.destroy
       render json: { message: 'Transaction deleted successfully' }, status: :ok
     else

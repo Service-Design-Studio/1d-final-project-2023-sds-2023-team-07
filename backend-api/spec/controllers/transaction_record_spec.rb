@@ -2,12 +2,9 @@ require 'rails_helper'
 require "factory_bot_rails"
 
 RSpec.describe TransactionsController, type: :controller do
-  pending
   describe "GET #index" do
     before do
-      allow(controller).to receive(:set_current_user).and_return(User.find_by(id: 1))
-      allow(controller).to receive(:set_atm_machine).and_return(AtmMachine.find_by(id: 1))
-      allow(controller).to receive(:set_transaction).and_return(Transaction.find_by(id:1))
+      @request.session[:user_id] =1 #valid user
     end
 
     it "returns a table of transactions for the user" do
@@ -18,9 +15,10 @@ RSpec.describe TransactionsController, type: :controller do
     end # Normal unit test
 
     it "returns 'User not found' if user does not exist" do
-      get :index, params: { user: :sadasdas }
-      expect(response).to have_http_status(:unprocessable_entity)
-      expect(JSON.parse(response.body)).to eq({ "error" => "User not found" })
+      @request.session[:user_id] = :sadasdasdsadsad
+      get :index
+      expect(response).to have_http_status(:unauthorized)
+      expect(JSON.parse(response.body)).to eq({ "error" => "Not logged in" })
     end # Robust test case (invalid parameter)
 
     it "returns all transaction if no user params" do
@@ -33,6 +31,7 @@ RSpec.describe TransactionsController, type: :controller do
     context "with valid parameters" do
       it "creates a new deposit transaction" do
         transaction_params = { user_id: 2, atm_machine_id: 1, amount: 100.0, transaction_type: "NCD"}
+        @request.session[:transaction] = transaction_params
         post :create, params: {transaction: transaction_params }
         expect(response).to have_http_status(:created)
         expect(Transaction.last.transaction_type).to eq("NCD")
@@ -41,17 +40,18 @@ RSpec.describe TransactionsController, type: :controller do
 
     it "creates a new withdrawal transaction" do
       transaction_params = { user_id: 1 , atm_machine_id: 1, amount: 50 , transaction_type: "AWL" }
-      post :create, params: {transaction: transaction_params }
+      @request.session[:transaction] = transaction_params
+      post :create
       expect(response).to have_http_status(:created)
       expect(Transaction.last.transaction_type).to eq("AWL")
     end # Integration test, changes other stuff than TransactionModel
 
     it "does not accept any other transaction types" do
       transaction_params = { user_id: 1 , atm_machine_id: 1, amount: 50 , transaction_type: "XXX" }
-      post :create, params: {transaction: transaction_params }
+      @request.session[:transaction] = transaction_params
+      post :create
       expect(response).to have_http_status(:unprocessable_entity)
     end
-    
   end
 
 
@@ -69,30 +69,17 @@ RSpec.describe TransactionsController, type: :controller do
   describe "DELETE destroy" do
     it "deletes transaction if id is valid" do
       @last_transaction_id = Transaction.last().id
-      delete :destroy, params: {id: @last_transaction_id}
+      @request.session[:id] = @last_transaction_id
+      delete :destroy
       expect(response).to have_http_status(:success)
       expect(@last_transaction_id> Transaction.last().id)
     end # Normal unit test
 
     it "does not delete transaction if id is invalid" do
-      expect {delete :destroy , params:  {id: "3213213213"}}.to raise_error(ActiveRecord::RecordNotFound)
+      @request.session[:id] = "3213213213"
+      delete :destroy
+      expect(response).to have_http_status(:unauthorized)
+      expect(JSON.parse(response.body)).to include('error')
     end # Robust test case (invalid parameter)
   end
-
-  # fuzzed_data_provider :transaction_params do
-  #   # Define fuzzed inputs for transaction_params
-  #   {
-  #     user_id: 1,
-  #     atm_machine_id: 1,
-  #     amount: Numeric,
-  #     transaction_type: "NCD",
-  #   }
-  # end
-
-  # it "creates a transaction with fuzzed input" do
-  #   fuzzed_input = get_fuzzed_data(:transaction_params)
-
-  #   post :create, params: { transaction: fuzzed_input }
-  #   expect(response).to have_http_status(:success)
-  
 end

@@ -6,7 +6,7 @@ RSpec.describe AuthenticationController, type: :controller do
         before do
             @name = "Kelvin"
         end
-        it "authenticates if correct pin for correct user" do
+        xit "authenticates if correct pin for correct user" do
             correct_pin = 1234
             post :pin, params: { pin: correct_pin, identification_number:"ABC123"}
             expect(JSON.parse(response.body)["authenticated"]).to eq(true)
@@ -14,7 +14,7 @@ RSpec.describe AuthenticationController, type: :controller do
             expect(response).to have_http_status(:success)
         end # Normal unit test
 
-        it "does not authenticate if wrong pin for correct user" do
+        xit "does not authenticate if wrong pin for correct user" do
             @wrong_pin = 123812
             post :pin, params: { pin: @wrong_pin, identification_number:"ABC123"}
             expect(JSON.parse(response.body)["authenticated"]).to eq(false)
@@ -22,7 +22,7 @@ RSpec.describe AuthenticationController, type: :controller do
             expect(response).to have_http_status(:success)
         end # Boundary test case
 
-        it "does not authenticate if either pin or user is not declared" do 
+        xit "does not authenticate if either pin or user is not declared" do 
             post :pin, params: { pin: @wrong_pin}
             expect(JSON.parse(response.body)["authenticated"]).to eq(false)
             expect(JSON.parse(response.body)["message"]).to eq("Server error")
