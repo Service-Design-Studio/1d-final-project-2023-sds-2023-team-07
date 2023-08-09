@@ -2,7 +2,10 @@ class User < ApplicationRecord
     has_many :transactions
 
     # Other validations and methods
-    validates :is_active, numericality: { only_integer: true }
+    validates :balance, numericality: { greater_than_or_equal_to: 0 }
+    
+    # Ensure pin is a 4-digit string
+    validates :pin, length: { is: 4 }, format: { with: /\A\d{4}\z/, message: "must be a 4-digit number" }
 
     def authenticate_pin(pin)
         self.pin == pin
