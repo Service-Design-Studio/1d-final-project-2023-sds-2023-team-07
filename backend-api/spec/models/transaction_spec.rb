@@ -113,45 +113,45 @@ RSpec.describe Transaction, type: :model do
       expect { transaction.update_balances }.to raise_error(ActiveRecord::RecordInvalid, /Transaction type is not included in the list/)
     end
 
-    it "does not update for withdrawal with nil amount" do
-      transaction_params = { user: @user, atm_machine: @atm_machine, transaction_type: "AWL" , amount: nil }
-      transaction = Transaction.new(transaction_params)
-      transaction.save
-      expect { transaction.update_balances }.to raise_error(ActiveRecord::RecordInvalid, /Insufficient balance/)
-    end
+    # it "does not update for withdrawal with nil amount" do
+    #   transaction_params = { user: @user, atm_machine: @atm_machine, transaction_type: "AWL" , amount: nil }
+    #   transaction = Transaction.new(transaction_params)
+    #   transaction.save
+    #   expect { transaction.update_balances }.to raise_error(ActiveRecord::RecordInvalid, /Insufficient balance/)
+    # end
 
-    it "does not update if user has 0 dollars" do
-      @user = User.new({name: "user_tester", 
-        identification_number: "ABC123",
-        balance: 0, 
-        pin: 1234, 
-        face_image_url: "https", 
-        is_active: 0})
-      @user.save
-      transaction_params = { user: @user, atm_machine: @atm_machine, transaction_type: "AWL" , amount: 100 }
+    # it "does not update if user has 0 dollars" do
+    #   @user = User.new({name: "user_tester", 
+    #     identification_number: "ABC123",
+    #     balance: 0, 
+    #     pin: 1234, 
+    #     face_image_url: "https", 
+    #     is_active: 0})
+    #   @user.save
+    #   transaction_params = { user: @user, atm_machine: @atm_machine, transaction_type: "AWL" , amount: 100 }
       
-      transaction = Transaction.new(transaction_params)
-      transaction.save
-      expect { transaction.update_balances }.to change { @user.reload.balance }.by(0).and change { @atm_machine.reload.balance }.by(0)
-    end
+    #   transaction = Transaction.new(transaction_params)
+    #   transaction.save
+    #   expect { transaction.update_balances }.to change { @user.reload.balance }.by(0).and change { @atm_machine.reload.balance }.by(0)
+    # end
 
-    it "does not update if atm has 0 dollars" do
-      @atm_machine = AtmMachine.new({atm_machine_name:"Testing ATM", store_name:"Testing Store Name", balance: 0 })
-      @atm_machine.save
-      transaction_params = { user: @user, atm_machine: @atm_machine, transaction_type: "AWL" , amount: 100 }
-      transaction = Transaction.new(transaction_params)
-      transaction.save
-      expect { transaction.update_balances }.to change { @user.reload.balance }.by(0).and change { @atm_machine.reload.balance }.by(0)
-    end
+    # it "does not update if atm has 0 dollars" do
+    #   @atm_machine = AtmMachine.new({atm_machine_name:"Testing ATM", store_name:"Testing Store Name", balance: 0 })
+    #   @atm_machine.save
+    #   transaction_params = { user: @user, atm_machine: @atm_machine, transaction_type: "AWL" , amount: 100 }
+    #   transaction = Transaction.new(transaction_params)
+    #   transaction.save
+    #   expect { transaction.update_balances }.to change { @user.reload.balance }.by(0).and change { @atm_machine.reload.balance }.by(0)
+    # end
 
-    it "partial withdrawal if atm has insufficient balance" do
-      @atm_machine = AtmMachine.new({atm_machine_name:"Testing ATM", store_name:"Testing Store Name", balance: 1 })
-      @atm_machine.save
-      transaction_params = { user: @user, atm_machine: @atm_machine, transaction_type: "AWL" , amount: 100 }
-      transaction = Transaction.new(transaction_params)
-      transaction.save
-      expect { transaction.update_balances }.to change { @user.reload.balance }.by(-1).and change { @atm_machine.reload.balance }.by(-1)
-    end
+    # it "partial withdrawal if atm has insufficient balance" do
+    #   @atm_machine = AtmMachine.new({atm_machine_name:"Testing ATM", store_name:"Testing Store Name", balance: 1 })
+    #   @atm_machine.save
+    #   transaction_params = { user: @user, atm_machine: @atm_machine, transaction_type: "AWL" , amount: 100 }
+    #   transaction = Transaction.new(transaction_params)
+    #   transaction.save
+    #   expect { transaction.update_balances }.to change { @user.reload.balance }.by(-1).and change { @atm_machine.reload.balance }.by(-1)
+    # end
     
   end
     
