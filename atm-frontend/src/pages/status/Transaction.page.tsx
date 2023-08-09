@@ -9,6 +9,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { TransactionData } from "@/types";
+import { parse } from "path";
 
 const Transaction = () => {
   const router = useRouter();
@@ -17,6 +18,37 @@ const Transaction = () => {
   const [transaction, setTransaction] = useState<TransactionData | null>(null);
   const [inputValue, setInputValue] = useState<number>(0);
   const toast = useToast();
+
+  useEffect(() => {
+    if (data) {
+      const parsedData = JSON.parse(data as string);
+      console.log(parsedData);
+
+      const { identification_number, pin } = parsedData;
+
+      fetch("/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          identification_number,
+          pin,
+        }),
+        credentials: "same-origin",
+      })
+        .then((response) => response.json())
+        .then((result) => {
+          // Handle the result from your login endpoint
+          // For example, if there's an error or if the user was successfully logged in.
+          console.log(result);
+        })
+        .catch((error) => {
+          // Handle errors from the fetch or the endpoint
+          console.error("Failed to login:", error);
+        });
+    }
+  }, [data]);
 
   const handleButtonClick = () => {
     if (transaction) {
