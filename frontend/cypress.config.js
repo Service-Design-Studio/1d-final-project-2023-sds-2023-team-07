@@ -13,6 +13,7 @@ module.exports = defineConfig({
   viewportWidth: 414,
 
   env: {
+    backend_uri: "https://backend-dbs-grp7-ml42q3c3ya-as.a.run.app",
     transactions_uri:
       "https://backend-dbs-grp7-ml42q3c3ya-as.a.run.app/transactions?user=*",
     face_auth_uri:
