@@ -185,6 +185,7 @@ GEM
     google-cloud-trace-v2 (0.6.1)
       gapic-common (>= 0.19.1, < 2.a)
       google-cloud-errors (~> 1.0)
+    google-protobuf (3.23.4)
     google-protobuf (3.23.4-aarch64-linux)
     google-protobuf (3.23.4-arm64-darwin)
     google-protobuf (3.23.4-x64-unknown)
@@ -239,6 +240,7 @@ GEM
     memoist (0.16.2)
     method_source (1.0.0)
     mini_mime (1.1.2)
+    mini_portile2 (2.8.4)
     minitest (5.19.0)
     msgpack (1.7.2)
     multi_json (1.15.0)
@@ -252,6 +254,9 @@ GEM
     net-smtp (0.3.3)
       net-protocol
     nio4r (2.5.9)
+    nokogiri (1.15.3)
+      mini_portile2 (~> 2.8.2)
+      racc (~> 1.4)
     nokogiri (1.15.3-aarch64-linux)
       racc (~> 1.4)
     nokogiri (1.15.3-arm64-darwin)
@@ -382,6 +387,8 @@ GEM
       actionpack (>= 5.2)
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
+    sqlite3 (1.6.3)
+      mini_portile2 (~> 2.8.0)
     sqlite3 (1.6.3-aarch64-linux)
     sqlite3 (1.6.3-arm64-darwin)
     sqlite3 (1.6.3-x64-unknown)
@@ -415,7 +422,7 @@ GEM
 PLATFORMS
   aarch64-linux
   arm64-darwin-22
-  x64-unknown
+  ruby
   x64-unknown
   x86_64-linux
 
