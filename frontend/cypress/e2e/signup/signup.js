@@ -81,8 +81,7 @@ Then("I should see no previous transactions", function () {
 
 // Scenario: Invalid user name
 
-Given("I am a new user to the app", function () {
-});
+Given("I am a new user to the app", function () {});
 
 When("I get to the NRIC page", function () {
   cy.get("button").contains("Next").click();
@@ -101,4 +100,5 @@ Then(
 
 Then("I should not be able to move on to the next page", function () {
   cy.get("button").contains("Next").click();
+  cy.get("button").contains("Submit").should("not.exist");
 });
