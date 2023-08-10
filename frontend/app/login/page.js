@@ -50,6 +50,8 @@ export default function Page() {
         console.log(result);
         if (result.logged_in) {
           console.log(result);
+          router.push("/transactionHistory");
+        } else if (!result.logged_in) {
           router.push("/");
         }
         if (result.message == "Unexpected end of JSON input") {
@@ -62,6 +64,7 @@ export default function Page() {
       .catch((error) => {
         // Handle errors from the fetch or the endpoint
         console.error("Failed to login:", error);
+        router.push();
       });
   }
 
