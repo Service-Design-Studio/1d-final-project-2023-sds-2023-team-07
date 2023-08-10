@@ -35,15 +35,15 @@ export default function Home() {
     if (isMobile()) {
       constraints = {
         video: {
-          facingMode: "environment", // This will target the front camera on mobile devices
+          facingMode: "user",
           aspectRatio: { ideal: 1.7777777778 }, // 16:9 aspect ratio
         },
       };
     } else {
       constraints = {
         video: {
-          width: 2000,
-          height: 1000,
+          aspectRatio: { ideal: 1.7777777778 },
+          facingMode: "user",
         },
       };
     }
@@ -94,13 +94,12 @@ export default function Home() {
     console.log(ctx);
     let newPhoto = photoRef.current;
     var dataURL = newPhoto.toDataURL("image/jpeg");
-    let id = localStorage.getItem("id");
     axios
       .post(
         "https://backend-dbs-grp7-ml42q3c3ya-as.a.run.app/authenticate/face",
         {
           image: dataURL,
-          identification_number: "ryan",
+          identification_number: localStorage.getItem("id"),
         },
         config
       )
@@ -131,11 +130,12 @@ export default function Home() {
         console.log(error);
         // correct way to do setCounter, the logic above does not work
         setCounter((prevCounter) => {
-          if (prevCounter + 1 === 3) {
+          if (prevCounter + 1 === 4) {
             setPageState("pin");
           }
           return prevCounter + 1;
         });
+        setAuthFail(true);
       });
   };
 
@@ -218,7 +218,8 @@ export default function Home() {
         );
         break;
       case "pin":
-        return <Pin />;
+        const params = extractQueryString(window.location.href);
+        return <Pin pageState={params.pageState} />;
         break;
       default:
         return null;
