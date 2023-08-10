@@ -1,0 +1,2 @@
+gcloud builds submit --tag gcr.io/backend-dbs-grp7/frontend-dbs-grp7
+gcloud run deploy frontend --image gcr.io/backend-dbs-grp7/frontend-dbs-grp7 --platform managed --allow-unauthenticated --region asia-southeast1
