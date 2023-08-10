@@ -28,9 +28,15 @@ export default function Page() {
   const [ic, setIc] = useState("");
   const [name, setName] = useState("");
   const [pin, setPin] = useState("");
+  const [icerror, setIcerror] = useState(null);
+
+  console.log(step);
+  function isValidFormat(str) {
+    const regex = /^[A-Z]\d{7}[A-Z]$/;
+    return regex.test(str);
+  }
 
   const handleInputChange = (event, type) => {
-    console.log(type);
     switch (type) {
       case "ic":
         setIc(event.target.value);
@@ -45,7 +51,7 @@ export default function Page() {
   };
 
   const handleSubmit = async () => {
-    console.log("submitting")
+    console.log("submitting");
     const pin1 =
       pinOne.current.value +
       pinTwo.current.value +
@@ -91,7 +97,7 @@ export default function Page() {
       });
 
       const data2 = await response2.json();
-      console.log(data2)
+      console.log(data2);
 
       if (!response2.ok) {
         throw new Error(data2.message || "Failed to post data to /login");
@@ -148,45 +154,80 @@ export default function Page() {
         );
     }
   };
+
+  const renderButton = () => {
+    switch (step) {
+      case 3:
+        return (
+          <Button
+            key="submitButton"
+            type="submit"
+            className="grow mt-6"
+            colorScheme="red"
+            size="md"
+            onClick={() => {
+              console.log("onclick");
+            }}
+          >
+            Submit
+          </Button>
+        );
+      case 2:
+        return (
+          <Button
+            key="submitButton"
+            className="grow mt-6"
+            colorScheme="red"
+            size="md"
+            onClick={() => {
+              const isValid = isValidFormat(ic);
+              setIcerror(isValid);
+              console.log(isValid);
+              if (isValid) {
+                setStep(step + 1);
+              }
+            }}
+          >
+            Next
+          </Button>
+        );
+      case 1:
+        console.log("asfaew");
+        return (
+          <Button
+            key="submitButton"
+            className="grow mt-6"
+            colorScheme="red"
+            size="md"
+            onClick={() => {
+              setStep(step + 1);
+            }}
+          >
+            Next
+          </Button>
+        );
+    }
+  };
   return (
     <ChakraProvider>
       <div className="flex h-screen flex-col justify-center items-center">
         <form
           onSubmit={(e) => {
-              console.log('onclick3')
-              handleSubmit();
+            console.log("onclick3");
+            handleSubmit();
             e.preventDefault();
           }}
           className="flex justify-center flex-col w-5/6"
         >
           {renderPart()}
+          {renderButton()}
 
-          {step === 3 ? (
-            <Button
-              key="submitButton"
-              type="submit"
-              className="grow mt-6"
-              colorScheme="red"
-              size="md"
-              onClick={() => {
-                console.log('onclick');
-              }}
-            >
-              Submit
-            </Button>
+          {icerror == false && step == 2 ? (
+            <p className="mt-6 text-center text-red-800">
+              Please enter a valid NRIC
+            </p>
           ) : (
-            <Button
-              key="nextButton"
-              onClick={() => {
-                setStep(step + 1);
-              }}
-              className="grow mt-6"
-              colorScheme="red"
-              size="md"
-              type="button"
-            >
-              Next
-            </Button>
+            <div></div>
           )}
         </form>
       </div>
