@@ -3,7 +3,7 @@ import { useRouter } from "next/navigation";
 import { Button, PinInput, PinInputField } from "@chakra-ui/react";
 import axios from "axios";
 
-export default function Pin() {
+export default function Pin({ pageState }) {
   const pinOne = useRef(null);
   const pinTwo = useRef(null);
   const pinThree = useRef(null);
@@ -32,14 +32,14 @@ export default function Pin() {
           "https://backend-dbs-grp7-ml42q3c3ya-as.a.run.app/authenticate/pin",
           {
             pin: stringPayload,
-            identification_number: "Kelvin",
+            identification_number: localStorage.getItem("id"),
           },
           config
         )
         .then((response) => {
           console.log(response.data.authenticated);
           if (response.data.authenticated) {
-            router.push("/success");
+            router.push(`/account?pageState=${pageState}`);
           } else if (!response.data.authenticated) {
             setError(false);
             setIncorrectPin(true);
