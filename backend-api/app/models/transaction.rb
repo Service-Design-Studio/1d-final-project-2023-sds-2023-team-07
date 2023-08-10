@@ -11,6 +11,8 @@ class Transaction < ApplicationRecord
   validate :sufficient_balance, if: -> { transaction_type == 'AWL' }
 
   after_create :update_balances
+  around_create :lock_user_and_validate_status
+
 
   def self.create_for_user!(params, user)
     transaction = new(params)
@@ -51,7 +53,42 @@ class Transaction < ApplicationRecord
   end
     
   private
+  
+  def lock_user_and_validate_status
+    # Lock the user record from the database
+    user.lock!
+  
+    # Check the user's status
+    if user.is_active != 0
+      errors.add(:base, "User is currently in another transaction or the last transaction failed.")
+      raise ActiveRecord::Rollback, "User is currently in another transaction or the last transaction failed."
+    end
+  
+    # Mark the user as being in an active transaction
+    user.update!(is_active: 1)
+  
+    yield # this will execute the creation of the transaction
     
+    # If the transaction creation has failed for some reason (maybe balances, or other validations),
+    # then set user's is_active to 2 (transaction failed). If everything went fine, then reset to 0.
+    status = self.persisted? ? 0 : 2
+    user.update!(is_active: status)
+  end
+  
+  ###### THIS ONE MIGHT WORK BELOW
+  # def lock_user_and_check_status
+  #   # Lock the user record from the database
+  #   user.lock!
+  
+  #   # Check the user's status
+  #   if user.is_active != 0
+  #     errors.add(:base, "User is currently in another transaction or the last transaction failed.")
+  #     raise ActiveRecord::Rollback, "User is currently in another transaction or the last transaction failed."
+  #   end
+  
+  #   yield # this will execute the creation of the transaction
+  # end
+  
 
   def sufficient_balance
     errors.add(:amount, "Insufficient balance") if BigDecimal(amount) > user.balance && BigDecimal(amount) > atm_machine.balance

@@ -7,12 +7,14 @@ RSpec.describe TransactionsController, type: :controller do
       @request.session[:user_id] = 1 #valid user
     end
 
+    ####### VIDEO DEMO UNIT TEST
     it "returns a table of transactions for the user" do
       expected = {"amount"=>"200.0", "atm_balance_left"=>"10200.0", "atm_machine_id"=>1,"created_at" => "2023-07-27T09:45:00.357Z","transaction_type"=>"NCD", "updated_at" => "2023-07-27T09:45:00.357Z", "user_balance_left"=>"2200.0", "user_id"=>1,"id" =>1}
       get :index
       expect(response).to have_http_status(:success)
       expect(JSON.parse(response.body)[0]).to eq(expected)
     end # Normal unit test
+    #######
 
     it "returns 'User not found' if user does not exist" do
       @request.session[:user_id] = :sadasdasdsadsad
@@ -34,6 +36,7 @@ RSpec.describe TransactionsController, type: :controller do
       @request.session[:user_id] = 1
     end
 
+    ####### VIDEO DEMO INTEGRATION TEST
     it "creates a new deposit transaction" do
       transaction_params = { atm_machine_id: 1, amount: 100.0, transaction_type: "NCD"}
       post :create, params: {transaction: transaction_params, atm_machine_id: 1 }
@@ -47,13 +50,16 @@ RSpec.describe TransactionsController, type: :controller do
       expect(response).to have_http_status(:created)
       expect(Transaction.last.transaction_type).to eq("AWL")
     end # Integration test, changes other stuff than TransactionModel
+    #######
 
+    ####### VIDEO DEMO ROBUST, transaction_type out of domain and expected to go wrong
     it "should return an error for invalid transaction_type" do
       transaction_params = { user_id: 1, atm_machine_id: 1, amount: 50.0, transaction_type: "STH ELSE" }
        
       post :create, params: { transaction: transaction_params , atm_machine_id:1  }
       expect(response).to have_http_status(:unprocessable_entity)
     end
+    #######
 
     it "should return an error for negative amount in deposit transaction" do
       transaction_params = { user_id: 1, atm_machine_id: 1, amount: -1, transaction_type: "NCD" }
