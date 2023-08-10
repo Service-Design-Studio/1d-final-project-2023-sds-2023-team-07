@@ -31,8 +31,6 @@ export default function Page() {
       document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/";
     }
 
-    console.log(document.cookie);
-
     router.push("/");
   };
 
@@ -49,12 +47,10 @@ export default function Page() {
         method: "GET",
       });
       const data = await response.json();
-      console.log(data);
       setFetchData(data);
     } catch (error) {
       console.error("Error while processing requests:", error);
     }
-    console.log("a");
   }
 
   async function logout() {
@@ -70,10 +66,11 @@ export default function Page() {
         return response.json(); // or just return response if you don't need to read the response body
       })
       .then((data) => {
-        console.log("Successfully logged out:", data);
+        console.log(data);
 
         // handle success response if needed
         if (data.message == "Logged out successfully") {
+          localStorage.removeItem("ic");
           router.push("/");
         }
       })
@@ -85,7 +82,6 @@ export default function Page() {
   useEffect(() => {
     getTable();
   }, []);
-  console.log();
 
   const renderPage = () => {
     switch (pageState) {

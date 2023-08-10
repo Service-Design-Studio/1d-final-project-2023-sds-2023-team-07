@@ -26,18 +26,12 @@ export default function Page() {
       pinTwo.current.value +
       pinThree.current.value +
       pinFour.current.value;
-    console.log(typeof pin1);
-    console.log(pin1);
-    console.log(typeof ic);
-    console.log(ic);
     fetch("/api/cookie/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        // identification_number: "ABC123",
-        // pin: "1234",
         identification_number: ic,
         pin: pin1,
       }),
@@ -47,9 +41,9 @@ export default function Page() {
       .then((result) => {
         // Handle the result from your login endpoint
         // For example, if there's an error or if the user was successfully logged in.
-        console.log(result);
         if (result.logged_in) {
-          console.log(result);
+          localStorage.setItem("id", ic);
+          console.log("logging in");
           router.push("/transactionHistory");
         } else if (!result.logged_in) {
         }

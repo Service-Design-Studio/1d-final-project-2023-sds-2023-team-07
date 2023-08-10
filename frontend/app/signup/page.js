@@ -96,6 +96,7 @@ export default function Page() {
       } else {
         console.log(data2);
         if (data2.logged_in) {
+          localStorage.setItem("id", ic);
           router.push("/stream");
         }
       }

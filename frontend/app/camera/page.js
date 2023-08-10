@@ -94,12 +94,13 @@ export default function Home() {
     console.log(ctx);
     let newPhoto = photoRef.current;
     var dataURL = newPhoto.toDataURL("image/jpeg");
+    let id = localStorage.getItem("id");
     axios
       .post(
         "https://backend-dbs-grp7-ml42q3c3ya-as.a.run.app/authenticate/face",
         {
           image: dataURL,
-          identification_number: "ryan",
+          identification_number: id,
         },
         config
       )
