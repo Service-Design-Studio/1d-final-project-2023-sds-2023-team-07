@@ -23,7 +23,7 @@ export default function Page() {
   const router = useRouter();
 
   const startCapture = () => {
-    intervalId = setInterval(captureFrame, 500);
+    intervalId = setInterval(captureFrame, 1000);
     console.log("capturing");
   };
 
