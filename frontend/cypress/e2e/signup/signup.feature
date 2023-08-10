@@ -15,6 +15,7 @@ Feature: Sign up
         Given I am a new user to the app
         And I open the login page
         And I press the sign up button
+        And I get to the NRIC page
         When I enter text that is not an NRIC
         Then I should see a message telling me that I entered an invalid NRIC
         And I should not be able to move on to the next page
