@@ -60,6 +60,7 @@ export default function Page() {
     })
       .then((response) => {
         console.log(response);
+        console.log(response.body);
         if (!response.ok) {
           // If server returns a non-200/204 status, reject promise with status text
           return Promise.reject(response.statusText);
