@@ -52,6 +52,9 @@ export default function Page() {
           console.log(result);
           router.push("/");
         }
+        if (result.message == "Unexpected end of JSON input") {
+          setError(true);
+        }
         if (!result.ok) {
           throw new Error(result.message || "Failed to post data to /login");
         }
@@ -59,7 +62,6 @@ export default function Page() {
       .catch((error) => {
         // Handle errors from the fetch or the endpoint
         console.error("Failed to login:", error);
-        setError(true);
       });
   }
 
