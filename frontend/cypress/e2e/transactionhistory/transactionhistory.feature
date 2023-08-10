@@ -4,7 +4,7 @@ Feature: Transaction History
     I want to be able to view my transaction history when I visit the home page
 
     Background: Registered user
-        Given I am a registered user with past transactions corresponding to "transactions.json"
+        Given I am a registered user with past transactions
 
     Scenario: Launching the web app and viewing familiar transaction records
         Given I visit the homepage
