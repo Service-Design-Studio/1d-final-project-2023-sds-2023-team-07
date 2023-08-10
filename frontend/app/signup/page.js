@@ -28,9 +28,15 @@ export default function Page() {
   const [ic, setIc] = useState("");
   const [name, setName] = useState("");
   const [pin, setPin] = useState("");
+  const [icerror, setIcerror] = useState(null);
+
+  console.log(step);
+  function isValidFormat(str) {
+    const regex = /^[A-Z]\d{7}[A-Z]$/;
+    return regex.test(str);
+  }
 
   const handleInputChange = (event, type) => {
-    console.log(type);
     switch (type) {
       case "ic":
         setIc(event.target.value);
@@ -148,6 +154,60 @@ export default function Page() {
         );
     }
   };
+
+  const renderButton = () => {
+    switch (step) {
+      case 3:
+        return (
+          <Button
+            key="submitButton"
+            type="submit"
+            className="grow mt-6"
+            colorScheme="red"
+            size="md"
+            onClick={() => {
+              console.log("onclick");
+            }}
+          >
+            Submit
+          </Button>
+        );
+      case 2:
+        return (
+          <Button
+            key="submitButton"
+            className="grow mt-6"
+            colorScheme="red"
+            size="md"
+            onClick={() => {
+              const isValid = isValidFormat(ic);
+              setIcerror(isValid);
+              console.log(isValid);
+              if (isValid) {
+                setStep(step + 1);
+              }
+            }}
+          >
+            Next
+          </Button>
+        );
+      case 1:
+        console.log("asfaew");
+        return (
+          <Button
+            key="submitButton"
+            className="grow mt-6"
+            colorScheme="red"
+            size="md"
+            onClick={() => {
+              setStep(step + 1);
+            }}
+          >
+            Next
+          </Button>
+        );
+    }
+  };
   return (
     <ChakraProvider>
       <div className="flex h-screen flex-col justify-center items-center">
@@ -160,42 +220,14 @@ export default function Page() {
           className="flex justify-center flex-col w-5/6"
         >
           {renderPart()}
+          {renderButton()}
 
-          {step === 3 ? (
-            <Button
-              key="submitButton"
-              type="submit"
-              className="grow mt-6"
-              colorScheme="red"
-              size="md"
-              onClick={() => {
-                console.log("onclick");
-              }}
-            >
-              Submit
-            </Button>
+          {icerror == false && step == 2 ? (
+            <p className="mt-6 text-center text-red-800">
+              Please enter a valid NRIC
+            </p>
           ) : (
-            <div>
-              <Button
-                key="nextButton"
-                onClick={() => {
-                  setStep(step + 1);
-                }}
-                className="grow mt-6"
-                colorScheme="red"
-                size="md"
-                type="button"
-              >
-                Next
-              </Button>
-              {/* {authFail ? (
-                <p className="mt-6 text-center text-red-800">
-                  Authentication failed, incorrect user!
-                </p>
-              ) : (
-                <div></div>
-              )} */}
-            </div>
+            <div></div>
           )}
         </form>
       </div>
