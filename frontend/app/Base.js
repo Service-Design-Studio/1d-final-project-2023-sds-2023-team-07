@@ -2,7 +2,6 @@ import React from "react";
 import { Image } from "@chakra-ui/react";
 import { Button } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
-import logo from "./logo.jpg";
 
 export default function Base() {
   const router = useRouter();
