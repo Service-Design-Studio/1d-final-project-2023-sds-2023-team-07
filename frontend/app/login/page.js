@@ -18,6 +18,7 @@ export default function Page() {
   const pinTwo = useRef(null);
   const pinThree = useRef(null);
   const pinFour = useRef(null);
+  const [error, setError] = useState(false);
 
   async function login() {
     const pin1 =
@@ -58,6 +59,7 @@ export default function Page() {
       .catch((error) => {
         // Handle errors from the fetch or the endpoint
         console.error("Failed to login:", error);
+        setError(true);
       });
   }
 
@@ -69,7 +71,7 @@ export default function Page() {
     <ChakraProvider>
       <div className="flex h-screen flex-col justify-center items-center">
         {ps == "ic" ? (
-          <div>
+          <div className="flex flex-col justify-center items-center">
             <Input
               onChange={(e) => {
                 handleInputChange(e);
@@ -81,7 +83,7 @@ export default function Page() {
             />
             <Button
               key="nextButton"
-              className="mt-6"
+              className="mt-6 grow"
               colorScheme="red"
               size="md"
               type="button"
@@ -93,13 +95,21 @@ export default function Page() {
             </Button>
           </div>
         ) : (
-          <div>
-            <PinInput size="lg">
-              <PinInputField className="mr-2 mt-6:focus" ref={pinOne} />
-              <PinInputField className="mr-2" ref={pinTwo} />
-              <PinInputField className="mr-2" ref={pinThree} />
-              <PinInputField className="mr-2" ref={pinFour} />
-            </PinInput>
+          <div className="flex flex-col justify-center items-center">
+            <div>
+              <PinInput size="lg" className="flex justify-center items-center">
+                <PinInputField className="mr-2 mt-6:focus" ref={pinOne} />
+                <PinInputField className="mr-2" ref={pinTwo} />
+                <PinInputField className="mr-2" ref={pinThree} />
+                <PinInputField className="mr-2" ref={pinFour} />
+              </PinInput>
+            </div>
+            {error ? (
+              <p className="mt-6 text-center text-red-800">Incorrect Pin</p>
+            ) : (
+              <div></div>
+            )}
+
             <Button
               className="mt-6 ml-3 mr-3"
               onClick={() => {
