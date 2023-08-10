@@ -129,6 +129,13 @@ export default function Home() {
       })
       .catch((error) => {
         console.log(error);
+        // correct way to do setCounter, the logic above does not work
+        setCounter((prevCounter) => {
+          if (prevCounter + 1 === 3) {
+            setPageState("pin");
+          }
+          return prevCounter + 1;
+        });
       });
   };
 
