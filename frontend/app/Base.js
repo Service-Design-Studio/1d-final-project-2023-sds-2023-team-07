@@ -2,15 +2,17 @@ import React from "react";
 import { Image } from "@chakra-ui/react";
 import { Button } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
-import logo from "./logo.jpg";
 
 export default function Base() {
   const router = useRouter();
   return (
     <div className="flex justify-center context-center h-screen">
       <div className="flex flex-col justify-center items-center w-full max-w-4xl mx-auto px-10">
-        <div className="text-center"> 
-          <img src="https://storage.googleapis.com/backend-dbs-grp7/logo.jpg" alt="Logo" />
+        <div className="text-center">
+          <img
+            src="https://storage.googleapis.com/backend-dbs-grp7/logo.jpg"
+            alt="Logo"
+          />
         </div>
         <Button
           id="refreshButton"
@@ -40,7 +42,6 @@ export default function Base() {
         >
           LOGIN
         </Button>
-        
       </div>
     </div>
   );

@@ -59,6 +59,7 @@ export default function Page() {
       credentials: "same-origin",
     })
       .then((response) => {
+        console.log(response);
         if (!response.ok) {
           // If server returns a non-200/204 status, reject promise with status text
           return Promise.reject(response.statusText);
