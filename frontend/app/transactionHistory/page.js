@@ -56,7 +56,7 @@ export default function Page() {
 
   async function logout() {
     return await fetch("/api/cookie/logout", {
-      method: "DELETE",
+      method: "POST",
       credentials: "include",
 
       // body: JSON.stringify({ meki: "ah" }),
