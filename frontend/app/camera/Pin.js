@@ -32,7 +32,7 @@ export default function Pin() {
           "https://backend-dbs-grp7-ml42q3c3ya-as.a.run.app/authenticate/pin",
           {
             pin: stringPayload,
-            name: "Kelvin",
+            identification_number: "Kelvin",
           },
           config
         )
