@@ -7,6 +7,7 @@ export default function Base() {
   return (
     <div className="flex justify-center context-center h-screen">
       <div className="flex flex-col justify-center context-center">
+        <div></div>
         <Button
           id="refreshButton"
           onClick={() => {

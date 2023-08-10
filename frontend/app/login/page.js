@@ -77,13 +77,13 @@ export default function Page() {
                 handleInputChange(e);
               }}
               focusBorderColor="red"
-              placeholder="IC"
+              placeholder="Enter Your IC"
               size="lg"
               value={ic}
             />
             <Button
               key="nextButton"
-              className="mt-6 grow"
+              className="mt-6 grow w-full p-6"
               colorScheme="red"
               size="md"
               type="button"
@@ -96,6 +96,9 @@ export default function Page() {
           </div>
         ) : (
           <div className="flex flex-col justify-center items-center">
+            <h1 className="my-2 text-gray-800 font-bold text-2xl mb-6">
+              Key in your pin here
+            </h1>
             <div>
               <PinInput size="lg" className="flex justify-center items-center">
                 <PinInputField className="mr-2 mt-6:focus" ref={pinOne} />
@@ -111,14 +114,14 @@ export default function Page() {
             )}
 
             <Button
-              className="mt-6 ml-3 mr-3"
+              className="mt-6 ml-3 mr-3 p-6 w-full"
               onClick={() => {
                 login();
               }}
               colorScheme="red"
               size="md"
             >
-              AUTH NOW
+              SUBMIT
             </Button>
           </div>
         )}

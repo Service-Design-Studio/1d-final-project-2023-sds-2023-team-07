@@ -100,7 +100,7 @@ export default function Home() {
         "https://backend-dbs-grp7-ml42q3c3ya-as.a.run.app/authenticate/face",
         {
           image: dataURL,
-          identification_number: id,
+          identification_number: "ryan",
         },
         config
       )

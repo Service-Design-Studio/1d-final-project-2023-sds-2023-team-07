@@ -187,37 +187,23 @@ export default function Page() {
       case "select":
         return (
           <div className="flex h-screen flex-col items-center justify-center">
-            SELECT
-            {/* <Input
+            <Input
               ref={inputRef}
               onChange={(e) => {
                 handleInputChange(e);
               }}
               focusBorderColor="red"
-              placeholder="Select Amount"
+              placeholder="Enter Custom Amount"
               size="lg"
               value={withdrawInput}
             />
-            <Button
-              key="nextButton"
-              className="mt-6"
-              colorScheme="red"
-              size="md"
-              type="button"
-              onClick={() => {
-                console.log(inputRef.current.value);
-                setAmountSelected(inputRef.current.value);
-                setPageState("withdraw");
-              }}
-            >
-              Next
-            </Button> */}
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-4 w-full">
               {amountArray.map((amount, index) => (
                 <Button
+                  isDisabled={withdrawInput != "" ? true : false}
                   onClick={selectAmount}
                   key={index}
-                  className="mt-6 p-6"
+                  className="mt-6 p-10"
                   colorScheme="gray"
                   size="lg"
                 >
@@ -226,10 +212,23 @@ export default function Page() {
               ))}
             </div>
             <Button
+              key="nextButton"
+              className="mt-6 p-6 w-full"
+              colorScheme="red"
+              size="md"
+              onClick={() => {
+                console.log(inputRef.current.value);
+                setAmountSelected(inputRef.current.value);
+                setPageState("withdraw");
+              }}
+            >
+              Next
+            </Button>
+            <Button
               onClick={() => {
                 router.push("/transactionHistory");
               }}
-              className="mt-6"
+              className="mt-6 p-6 w-full"
               colorScheme="red"
               size="md"
             >

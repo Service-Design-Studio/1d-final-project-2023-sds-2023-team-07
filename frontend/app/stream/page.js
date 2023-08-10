@@ -23,7 +23,7 @@ export default function Page() {
   const router = useRouter();
 
   const startCapture = () => {
-    intervalId = setInterval(captureFrame, 500);
+    // intervalId = setInterval(captureFrame, 500);
     console.log("capturing");
   };
 
@@ -107,8 +107,8 @@ export default function Page() {
 
   return (
     <ChakraProvider>
-      <div>
-        <div className={"flex justify-center context-center flex-col"}>
+      <div className="flex justify-center context-center h-screen">
+        <div className={"flex justify-center context-center flex-col w-80"}>
           <video
             className="h-80 w-80 m-auto"
             ref={videoRef}
@@ -117,24 +117,26 @@ export default function Page() {
             muted
           ></video>
           <canvas ref={canvasRef} style={{ display: "none" }} />
-          <Button
-            onClick={startCapture}
-            className="grow ml-3 mr-3"
-            colorScheme="red"
-            size="md"
-          >
-            START
-          </Button>
-          <Button
-            onClick={() => {
-              router.push("/transactionHistory");
-            }}
-            className="grow ml-3 mr-3"
-            colorScheme="red"
-            size="md"
-          >
-            NEXT
-          </Button>
+          <div className="flex flex-col justify-center context-center">
+            <Button
+              onClick={startCapture}
+              className="ml-3 mr-3"
+              colorScheme="red"
+              size="md"
+            >
+              START
+            </Button>
+            <Button
+              onClick={() => {
+                router.push("/transactionHistory");
+              }}
+              className="ml-3 mr-3 mt-6"
+              colorScheme="red"
+              size="md"
+            >
+              NEXT
+            </Button>
+          </div>
         </div>
       </div>
     </ChakraProvider>
