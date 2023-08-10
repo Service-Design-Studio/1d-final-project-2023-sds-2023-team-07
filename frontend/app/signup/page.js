@@ -45,6 +45,7 @@ export default function Page() {
   };
 
   const handleSubmit = async () => {
+    console.log("submitting")
     const pin1 =
       pinOne.current.value +
       pinTwo.current.value +
@@ -90,6 +91,7 @@ export default function Page() {
       });
 
       const data2 = await response2.json();
+      console.log(data2)
 
       if (!response2.ok) {
         throw new Error(data2.message || "Failed to post data to /login");
@@ -151,9 +153,8 @@ export default function Page() {
       <div className="flex h-screen flex-col justify-center items-center">
         <form
           onSubmit={(e) => {
-            if (cansubmit) {
+              console.log('onclick3')
               handleSubmit();
-            }
             e.preventDefault();
           }}
           className="flex justify-center flex-col w-5/6"
@@ -168,7 +169,7 @@ export default function Page() {
               colorScheme="red"
               size="md"
               onClick={() => {
-                setCanSubmit(true);
+                console.log('onclick');
               }}
             >
               Submit
