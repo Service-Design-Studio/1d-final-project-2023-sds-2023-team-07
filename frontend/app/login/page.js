@@ -21,6 +21,7 @@ export default function Page() {
   const [error, setError] = useState(false);
 
   async function login() {
+    console.log("calling login");
     const pin1 =
       pinOne.current.value +
       pinTwo.current.value +
@@ -39,6 +40,7 @@ export default function Page() {
     })
       .then((response) => response.json())
       .then((result) => {
+        console.log(result);
         // Handle the result from your login endpoint
         // For example, if there's an error or if the user was successfully logged in.
         if (result.logged_in) {
@@ -52,9 +54,6 @@ export default function Page() {
           result.logged_in == false
         ) {
           setError(true);
-        }
-        if (!result.ok) {
-          throw new Error(result.message || "Failed to post data to /login");
         }
       })
       .catch((error) => {
