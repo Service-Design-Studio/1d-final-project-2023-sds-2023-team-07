@@ -53,7 +53,10 @@ export default function Page() {
           router.push("/transactionHistory");
         } else if (!result.logged_in) {
         }
-        if (result.message == "Unexpected end of JSON input") {
+        if (
+          result.message == "Unexpected end of JSON input" ||
+          result.logged_in == false
+        ) {
           setError(true);
         }
         if (!result.ok) {
