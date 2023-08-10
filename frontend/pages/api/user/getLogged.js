@@ -14,6 +14,7 @@ export default async (req, res) => {
             Authorization: `Bearer ${userCookie}`, // Example: using cookie value as a Bearer token
             Cookie: userCookie, // Or you could forward the cookie directly, if the external API expects it
           },
+          include: "credentials",
         }
       );
 
