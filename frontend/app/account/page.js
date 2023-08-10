@@ -188,13 +188,13 @@ export default function Page() {
         return (
           <div className="flex h-screen flex-col items-center justify-center">
             SELECT
-            <Input
+            {/* <Input
               ref={inputRef}
               onChange={(e) => {
                 handleInputChange(e);
               }}
               focusBorderColor="red"
-              placeholder="IC"
+              placeholder="Select Amount"
               size="lg"
               value={withdrawInput}
             />
@@ -211,7 +211,7 @@ export default function Page() {
               }}
             >
               Next
-            </Button>
+            </Button> */}
             <div className="grid grid-cols-2 gap-4">
               {amountArray.map((amount, index) => (
                 <Button
