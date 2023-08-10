@@ -49,6 +49,7 @@ export default function Page() {
       const data = await response.json();
       setFetchData(data);
     } catch (error) {
+      setPageState("error");
       console.error("Error while processing requests:", error);
     }
   }
