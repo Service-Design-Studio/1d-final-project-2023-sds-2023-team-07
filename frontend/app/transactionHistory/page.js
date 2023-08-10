@@ -56,6 +56,9 @@ export default function Page() {
   async function logout() {
     fetch("/api/cookie/logout", {
       method: "DELETE",
+      headers: {
+        "Content-Length": "0", // explicitly set Content-Length to 0
+      },
       credentials: "same-origin",
     })
       .then((response) => {
