@@ -55,12 +55,11 @@ export default function Page() {
   }
 
   async function logout() {
-    fetch("/api/cookie/logout", {
+    return await fetch("/api/cookie/logout", {
       method: "DELETE",
-      headers: {
-        "Content-Length": "0", // explicitly set Content-Length to 0
-      },
-      credentials: "same-origin",
+      credentials: "include",
+
+      // body: JSON.stringify({ meki: "ah" }),
     })
       .then((response) => {
         console.log(response);
