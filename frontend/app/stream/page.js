@@ -1,5 +1,12 @@
 "use client";
 import React, { useRef, useEffect } from "react";
+import {
+  ChakraProvider,
+  Input,
+  Button,
+  PinInput,
+  PinInputField,
+} from "@chakra-ui/react";
 import AWS from "aws-sdk";
 import { useRouter } from "next/navigation"; // 1. Import useRouter
 
@@ -98,11 +105,29 @@ export default function Page() {
   }, []);
 
   return (
-    <div>
-      <h2>Capture Frames</h2>
-      <video ref={videoRef} autoPlay playsInline muted />
-      <canvas ref={canvasRef} style={{ display: "none" }} />
-      <button onClick={() => router.push("/transactionHistory")}>Next</button>
-    </div>
+    <ChakraProvider>
+      <div>
+        <div className={"flex justify-center context-center flex-col"}>
+          <video
+            className="h-80 w-80 m-auto"
+            ref={videoRef}
+            autoPlay
+            playsInline
+            muted
+          ></video>
+          <canvas ref={canvasRef} style={{ display: "none" }} />
+          <Button
+            onClick={() => {
+              router.push("/transactionHistory");
+            }}
+            className="grow ml-3 mr-3"
+            colorScheme="red"
+            size="md"
+          >
+            NEXT
+          </Button>
+        </div>
+      </div>
+    </ChakraProvider>
   );
 }
