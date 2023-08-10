@@ -24,6 +24,7 @@ class SessionsController < ApplicationController
     end
         
     # DELETE '/logout' - Log out a user
+    # add to POST '/post_logout'
     def destroy
       # Clear the session and return a JSON response indicating that the user is not logged in
       reset_session
