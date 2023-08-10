@@ -10,18 +10,18 @@ Given("I open the login page", function () {
 });
 
 When("I enter my NRIC", function () {
-  cy.get("input").type("S1234567G");
+  cy.get("input").type("ABC123");
   cy.get("button").contains("Next").click();
 });
 
 When("I enter my PIN", function () {
-  const pin = "0000";
+  const pin = "1234";
   for (let i = 0; i < pin.length; i++) {
     const char = pin.charAt(i);
     cy.get("input").eq(i).type(char);
     cy.wait(100);
   }
-  cy.get("button").contains("AUTH NOW").click();
+  cy.get("button").contains("SUBMIT").click();
 });
 
 Then("I should see be directed to the transactions history page", function () {
@@ -30,7 +30,7 @@ Then("I should see be directed to the transactions history page", function () {
 
 // Scenario: Incorrect NRIC
 
-When("enter a wrong NRIC", function () {});
+When("enter the NRIC of a user that does not exist", function () {});
 
 Then(
   "I should see a message telling me that the user does not exist",
@@ -54,7 +54,7 @@ When("I enter the wrong PIN", function () {
       logged_in: false,
     },
   });
-  cy.get("button").contains("AUTH NOW").click();
+  cy.get("button").contains("SUBMIT").click();
 });
 
 Then(

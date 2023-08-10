@@ -3,8 +3,7 @@ Feature: Transaction authentication 2FA
     Background: On facial recognition page
         Given the user is at the transaction history page with the deposit and withdraw buttons
         When he clicks on the deposit or withdrawal button
-        Then he is directed to authenticate 
-        And he sees a loading screen while the software accesses the camera
+        Then he sees a loading screen while the software accesses the camera
         Then he is directed to the facial authentication page
 
     Scenario: Using facial recognition
