@@ -50,13 +50,8 @@ export default function Page() {
         method: "GET",
       });
       const data = await response.json();
-      console.log(data);
-
-      console.log(pin);
-      console.log(id);
       // Check if the boolean has turned from false to true
       const currentValue = data["is_active"];
-      console.log(currentValue);
       if (currentValue === 1) {
         // If it's true, send a PATCH request to change it back to false
         await fetch("api/user/patchUser", {
@@ -100,10 +95,6 @@ export default function Page() {
       method: "GET",
     });
     const data = await response.json();
-    console.log("FUCK YOU");
-    console.log(data);
-    console.log(data.identification_number);
-    console.log(data.pin);
     setid(data.identification_number);
     setPin(data.pin);
   }
@@ -114,20 +105,15 @@ export default function Page() {
   useEffect(() => {
     const params = extractQueryString(window.location.href);
     setPageState(params.pageState);
-    console.log(pageState);
     getUser();
     if (pageState == "qr") {
-      console.log("b");
       checkPatchRecursion();
     }
-    console.log("firing");
   }, []);
 
   useEffect(() => {
-    console.log(pageState);
     getUser();
     if (pageState == "qr") {
-      console.log("b");
       checkPatchRecursion();
     }
   }, [pageState]);
@@ -217,7 +203,6 @@ export default function Page() {
               colorScheme="red"
               size="md"
               onClick={() => {
-                console.log(inputRef.current.value);
                 setAmountSelected(inputRef.current.value);
                 setPageState("withdraw");
               }}
@@ -253,12 +238,15 @@ export default function Page() {
             </Button>
             <Button
               onClick={() => {
+                console.log("pin:");
+                console.log(typeof pin);
+                console.log(pin);
                 setQrData({
                   user_id: 0,
                   identification_number: id,
                   pin: pin,
                   transaction_type: "AWL",
-                  amount: amountSelected,
+                  amount: parseInt(amountSelected),
                 });
                 setPageState("qr");
               }}
@@ -272,6 +260,7 @@ export default function Page() {
         );
         break;
       case "qr":
+        console.log(qrData);
         return (
           <div className="flex h-screen flex-col items-center justify-center">
             <h1 className="my-6 text-gray-800 font-bold text-2xl">
