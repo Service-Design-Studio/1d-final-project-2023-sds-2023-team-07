@@ -4,10 +4,11 @@ Feature: Transaction History
     I want to be able to view my transaction history when I visit the home page
 
     Background: Registered user
-        Given I am a registered user with past transactions
+        Given I am a registered user
 
     Scenario: Launching the web app and viewing familiar transaction records
-        Given I visit the homepage
+        Given I have past transactions
+        And I visit the homepage
         Then I should see the homepage with my most recent transaction at the top
 
     Scenario: Reload the web page to retry getting transaction records
@@ -23,7 +24,8 @@ Feature: Transaction History
     #     Then I should see the last 10 transactions containing 3 columns of datetime, amount and transaction type, balance
 
     Scenario: Viewing earlier transactions
-        Given I visit the homepage
+        Given I have past transactions
+        And I visit the homepage
         When I scroll up the transaction panel
         Then I should see my earlier transactions
 

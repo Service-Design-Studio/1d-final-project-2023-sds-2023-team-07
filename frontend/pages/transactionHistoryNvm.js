@@ -1,4 +1,3 @@
-"use client"; // This is a client component 👈🏽
 import React, { useEffect, useState } from "react";
 import {
   ChakraProvider,
@@ -12,8 +11,8 @@ import {
   Spinner,
 } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
-import TableDefault from "../TableDefault";
-import Error from "../Error";
+import TableDefault from "../app/TableDefault";
+import Error from "../app/Error";
 
 export default function Page() {
   const router = useRouter();
@@ -55,11 +54,12 @@ export default function Page() {
   }
 
   async function logout() {
-    return await fetch("/api/cookie/logout", {
-      method: "POST",
-      credentials: "include",
-
-      // body: JSON.stringify({ meki: "ah" }),
+    fetch("/api/cookie/logout", {
+      method: "DELETE",
+      //   headers: {
+      //     "Content-Length": "0", // explicitly set Content-Length to 0
+      //   },
+      credentials: "same-origin",
     })
       .then((response) => {
         console.log(response);

@@ -12,6 +12,7 @@ Given("I am a new valid user to the app", function () {
 
 Given("I open the login page", function () {
   cy.visit("/");
+  cy.wait(1000);
 });
 
 Given("I press the sign up button", function () {
@@ -89,6 +90,7 @@ When("I get to the NRIC page", function () {
 
 When("I enter text that is not an NRIC", function () {
   cy.get("input").type("this is not an NRIC!=+@");
+  cy.get("button").contains("Next").click();
 });
 
 Then(
