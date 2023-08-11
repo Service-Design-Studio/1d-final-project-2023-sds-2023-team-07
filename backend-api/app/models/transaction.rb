@@ -11,7 +11,7 @@ class Transaction < ApplicationRecord
   validate :sufficient_balance, if: -> { transaction_type == 'AWL' }
 
   after_create :update_balances
-  # around_create :lock_user_and_validate_status
+  around_create :lock_user_and_validate_status
 
 
   def self.create_for_user!(params, user)
@@ -76,18 +76,18 @@ class Transaction < ApplicationRecord
   # end
   
   ###### THIS ONE MIGHT WORK BELOW
-  # def lock_user_and_check_status
-  #   # Lock the user record from the database
-  #   user.lock!
+  def lock_user_and_check_status
+    # Lock the user record from the database
+    user.lock!
   
-  #   # Check the user's status
-  #   if user.is_active != 0
-  #     errors.add(:base, "User is currently in another transaction or the last transaction failed.")
-  #     raise ActiveRecord::Rollback, "User is currently in another transaction or the last transaction failed."
-  #   end
+    # Check the user's status
+    if user.is_active != 0
+      errors.add(:base, "User is currently in another transaction or the last transaction failed.")
+      raise ActiveRecord::Rollback, "User is currently in another transaction or the last transaction failed."
+    end
   
-  #   yield # this will execute the creation of the transaction
-  # end
+    yield # this will execute the creation of the transaction
+  end
   
 
   def sufficient_balance
