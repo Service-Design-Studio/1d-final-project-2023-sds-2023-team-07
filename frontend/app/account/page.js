@@ -225,14 +225,19 @@ export default function Page() {
       case "withdraw":
         return (
           <div className="flex h-screen flex-col items-center justify-center">
-            {`Confirm to Withdraw ${amountSelected} ?`}
+            <h1 className="my-2 text-gray-800 font-bold text-2xl">
+              {`Confirm to Withdraw ${amountSelected} ?`}
+            </h1>
             <Button
               onClick={() => {
                 router.push("/transactionHistory");
               }}
-              className="mt-6"
+              className="mt-6 py-8 px-20 rounded-full"
               colorScheme="red"
-              size="md"
+              size="lg"
+              width="200px" // Set the desired width here
+              height="48px"
+              fontSize="1.5em"
             >
               NO
             </Button>
@@ -250,9 +255,12 @@ export default function Page() {
                 });
                 setPageState("qr");
               }}
-              className="mt-6"
+              className="mt-6 py-8 px-20 rounded-full"
               colorScheme="red"
-              size="md"
+              size="lg"
+              width="200px" // Set the desired width here
+              height="48px"
+              fontSize="1.5em"
             >
               YES
             </Button>
