@@ -64,7 +64,7 @@ ENV RAILS_LOG_TO_STDOUT=true
 # [START cloudrun_rails_dockerfile_key]
 ARG MASTER_KEY
 # ENV RAILS_MASTER_KEY=${MASTER_KEY}
-ENV RAILS_MASTER_KEY=797a641b837c06c8a84f1a225569db74
+ENV RAILS_MASTER_KEY=${MASTER_KEY}
 # [END cloudrun_rails_dockerfile_key]
 
 # pre-compile Rails assets with master key

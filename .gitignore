@@ -38,3 +38,5 @@ node_modules/*
 .env
 project_structure.text
 headers.txt # for cookies
+
+backend-api/.env
