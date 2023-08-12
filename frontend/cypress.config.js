@@ -23,8 +23,8 @@ module.exports = defineConfig({
   },
 
   e2e: {
-    baseUrl: "http://localhost:3000",
-    // baseUrl: 'https://frontend-ml42q3c3ya-as.a.run.app',
+    // baseUrl: "http://localhost:3000",
+    baseUrl: 'https://frontend-ml42q3c3ya-as.a.run.app',
     specPattern: "cypress/e2e/**/*.feature",
     async setupNodeEvents(on, config) {
       // implement node event listeners here

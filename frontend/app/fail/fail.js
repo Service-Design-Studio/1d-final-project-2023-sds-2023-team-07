@@ -6,6 +6,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 
 export default function Fail() {
+  const router = useRouter();
   return (
     <div className="flex flex-col content-center">
       <h1 className="my-2 text-gray-800 font-bold text-2xl">

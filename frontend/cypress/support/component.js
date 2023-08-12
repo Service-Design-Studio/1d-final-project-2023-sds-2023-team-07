@@ -14,14 +14,50 @@
 // ***********************************************************
 
 // Import commands.js using ES2015 syntax:
-import './commands'
+import "./commands";
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
 
-import { mount } from 'cypress/react18'
+import { mount as _mount } from "cypress/react18";
+import { ChakraProvider } from "@chakra-ui/react";
+import { createElement } from "react";
+import { AppRouterContext } from "next/dist/shared/lib/app-router-context";
 
-Cypress.Commands.add('mount', mount)
+const createMockRouter = () => {
+  return {
+    pathname: "/",
+    route: "/",
+    query: {},
+    asPath: "/",
+    components: {},
+    isFallback: false,
+    basePath: "",
+    events: {
+      emit: cy.spy().as("router:emit"),
+      off: cy.spy().as("router:off"),
+      on: cy.spy().as("router:on"),
+    },
+    push: cy.stub().as("router:push"),
+    replace: cy.spy().as("router:replace"),
+    reload: cy.stub().as("router:reload"),
+    back: cy.stub().as("router:back"),
+    prefetch: cy.stub().as("router:prefetch").resolves(),
+    beforePopState: cy.spy().as("router:beforePopState"),
+  };
+};
+
+Cypress.Commands.add("mount", (component, options) => {
+  const wrappedComponent = createElement(ChakraProvider, {}, component);
+  const router = createMockRouter();
+  return _mount(
+    <AppRouterContext.Provider value={router}>
+      {wrappedComponent}
+    </AppRouterContext.Provider>,
+    options
+  );
+  //   return _mount(wrappedComponent, options);
+});
 
 // Example use:
 // cy.mount(<MyComponent />)

@@ -1,6 +1,9 @@
 {
-    "stepDefinitions": [
-        "cypress/e2e/[filepath].js",
-        "cypress/e2e/common-step-definitions/*.js"
-    ]
+  "stepDefinitions": [
+    "cypress/e2e/[filepath].js",
+    "cypress/e2e/common-step-definitions/*.js"
+  ],
+  "html": {
+    "enabled": true
+  }
 }

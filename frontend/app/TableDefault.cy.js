@@ -93,7 +93,7 @@ describe("<TableDefault />", () => {
       .should("deep.equal", {
         date: "7/5/2023",
         amount: "-21.0",
-        bal: "1842.00",
+        bal: "1979.00",
       });
     cy.get("tbody tr")
       .eq(1)
@@ -107,8 +107,8 @@ describe("<TableDefault />", () => {
       })
       .should("deep.equal", {
         date: "7/5/2023",
-        amount: "-58.0",
-        bal: "1863.00",
+        amount: "+27.0",
+        bal: "2006.00",
       });
     cy.get("tbody tr")
       .eq(2)
@@ -137,8 +137,8 @@ describe("<TableDefault />", () => {
       })
       .should("deep.equal", {
         date: "7/5/2023",
-        amount: "+27.0",
-        bal: "2006.00",
+        amount: "-58.0",
+        bal: "1863.00",
       });
     cy.get("tbody tr")
       .eq(4)
@@ -153,7 +153,7 @@ describe("<TableDefault />", () => {
       .should("deep.equal", {
         date: "7/5/2023",
         amount: "-21.0",
-        bal: "1979.00",
+        bal: "1842.00",
       });
   });
 });
