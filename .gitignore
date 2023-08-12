@@ -32,5 +32,11 @@
 # Ignore master key for decrypting credentials and more.
 /config/master.key
 
-Dockerfile
-cloudbuild.yaml
+node_modules/*
+
+.expo
+.env
+project_structure.text
+headers.txt # for cookies
+
+backend-api/.env
