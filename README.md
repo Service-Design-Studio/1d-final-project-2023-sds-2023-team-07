@@ -1,6 +1,7 @@
 Greetings! This is Team 07's git repo. 
-If you have seen our project presentation before, you can skip line 3, but if you havent, read line 3.
 We implore you to visit our Google Sites ( https://sites.google.com/mymail.sutd.edu.sg/empathyinbytes/home?authuser=5 ) so that you know what this repo is all about.
+But if you have seen our project presentation before, you can carry on reading.
+
 
 Below are important links for our project submission:
 1) Design Workbook
