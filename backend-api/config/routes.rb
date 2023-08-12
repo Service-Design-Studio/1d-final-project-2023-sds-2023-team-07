@@ -7,7 +7,6 @@ Rails.application.routes.draw do
   # Session routes
   post '/login', to: 'sessions#create'
   delete '/logout', to: 'sessions#destroy'
-  post '/post_logout', to: 'sessions#destroy'
   get '/is_logged', to: 'sessions#is_logged'
 
   resources :users, only: [:index, :create]
