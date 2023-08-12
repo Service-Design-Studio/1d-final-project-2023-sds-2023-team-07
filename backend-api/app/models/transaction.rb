@@ -54,30 +54,14 @@ class Transaction < ApplicationRecord
     
   private
   
-  # def lock_user_and_validate_status
-  #   # Lock the user record from the database
-  #   user.lock!
-  
-  #   # Check the user's status
-  #   if user.is_active != 0
-  #     errors.add(:base, "User is currently in another transaction or the last transaction failed.")
-  #     raise ActiveRecord::Rollback, "User is currently in another transaction or the last transaction failed."
-  #   end
-  
-  #   # Mark the user as being in an active transaction
-  #   user.update!(is_active: 1)
-  
-  #   yield # this will execute the creation of the transaction
-    
-  #   # If the transaction creation has failed for some reason (maybe balances, or other validations),
-  #   # then set user's is_active to 2 (transaction failed). If everything went fine, then reset to 0.
-  #   status = self.persisted? ? 0 : 2
-  #   user.update!(is_active: status)
-  # end
-  
-  ###### THIS ONE MIGHT WORK BELOW
+
   def lock_user_and_check_status
-    # Lock the user record from the database
+    # THIS METHOD WILL BLOCK OTHER TRANSACTION ENTITIES FROM MAKING UPDATES TO A USER (PREVENTING RACE CONDITION)
+    # TRANSACTION ENTITIES WILL UPDATE THE USER ONE BY ONE
+
+    # Lock the user record from the database, only allows the user to be updated by the transaction entity calling the lock.
+    # So on transaction creation, it will instantiate a new Transaction object, then after it finishes, our frontend (ATM simulator) will patch user.is_active to 1
+    # Then our frontend main (Mobile) will patch patch user.is_active to 0, allowing other transactions to be created.
     user.lock!
   
     # Check the user's status
