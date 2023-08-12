@@ -1,19 +1,10 @@
 "use client"; // This is a client component 👈🏽
 import Image from "next/image";
 import React, { useEffect, useState, useRef } from "react";
-import {
-  ChakraProvider,
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
-  chakra,
-  Button,
-} from "@chakra-ui/react";
+import { Button } from "@chakra-ui/react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import Fail from "./fail";
 
 export default function Error() {
   const router = useRouter();
@@ -23,23 +14,7 @@ export default function Error() {
         <div className="xl:pt-24 w-full xl:w-1/2 relative pb-12 lg:pb-0">
           <div className="relative">
             <div className="absolute">
-              <div className="flex flex-col content-center">
-                <h1 className="my-2 text-gray-800 font-bold text-2xl">
-                  Sorry, something when wrong with our ATM, please try again
-                  later!
-                </h1>
-                <Button
-                  id="refreshButton"
-                  onClick={() => {
-                    router.push("/transactionHistory");
-                  }}
-                  className="mt-6"
-                  colorScheme="red"
-                  size="md"
-                >
-                  BACK TO HOMEPAGE
-                </Button>
-              </div>
+              <Fail />
             </div>
           </div>
         </div>

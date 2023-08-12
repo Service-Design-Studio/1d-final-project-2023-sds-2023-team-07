@@ -10,6 +10,7 @@ import {
 import { useRouter } from "next/navigation";
 import { useEffect, useState, useRef } from "react";
 import QRCode from "react-qr-code";
+import Loading from "./loading";
 
 export default function Page() {
   const [pageState, setPageState] = useState("loading");
@@ -123,16 +124,7 @@ export default function Page() {
       case "loading":
         return (
           <div className="flex h-screen flex-col items-center justify-center">
-            <div className="flex flex-col items-center">
-              <Spinner
-                thickness="4px"
-                speed="0.65s"
-                emptyColor="gray.200"
-                color="red"
-                size="xl"
-              />
-              <p className="my-2 mt-4 text-gray-800">Loading...</p>
-            </div>
+            <Loading />
           </div>
         );
         break;
