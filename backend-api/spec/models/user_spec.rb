@@ -35,7 +35,7 @@ RSpec.describe User, type: :model do
     end
   
     it "returns true for matching face" do
-      allow(@user).to receive(:identification_number).and_return('ABC123')
+      allow(@user).to receive(:identification_number).and_return('G3714787M')
       expect(@user.authenticate_face(@correct)).to eq(true)
     end
   
@@ -50,7 +50,7 @@ RSpec.describe User, type: :model do
     end
   
     it "returns a response if image provided contains 'data:image/jpeg;base64,' prefix" do
-      allow(@user).to receive(:identification_number).and_return('ABC123')
+      allow(@user).to receive(:identification_number).and_return('G3714787M')
       expect(@user.authenticate_face(@correct)).to eq(true)
     end
   

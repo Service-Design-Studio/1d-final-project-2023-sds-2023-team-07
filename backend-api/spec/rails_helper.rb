@@ -24,6 +24,16 @@ require 'rspec/rails'
 
 # Checks for pending migrations and applies them before tests are run.
 # If you are not using ActiveRecord, you can remove these lines.
+require 'simplecov'
+SimpleCov.start 'rails' do
+  add_group 'Services', 'app/services'
+  add_group 'Controllers', 'app/controllers'
+  add_group 'Models', 'app/models'
+  
+  # any custom configurations can go here
+end
+
+
 begin
   ActiveRecord::Migration.maintain_test_schema!
 rescue ActiveRecord::PendingMigrationError => e

@@ -32,14 +32,14 @@ RSpec.describe AuthenticationController, type: :controller do
 
     describe "face" do
         before do
-            @name = "Kelvin"
-            @identification_number="ABC123"
+            @name = "Nathan Aldrich Wiryawan"
+            @identification_number="G3714787M"
         end
         # Need to change identification_number once user reindex
         it "authenticates if correct user face for user" do
             fileObject = File.open("./spec/controllers/correct.txt","r");
             base_64_string = fileObject.read.to_s
-            post :face, params: {image:base_64_string,identification_number:"ABC123"}
+            post :face, params: {image:base_64_string,identification_number:"G3714787M"}
             expect(JSON.parse(response.body)["authenticated"]).to eq(true)
             expect(JSON.parse(response.body)["message"]).to eq("No issues")
             expect(response).to have_http_status(:success)

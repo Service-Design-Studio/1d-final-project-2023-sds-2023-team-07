@@ -7,7 +7,7 @@ RSpec.describe RekognitionService, type: :service do
   describe ".find_person_by_image" do
     it "returns person name and confidence for a correct image" do
       name, confidence = RekognitionService.find_person_by_image("face-id-test", correct_base64_image, 90)
-      expect(name).to eq("ABC123")
+      expect(name).to eq("G3714787M")
       expect(confidence).to be >90
     end
 

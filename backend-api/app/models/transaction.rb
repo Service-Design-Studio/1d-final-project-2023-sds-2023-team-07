@@ -60,7 +60,8 @@ class Transaction < ApplicationRecord
     # TRANSACTION ENTITIES WILL UPDATE THE USER ONE BY ONE
 
     # Lock the user record from the database, only allows the user to be updated by the transaction entity calling the lock.
-    # So on transaction creation, it will instantiate a new Transaction object, then after it finishes, our frontend (ATM simulator) will patch user.is_active to 1
+    # So on transaction creation, it will instantiate a new Transaction object, 
+    # then after it finishes, our frontend (ATM simulator) will patch user.is_active to 1
     # Then our frontend main (Mobile) will patch patch user.is_active to 0, allowing other transactions to be created.
     user.lock!
   
